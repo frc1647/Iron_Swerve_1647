@@ -26,11 +26,16 @@ public final class Constants {
     return motorTypeSelector.get(); // true = brushless, false = brushed
   }
 
+  public static final class OperatorConstants {
+    public static final int DRIVER_CONTROLLER_PORT = 0;
+    public static final int OPERATOR_CONTROLLER_PORT = 1;
+  }
+
   public static final class DriveConstants {
-    public static final int BRUSHED_LEFT_LEADER_ID = 2;
-    public static final int BRUSHED_LEFT_FOLLOWER_ID = 9;
-    public static final int BRUSHED_RIGHT_LEADER_ID = 10;
-    public static final int BRUSHED_RIGHT_FOLLOWER_ID = 7;
+    //public static final int BRUSHED_LEFT_LEADER_ID = 2;
+    //public static final int BRUSHED_LEFT_FOLLOWER_ID = 9;
+    //public static final int BRUSHED_RIGHT_LEADER_ID = 10;
+    //public static final int BRUSHED_RIGHT_FOLLOWER_ID = 7;
     public static final int BRUSHLESS_LEFT_LEADER_ID = 15; 
     public static final int BRUSHLESS_LEFT_FOLLOWER_ID = 16; 
     public static final int BRUSHLESS_RIGHT_LEADER_ID = 17; 

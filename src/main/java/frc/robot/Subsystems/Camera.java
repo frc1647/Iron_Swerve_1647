@@ -15,7 +15,7 @@ public class Camera {
     //TheWatcher
 
     public static boolean watcherHasTag() {
-        return watcher.getEntry("tv").getDouble(0)==1;
+        return watcher.getEntry("tv").getDouble(0)>0.5;
     }
 
     public static int watcherTagID() {
@@ -49,8 +49,32 @@ public class Camera {
 
     
     // MATH
+/*
+private static final double Limelight_Mount_Angle = 0.00
+private static final double Limelight_Mount_Height = 0.00
+private static final double Apriltag_Height
 
+public static double watcherDistanceInches() {
+    if (!watcherHasTag()) return -1;
 
+    double ty = watcherVertical();
+    double angleDeg = LIMELIGHT_MOUNT_ANGLE_DEG + ty;
+    double angleRad = Math.toRadians(angleDeg);
+
+    return (TAG_HEIGHT_IN - LIMELIGHT_LENS_HEIGHT_IN) / Math.tan(angleRad);
+}
+
+public static double sauronDistanceInches() {
+    if (!sauronHasTag()) return -1;
+
+    double ty = sauronVertical();
+    double angleDeg = LIMELIGHT_MOUNT_ANGLE_DEG + ty;
+    double angleRad = Math.toRadians(angleDeg);
+
+    return (TAG_HEIGHT_IN - LIMELIGHT_LENS_HEIGHT_IN) / Math.tan(angleRad);
+}
+
+*/
 
 
 

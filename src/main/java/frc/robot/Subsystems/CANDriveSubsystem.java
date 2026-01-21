@@ -4,7 +4,6 @@
 
 package frc.robot.Subsystems;
 
-import java.util.List;
 import java.util.function.DoubleSupplier;
 
 //import com.revrobotics.spark.ClosedLoopSlot;
@@ -24,7 +23,6 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 //import edu.wpi.first.wpilibj2.command.Command;
 //import edu.wpi.first.wpilibj2.command.Commands;
@@ -163,7 +161,7 @@ public void zeroEncoders(){
         m_rightEncoder.setPosition(0);
         m_leftEncoder.setPosition(0);
       }
-      leftPositionMeters = m_leftEncoder.getPosition();
+    leftPositionMeters = m_leftEncoder.getPosition();
     rightPositionMeters = m_rightEncoder.getPosition();
 
     leftVelocityMPS = m_leftEncoder.getVelocity();
@@ -185,15 +183,15 @@ public void zeroEncoders(){
 
 
   // Command to drive the robot with joystick inputs
-//   public Command driveTank(double leftSpeed, double rightSpeed) {
-//         return new RunCommand(
-//             () -> drive.tankDrive(
-//                 0.533 * Math.pow(leftSpeed, 1) + 0.467 * leftSpeed,
-//                 0.533 * Math.pow(rightSpeed, 1) + 0.467 * rightSpeed
-//             ),
-//             this
-//         );
-// }
+   public Command driveTank(double leftSpeed, double rightSpeed) {
+     return new RunCommand(
+             () -> drive.tankDrive(
+                 0.533 * Math.pow(leftSpeed, 1) + 0.467 * leftSpeed,
+                 0.533 * Math.pow(rightSpeed, 1) + 0.467 * rightSpeed
+             ),
+             this
+         );
+ }
 
   public void driveTankII(double leftSpeed, double rightSpeed){
     drive.tankDrive(
@@ -219,7 +217,6 @@ public double getLeftPositionMeters() {
     }
 
    // public double getLeftPositionMeters() {
-        // TODO Auto-generated method stub
        // throw new UnsupportedOperationException("Unimplemented method 'getLeftPositionMeters'");
     //}
 }
