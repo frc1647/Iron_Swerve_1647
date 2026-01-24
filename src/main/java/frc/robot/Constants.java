@@ -49,4 +49,8 @@ public final class Constants {
     public static final int SPEED = 0;
 
   }
+
+  public static final class ShooterConstants {
+    public static final int SHOOTER_ID = 1;
+  }
 }

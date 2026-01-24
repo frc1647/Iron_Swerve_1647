@@ -21,6 +21,7 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Commands.Autos;    
 import frc.robot.Subsystems.CANDriveSubsystem;
+import frc.robot.Subsystems.CANShooter;
 
 import frc.robot.Subsystems.Camera;
 /**
@@ -33,11 +34,13 @@ import frc.robot.Subsystems.Camera;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems
+
+  // Add the robot's subsystems
   private final CANDriveSubsystem driveSubsystem = new CANDriveSubsystem();
-//   private final CANClimber climber = new CANClimber();
+  private final CANShooter shooterSubsystem = new CANShooter();
 
   //private final Camera camera = new Camera();
+
   // The driver's controller
   private final Joystick driverController = new Joystick(OperatorConstants.DRIVER_CONTROLLER_PORT);
 
