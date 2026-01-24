@@ -21,8 +21,8 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Commands.Autos;    
 import frc.robot.Subsystems.CANDriveSubsystem;
-import frc.robot.Subsystems.CANShooter;
-
+import frc.robot.Subsystems.CANShooterSubsystem;
+import frc.robot.Subsystems.CANShooterSubsystem;
 import frc.robot.Subsystems.Camera;
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -37,7 +37,7 @@ public class RobotContainer {
 
   // Add the robot's subsystems
   private final CANDriveSubsystem driveSubsystem = new CANDriveSubsystem();
-  private final CANShooter shooterSubsystem = new CANShooter();
+  private final CANShooterSubsystem shooterSubsystem = new CANShooterSubsystem();
 
   //private final Camera camera = new Camera();
 
@@ -78,75 +78,28 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    // Set the A button to run the "runRoller" command from the factory with a fixed
-    // value ejecting the gamepiece while the button is held
-    // operatorController.getRightTriggerAxis()
-    //     .whileTrue(rollerSubsystem.runRoller(rollerSubsystem, () -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0));
-    // operatorController.getLeftTriggerAxis()
-    //     .whileTrue(rollerSubsystem.runRoller(rollerSubsystem, () -> -RollerConstants.ROLLER_EJECT_VALUE, () -> 0));
-    // operatorController.x().or(operatorController.y()).whileFalse(rollerSubsystem.runRoller(rollerSubsystem, () -> 0.0, () -> 0));
 
-    //driverController.b()
-        //.whileTrue(driveSubsystem.driveTank(DriveConstants.SPEED, DriveConstants.SPEED));
-    //operatorController.x()
-       // .whileTrue(rollerSubsystem.runRoller(rollerSubsystem, () -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0));
-    
-    /*operatorController.a()
-        .whileTrue(arm.runArm(arm, ArmConstants.ARM_SPEED_UP));
-    operatorController.b()
-        .whileFalse(arm.runArm(arm, ArmConstants.ARM_SPEED_DOWN));
-    operatorController.y()
-        .whileFalse(arm.runArm(arm, 0.0));*/
-    // Set the default command for the drive subsystem to the command provided by
-    // factory with the values provided by the joystick axes on the driver
-    // controller. The Y axis of the controller is inverted so that pushing the
-    // stick away from you (a negative value) drives the robot forwards (a positive
-    // value)
+    JoystickButton button6 = new JoystickButton(driverController, 6);
 
-  
-    //, () -> -operatorController.button(8),0).getAsBoolean();
-    /*operatorController.b()
-        .whileTrue(arm.runArm(arm, ArmConstants.ARM_SPEED_DOWN));
-    operatorController.y()
-        .whileTrue(arm.runArm(arm, 0.0));
-    operatorController.a()
-        .whileFalse(arm.runArm(arm, ArmConstants.ARM_SPEED_UP));*/
+    button6.whileTrue(
+        driveSubsystem.slowCommand(
+            () -> -driverController.getRawAxis(5),  // right stick Y
+            () -> -driverController.getRawAxis(1)   // left stick Y
+        )
+    );
 
+    // Default command for driving when no button is pressed
+    driveSubsystem.setDefaultCommand(
+        new RunCommand(
+            () -> driveSubsystem.driveTankII(
+                -driverController.getRawAxis(5), // right stick Y
+                -driverController.getRawAxis(1)  // left stick Y
+            ),
+            driveSubsystem
+        )
+    );
 
-    /*operatorController.a().whileTrue(armII.returnPosition(armII, 0.0));
-    operatorController.b().whileTrue(armII.returnPosition(armII, 2.2));*/
-
-
-    //operatorController.getRightY().whileTrue(armII.)
-    
-    
-    
-    // Set the default command for the roller subsystem to the command from the
-    // factory with the values provided by the triggers on the operator controller
-    //TALON for gogetter extension need to be left joystick on xbox
-    //Roller on go getter must be x
-    //b and a for arm pivoting
-    //rt and lt for rollers on arm.
-
-JoystickButton button6 = new JoystickButton(driverController, 6);
-
-button6.whileTrue(
-    driveSubsystem.slowCommand(
-        () -> -driverController.getRawAxis(5),  // right stick Y
-        () -> -driverController.getRawAxis(1)   // left stick Y
-    )
-);
-
-// Default command for driving when no button is pressed
-driveSubsystem.setDefaultCommand(
-    new RunCommand(
-        () -> driveSubsystem.driveTankII(
-            -driverController.getRawAxis(5), // right stick Y
-            -driverController.getRawAxis(1)  // left stick Y
-        ),
-        driveSubsystem
-    )
-);
+    shooterSubsystem.setDefaultCommand(shooterSubsystem.runShooter(shooterSubsystem, () -> operatorController.getLeftTriggerAxis()*0.6, () -> operatorController.getRightTriggerAxis()));
 
     // driverController.button(8)
     //     .whileTrue(climber.run(climber, 0.3));
@@ -165,7 +118,7 @@ driveSubsystem.setDefaultCommand(
         //climber.run(climber, 0.0);
     }*/
     // driverController.button(8).or(driverController.button(7)).whileFalse(climber.run(climber, 0.0));
-  }
+    }
 
   /**
    * Use this to pass the autonomous command to the main {@l ink Robot} class.

@@ -6,12 +6,13 @@ package frc.robot.Subsystems;
 
 import java.util.function.DoubleSupplier;
 
-//import com.revrobotics.spark.ClosedLoopSlot;
+//import com.revro?botics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.spark.SparkMax;import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.SparkMaxConfig;
 //import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 //import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 //import static frc.robot.Constants.DriveConstants.*;
@@ -184,13 +185,13 @@ public void zeroEncoders(){
 
   // Command to drive the robot with joystick inputs
    public Command driveTank(double leftSpeed, double rightSpeed) {
-     return new RunCommand(
+        return new RunCommand(
              () -> drive.tankDrive(
                  0.533 * Math.pow(leftSpeed, 1) + 0.467 * leftSpeed,
                  0.533 * Math.pow(rightSpeed, 1) + 0.467 * rightSpeed
              ),
              this
-         );
+        );
  }
 
   public void driveTankII(double leftSpeed, double rightSpeed){

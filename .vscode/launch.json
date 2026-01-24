@@ -9,7 +9,7 @@
       "name": "Main",
       "request": "launch",
       "mainClass": "frc.robot.Main",
-      "projectName": "Iron_Swerve_1647"
+      "projectName": "2026NEWIRONSWERVECODE"
     },
     {
       "type": "wpilib",

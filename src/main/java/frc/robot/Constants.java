@@ -52,5 +52,7 @@ public final class Constants {
 
   public static final class ShooterConstants {
     public static final int SHOOTER_ID = 1;
+
+    public static final int SHOOTER_MOTOR_CURRENT_LIMIT = 45;
   }
 }
