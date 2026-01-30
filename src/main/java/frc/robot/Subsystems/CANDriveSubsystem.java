@@ -201,9 +201,13 @@ public void zeroEncoders(){
     );
   }
 
-public double getLeftPositionMeters() {
-  return leftPositionMeters;
-}
+  public double getLeftPositionMeters() {
+    return leftPositionMeters;
+  }
+
+  public double getRightPositionMeters() {
+    return rightPositionMeters;
+  }
 
 
     public Command slowCommand(DoubleSupplier leftSpeed, DoubleSupplier rightSpeed) {
@@ -216,9 +220,5 @@ public double getLeftPositionMeters() {
             this
         );
     }
-
-   // public double getLeftPositionMeters() {
-       // throw new UnsupportedOperationException("Unimplemented method 'getLeftPositionMeters'");
-    //}
 }
   

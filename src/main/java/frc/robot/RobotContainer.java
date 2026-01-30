@@ -24,6 +24,12 @@ import frc.robot.Subsystems.CANDriveSubsystem;
 import frc.robot.Subsystems.CANShooterSubsystem;
 import frc.robot.Subsystems.CANShooterSubsystem;
 import frc.robot.Subsystems.Camera;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.units.*;
+
+
+
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a
@@ -50,12 +56,32 @@ public class RobotContainer {
   // The autonomous chooser
   private final SendableChooser<Command> autoChooser = new SendableChooser<>();
 
+    private Alliance currentAlliance = Alliance.Red;
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
-  public RobotContainer() {
+    public RobotContainer() {
     //camera.checkCamera();
-    configureBindings();
+    //buildNamedAutoCommands();
+
+    // Initialize alliance (default to red if not present)
+    onAllianceChanged(getAlliance());
+
+    // Set up trigger to detect alliance changes
+    new Trigger(() -> getAlliance() != currentAlliance)
+        .onTrue(Commands.runOnce(() -> onAllianceChanged(getAlliance())).ignoringDisable(true));
+
+    // Triggers for auto aim/pass poses
+    new Trigger(() -> isInAllianceZone())
+        .onChange(Commands.runOnce(() -> onZoneChanged()).ignoringDisable(true));
+
+    new Trigger(() -> isOnAllianceOutpostSide())
+        .onChange(Commands.runOnce(() -> onZoneChanged()).ignoringDisable(true));
+
+    if (!Robot.isReal() || true) {
+      DriverStation.silenceJoystickConnectionWarning(true);
+    configureBindings();}
 
     // Set the options to show up in the Dashboard for selecting auto modes. If you
     // add additional auto modes you can add additional lines here with
@@ -77,7 +103,7 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
    */
-  private void configureBindings() {
+    private void configureBindings() {
 
     JoystickButton button6 = new JoystickButton(driverController, 6);
 
@@ -99,7 +125,7 @@ public class RobotContainer {
         )
     );
 
-    shooterSubsystem.setDefaultCommand(shooterSubsystem.runShooter(shooterSubsystem, () -> operatorController.getLeftTriggerAxis()*0.6, () -> operatorController.getRightTriggerAxis()));
+        shooterSubsystem.setDefaultCommand(shooterSubsystem.runShooter(shooterSubsystem, () -> operatorController.getLeftTriggerAxis()*0.6, () -> operatorController.getRightTriggerAxis()));
 
     // driverController.button(8)
     //     .whileTrue(climber.run(climber, 0.3));
@@ -120,13 +146,84 @@ public class RobotContainer {
     // driverController.button(8).or(driverController.button(7)).whileFalse(climber.run(climber, 0.0));
     }
 
-  /**
-   * Use this to pass the autonomous command to the main {@l ink Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-  public Command getAutonomousCommand() {
+    /**
+    * Use this to pass the autonomous command to the main {@l ink Robot} class.
+    *
+    * @return the command to run in autonomous
+    */
+    public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return Autos.exampleAuto(driveSubsystem);
-  }
+        return Autos.exampleAuto(driveSubsystem);
+    }
+
+    private Alliance getAlliance() {
+        return DriverStation.getAlliance().orElse(Alliance.Red);
+    }
+
+    private void onZoneChanged() {
+
+        /* TODO: update this for our setup
+        if (isInAllianceZone()) {
+            superstructure.setAimPoint(Constants.AimPoints.getAllianceHubPosition());
+        } else {
+            if (isOnAllianceOutpostSide()) {
+                superstructure.setAimPoint(Constants.AimPoints.getAllianceOutpostPosition());
+            } else {
+                superstructure.setAimPoint(Constants.AimPoints.getAllianceFarSidePosition());
+            }
+        }
+        */
+    }
+
+    private void onAllianceChanged(Alliance alliance) {
+        currentAlliance = alliance;
+
+        // Update aim point based on alliance
+        /* TODO : make this part work with our system
+        if (alliance == Alliance.Blue) {
+            superstructure.setAimPoint(Constants.AimPoints.BLUE_HUB.value);
+        } else {
+        superstructure.setAimPoint(Constants.AimPoints.RED_HUB.value);
+        }
+        */
+        System.out.println("Alliance changed to: " + alliance);
+    }
+    autoChooser = AutoBuilder.buildAutoChooser();
+
+    // Set the default auto (do nothing)
+    autoChooser.setDefaultOption("Do Nothing", Commands.none());
+
+    // Add a simple auto option to have the robot drive forward for 1 second then
+    // stop
+    autoChooser.addOption("Drive Forward", drivebase.driveForward().withTimeout(10));
+
+    // Put the autoChooser on the SmartDashboard
+    SmartDashboard.putData("Auto Chooser", autoChooser);
+
+    private boolean isInAllianceZone() {
+        Alliance alliance = getAlliance();
+        Distance blueZone = Inches.of(182);
+        Distance redZone = Inches.of(469);
+
+        if (alliance == Alliance.Blue && drivebase.getPose().getMeasureX().lt(blueZone)) {
+        return true;
+        } else if (alliance == Alliance.Red && drivebase.getPose().getMeasureX().gt(redZone)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private boolean isOnAllianceOutpostSide() {
+        Alliance alliance = getAlliance();
+        Distance midLine = Inches.of(158.84375);
+
+        if (alliance == Alliance.Blue && drivebase.getPose().getMeasureY().lt(midLine)) {
+            return true;
+        } else if (alliance == Alliance.Red && drivebase.getPose().getMeasureY().gt(midLine)) {
+            return true;
+        }
+
+        return false;
+    }
 }
