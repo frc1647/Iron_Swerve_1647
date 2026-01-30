@@ -61,15 +61,15 @@ public class CANShooterSubsystem extends SubsystemBase {
     private SparkMax spark = new SparkMax(4, MotorType.kBrushless);
     private SmartMotorController sparkSmartMotorController = new SparkWrapper(spark, DCMotor.getNEO(1), smcConfig);
 
-     private final FlyWheelConfig shooterConfig = new FlyWheelConfig(motor)
-  // Diameter of the flywheel.
-  .withDiameter(Inches.of(4))
-  // Mass of the flywheel.
-  .withMass(Pounds.of(1))
-  // Maximum speed of the shooter.
-  .withUpperSoftLimit(RPM.of(1000))
-  // Telemetry name and verbosity for the arm.
-  .withTelemetry("ShooterMech", TelemetryVerbosity.HIGH);
+    private final FlyWheelConfig shooterConfig = new FlyWheelConfig(sparkSmartMotorController)
+    // Diameter of the flywheel.
+    .withDiameter(Inches.of(4))
+    // Mass of the flywheel.
+    .withMass(Pounds.of(1))
+    // Maximum speed of the shooter.
+    .withUpperSoftLimit(RPM.of(1000))
+    // Telemetry name and verbosity for the arm.
+    .withTelemetry("ShooterMech", TelemetryVerbosity.HIGH);
 
   // Shooter Mechanism
   private FlyWheel shooter = new FlyWheel(shooterConfig);

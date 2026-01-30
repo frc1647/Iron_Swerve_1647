@@ -73,11 +73,11 @@ public class RobotContainer {
         .onTrue(Commands.runOnce(() -> onAllianceChanged(getAlliance())).ignoringDisable(true));
 
     // Triggers for auto aim/pass poses
-    new Trigger(() -> isInAllianceZone())
-        .onChange(Commands.runOnce(() -> onZoneChanged()).ignoringDisable(true));
+    //new Trigger(() -> isInAllianceZone())
+    //    .onChange(Commands.runOnce(() -> onZoneChanged()).ignoringDisable(true));
 
-    new Trigger(() -> isOnAllianceOutpostSide())
-        .onChange(Commands.runOnce(() -> onZoneChanged()).ignoringDisable(true));
+    //new Trigger(() -> isOnAllianceOutpostSide())
+    //    .onChange(Commands.runOnce(() -> onZoneChanged()).ignoringDisable(true));
 
     if (!Robot.isReal() || true) {
       DriverStation.silenceJoystickConnectionWarning(true);
@@ -187,8 +187,8 @@ public class RobotContainer {
         }
         */
         System.out.println("Alliance changed to: " + alliance);
-    }
-    autoChooser = AutoBuilder.buildAutoChooser();
+    }{
+    /*autoChooser = AutoBuilder.buildAutoChooser();
 
     // Set the default auto (do nothing)
     autoChooser.setDefaultOption("Do Nothing", Commands.none());
@@ -198,9 +198,9 @@ public class RobotContainer {
     autoChooser.addOption("Drive Forward", drivebase.driveForward().withTimeout(10));
 
     // Put the autoChooser on the SmartDashboard
-    SmartDashboard.putData("Auto Chooser", autoChooser);
+    SmartDashboard.putData("Auto Chooser", autoChooser);*/
 
-    private boolean isInAllianceZone() {
+   /* private boolean isInAllianceZone() {
         Alliance alliance = getAlliance();
         Distance blueZone = Inches.of(182);
         Distance redZone = Inches.of(469);
@@ -225,5 +225,5 @@ public class RobotContainer {
         }
 
         return false;
-    }
-}
+    */}
+} 
