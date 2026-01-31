@@ -69,4 +69,7 @@ public class Camera {
 
         return (CameraConstants.TAG_HEIGHT_IN - CameraConstants.LIMELIGHT_LENS_HEIGHT_IN) / Math.tan(angleRad);
     }
+
+
+    
 }

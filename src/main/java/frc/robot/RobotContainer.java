@@ -19,13 +19,16 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.AprilTagIDs;
+import frc.robot.Commands.AprilTagCommands;
 import frc.robot.Commands.Autos;    
 import frc.robot.Subsystems.CANDriveSubsystem;
 import frc.robot.Subsystems.CANShooterSubsystem;
-import frc.robot.Subsystems.CANShooterSubsystem;
+//import frc.robot.Subsystems.CANTurretSubsystem;
 import frc.robot.Subsystems.Camera;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.simulation.XboxControllerSim;
 import edu.wpi.first.units.*;
 
 
@@ -41,9 +44,10 @@ import edu.wpi.first.units.*;
  */
 public class RobotContainer {
 
-  // Add the robot's subsystems
+    // Add the robot's subsystems
   private final CANDriveSubsystem driveSubsystem = new CANDriveSubsystem();
   private final CANShooterSubsystem shooterSubsystem = new CANShooterSubsystem();
+  //private final CANTurretSubsystem turretSubsystem = new CANTurretSubsystem();
 
   //private final Camera camera = new Camera();
 
@@ -87,6 +91,8 @@ public class RobotContainer {
     // add additional auto modes you can add additional lines here with
     // autoChooser.addOption
     //autoChooser.setDefaultOption("Autonomous", Autos.exampleAuto(driveSubsystem));
+    // Set the default command to force the shooter rest.
+    //shooterSubsystem.setDefaultCommand(shooterSubsystem.set(0));
   }
 
   /**
@@ -107,6 +113,7 @@ public class RobotContainer {
 
     JoystickButton button6 = new JoystickButton(driverController, 6);
 
+
     button6.whileTrue(
         driveSubsystem.slowCommand(
             () -> -driverController.getRawAxis(5),  // right stick Y
@@ -114,18 +121,20 @@ public class RobotContainer {
         )
     );
 
+    operatorController.a().whileTrue(AprilTagCommands.GoToAprilTag(driveSubsystem, null, 0));
+
     // Default command for driving when no button is pressed
     driveSubsystem.setDefaultCommand(
         new RunCommand(
             () -> driveSubsystem.driveTankII(
-                -driverController.getRawAxis(5), // right stick Y
-                -driverController.getRawAxis(1)  // left stick Y
+                -driverController.getRawAxis(1), // right stick Y
+                -driverController.getRawAxis(5)  // left stick Y
             ),
             driveSubsystem
         )
     );
 
-        shooterSubsystem.setDefaultCommand(shooterSubsystem.runShooter(shooterSubsystem, () -> operatorController.getLeftTriggerAxis()*0.6, () -> operatorController.getRightTriggerAxis()));
+    //TODO  shooterSubsystem.setDefaultCommand(shooterSubsystem.runShooter(shooterSubsystem, () -> operatorController.getLeftTriggerAxis()*0.6, () -> operatorController.getRightTriggerAxis()));
 
     // driverController.button(8)
     //     .whileTrue(climber.run(climber, 0.3));

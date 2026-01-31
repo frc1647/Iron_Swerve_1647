@@ -196,8 +196,8 @@ public void zeroEncoders(){
 
   public void driveTankII(double leftSpeed, double rightSpeed){
     drive.tankDrive(
-      0.533 * Math.pow(leftSpeed, 1) + 0.467 * leftSpeed,
-      0.533 * Math.pow(rightSpeed, 1) + 0.467 * rightSpeed
+      0.533 * Math.pow(-leftSpeed, 1) + 0.467 * -leftSpeed,
+      0.533 * Math.pow(-rightSpeed, 1) + 0.467 * -rightSpeed
     );
   }
 
