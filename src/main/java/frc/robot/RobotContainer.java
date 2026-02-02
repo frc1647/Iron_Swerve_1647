@@ -25,6 +25,7 @@ import frc.robot.Commands.Autos;
 import frc.robot.Subsystems.CANDriveSubsystem;
 import frc.robot.Subsystems.CANShooterSubsystem;
 import frc.robot.Subsystems.CANTurretSubsystem;
+import frc.robot.Subsystems.CANIntakeSubsystem;
 import frc.robot.Subsystems.Camera;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -48,6 +49,7 @@ public class RobotContainer {
   private final CANDriveSubsystem driveSubsystem = new CANDriveSubsystem();
   private final CANShooterSubsystem shooterSubsystem = new CANShooterSubsystem();
   private final CANTurretSubsystem turretSubsystem = new CANTurretSubsystem();
+  private final CANIntakeSubsystem intakeSubsystem = new CANIntakeSubsystem();
 
   private final Camera camera = new Camera();
 
@@ -111,8 +113,24 @@ public class RobotContainer {
    */
     private void configureBindings() {
 
-    JoystickButton button6 = new JoystickButton(driverController, 6);
+    
 
+
+   
+    // DRIVER COMMANDS
+
+    // Default command for driving when no button is pressed
+    driveSubsystem.setDefaultCommand(
+        new RunCommand(
+            () -> driveSubsystem.driveTankII(
+                -driverController.getRawAxis(1), // right or left idk stick Y
+                -driverController.getRawAxis(5)  // left or right idk stick Y
+            ),
+            driveSubsystem
+        )
+    );
+
+    JoystickButton button6 = new JoystickButton(driverController, 6);
 
     button6.whileTrue(
         driveSubsystem.slowCommand(
@@ -121,18 +139,11 @@ public class RobotContainer {
         )
     );
 
+    // OPERATOR COMMANDS
     operatorController.a().whileTrue(AprilTagCommands.GoToAprilTag(driveSubsystem, null, 0));
+    operatorController.b().whileTrue(intakeSubsystem.grabBalls(intakeSubsystem));
+    operatorController.rightBumper().whileTrue(AprilTagCommands.SwitchShootingMode());
 
-    // Default command for driving when no button is pressed
-    driveSubsystem.setDefaultCommand(
-        new RunCommand(
-            () -> driveSubsystem.driveTankII(
-                -driverController.getRawAxis(1), // right stick Y
-                -driverController.getRawAxis(5)  // left stick Y
-            ),
-            driveSubsystem
-        )
-    );
 
     //TODO  shooterSubsystem.setDefaultCommand(shooterSubsystem.runShooter(shooterSubsystem, () -> operatorController.getLeftTriggerAxis()*0.6, () -> operatorController.getRightTriggerAxis()));
 

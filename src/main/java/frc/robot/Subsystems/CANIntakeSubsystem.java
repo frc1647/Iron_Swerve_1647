@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants.IntakeConstants;
+
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import yams.gearing.GearBox;
 import edu.wpi.first.units.measure.AngularVelocity;
@@ -72,7 +73,10 @@ public class CANIntakeSubsystem extends SubsystemBase {
         rightIntakeMotor.configure(rightConfig,ResetMode.kResetSafeParameters,PersistMode.kPersistParameters);
     }
 
-    public Command grabBalls() {
-        return run(null);
+    public Command grabBalls(CANIntakeSubsystem intakeSubsystem) {
+        return Commands.run(() -> {
+            leftIntakeMotor.set(1);
+            rightIntakeMotor.set(1);
+        }, intakeSubsystem);
     }
 }

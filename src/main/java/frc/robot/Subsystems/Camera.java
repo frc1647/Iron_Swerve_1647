@@ -1,5 +1,7 @@
 package frc.robot.Subsystems;
 
+import edu.wpi.first.math.Vector;
+import edu.wpi.first.math.numbers.N2;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import static frc.robot.Constants.CameraConstants;
@@ -51,25 +53,37 @@ public class Camera {
     // MATH
 
     public static double watcherDistanceInches() {
-        if (!watcherHasTag()) return -1;
+        return getDistanceToAprilTag(watcherHasTag(), watcherVertical());
+        
+        /* if (!watcherHasTag()) return -1;
 
         double ty = watcherVertical();
         double angleDeg = CameraConstants.LIMELIGHT_MOUNT_ANGLE_DEG + ty;
         double angleRad = Math.toRadians(angleDeg);
 
-        return (CameraConstants.TAG_HEIGHT_IN - CameraConstants.LIMELIGHT_LENS_HEIGHT_IN) / Math.tan(angleRad);
+        return (CameraConstants.TAG_HEIGHT_IN - CameraConstants.LIMELIGHT_LENS_HEIGHT_IN) / Math.tan(angleRad); */
     }
 
     public static double sauronDistanceInches() {
-        if (!sauronHasTag()) return -1;
+        return getDistanceToAprilTag(sauronHasTag(), sauronVertical());
+    
+        /*if (!sauronHasTag()) return -1;
 
         double ty = sauronVertical();
         double angleDeg = CameraConstants.LIMELIGHT_MOUNT_ANGLE_DEG + ty;
         double angleRad = Math.toRadians(angleDeg);
 
-        return (CameraConstants.TAG_HEIGHT_IN - CameraConstants.LIMELIGHT_LENS_HEIGHT_IN) / Math.tan(angleRad);
+        return (CameraConstants.TAG_HEIGHT_IN - CameraConstants.LIMELIGHT_LENS_HEIGHT_IN) / Math.tan(angleRad); */
     }
 
+    // Helper Function 
+    private static double getDistanceToAprilTag(boolean camHasTag, double camVertical) {
+        if (!camHasTag) return -1;
 
-    
+        double ty = camVertical;
+        double angleDeg = CameraConstants.LIMELIGHT_MOUNT_ANGLE_DEG + ty;
+        double angleRad = Math.toRadians(angleDeg);
+
+        return (CameraConstants.TAG_HEIGHT_IN - CameraConstants.LIMELIGHT_LENS_HEIGHT_IN) / Math.tan(angleRad);
+    }
 }
