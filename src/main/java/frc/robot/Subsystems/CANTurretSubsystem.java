@@ -35,7 +35,7 @@ import com.revrobotics.spark.SparkBase;
 import com.revrobotics.spark.SparkBase.ControlType;
 
 
-/*public class CANTurretSubsystem extends SubsystemBase {
+public class CANTurretSubsystem extends SubsystemBase {
 
     private final SparkMax turretMotor;
     private final RelativeEncoder turretEncoder;
@@ -72,11 +72,13 @@ import com.revrobotics.spark.SparkBase.ControlType;
     }
 
     public Command rotateTurret(CANTurretSubsystem turretSubsystem, double angleChange) {
-        if (totalRotation > 270 || totalRotation < -270) {
+        if (totalRotation < 270 || totalRotation > -270) {
             totalRotation += angleChange;
             return Commands.runOnce(() -> turretSubsystem.rotateByDegrees(angleChange), turretSubsystem);
+    } else if (totalRotation >= 270) {
+        return Commands.runOnce(() -> turretSubsystem.rotateByDegrees(angleChange-360), turretSubsystem);
     } else {
-        return Commands.runOnce(() -> turretSubsystem.rotateByDegrees(0), turretSubsystem);
+        return Commands.runOnce(() -> turretSubsystem.rotateByDegrees(360+angleChange), turretSubsystem);
     }
     } 
-}*/
+}

@@ -24,7 +24,7 @@ import frc.robot.Commands.AprilTagCommands;
 import frc.robot.Commands.Autos;    
 import frc.robot.Subsystems.CANDriveSubsystem;
 import frc.robot.Subsystems.CANShooterSubsystem;
-//import frc.robot.Subsystems.CANTurretSubsystem;
+import frc.robot.Subsystems.CANTurretSubsystem;
 import frc.robot.Subsystems.Camera;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -47,9 +47,9 @@ public class RobotContainer {
     // Add the robot's subsystems
   private final CANDriveSubsystem driveSubsystem = new CANDriveSubsystem();
   private final CANShooterSubsystem shooterSubsystem = new CANShooterSubsystem();
-  //private final CANTurretSubsystem turretSubsystem = new CANTurretSubsystem();
+  private final CANTurretSubsystem turretSubsystem = new CANTurretSubsystem();
 
-  //private final Camera camera = new Camera();
+  private final Camera camera = new Camera();
 
   // The driver's controller
   private final Joystick driverController = new Joystick(OperatorConstants.DRIVER_CONTROLLER_PORT);
@@ -209,7 +209,7 @@ public class RobotContainer {
     // Put the autoChooser on the SmartDashboard
     SmartDashboard.putData("Auto Chooser", autoChooser);*/
 
-   /* private boolean isInAllianceZone() {
+    /*private boolean isInAllianceZone() {
         Alliance alliance = getAlliance();
         Distance blueZone = Inches.of(182);
         Distance redZone = Inches.of(469);
@@ -234,5 +234,5 @@ public class RobotContainer {
         }
 
         return false;
-    */}
-} 
+    }*/
+}}

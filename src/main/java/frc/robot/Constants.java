@@ -71,60 +71,65 @@ public final class Constants {
     public static final double TAG_HEIGHT_IN = 0.0;
   }
 
+  public static final class IntakeConstants {
+    public static final int LEFT_INTAKE_ID = 64;
+    public static final int RIGHT_INTAKE_ID = 65;
+    public static final int INTAKE_MOTOR_CURRENT_LIMIT = 45;
+  }
 
   public static final class AprilTagIDs {
 
     // Hub faces are relative to the center of the field
 
     // Red Constants
-    public static final int RED_HUB_FRONT_LEFT_ID = 3;
-    public static final int RED_HUB_FRONT_RIGHT_ID = 4;
+    public static final int RED_HUB_FRONT_LEFT_TAG_ID = 3;
+    public static final int RED_HUB_FRONT_RIGHT_TAG_ID = 4;
 
-    public static final int RED_HUB_LEFTSIDE_LEFT_ID = 11;
-    public static final int RED_HUB_LEFTSIDE_RIGHT_ID = 2;
+    public static final int RED_HUB_LEFTSIDE_LEFT_TAG_ID = 11;
+    public static final int RED_HUB_LEFTSIDE_RIGHT_TAG_ID = 2;
 
-    public static final int RED_HUB_RIGHTSIDE_LEFT_ID = 5;
-    public static final int RED_HUB_RIGHTSIDE_RIGHT_ID = 8;
+    public static final int RED_HUB_RIGHTSIDE_LEFT_TAG_ID = 5;
+    public static final int RED_HUB_RIGHTSIDE_RIGHT_TAG_ID = 8;
 
-    public static final int RED_HUB_BACK_LEFT_ID = 10;
-    public static final int RED_HUB_BACK_RIGHT_ID = 9;
+    public static final int RED_HUB_BACK_LEFT_TAG_ID = 10;
+    public static final int RED_HUB_BACK_RIGHT_TAG_ID = 9;
 
-    public static final int RED_OUTPOST_LEFT_ID = 13;
-    public static final int RED_OUTPOST_RIGHT_ID = 14;
+    public static final int RED_OUTPOST_LEFT_TAG_ID = 13;
+    public static final int RED_OUTPOST_RIGHT_TAG_ID = 14;
 
-    public static final int RED_LEFTTRENCH_FRONT_ID = 1;
-    public static final int RED_LEFTTRENCH_BACK_ID = 12;
+    public static final int RED_LEFTTRENCH_FRONT_TAG_ID = 1;
+    public static final int RED_LEFTTRENCH_BACK_TAG_ID = 12;
 
-    public static final int RED_RIGHTTRENCH_FRONT_ID = 6;
-    public static final int RED_RIGHTTRENCH_BACK_ID = 7;
+    public static final int RED_RIGHTTRENCH_FRONT_TAG_ID = 6;
+    public static final int RED_RIGHTTRENCH_BACK_TAG_ID = 7;
 
-    public static final int RED_TOWERWALL_LEFT = 15;
-    public static final int RED_TOWERWALL_RIGHT = 16;
+    public static final int RED_TOWERWALL_LEFT_TAG_ID = 15;
+    public static final int RED_TOWERWALL_RIGHT_TAG_ID = 16;
 
     // Blue Constants
 
-    public static final int BLUE_HUB_FRONT_LEFT_ID = 19;
-    public static final int BLUE_HUB_FRONT_RIGHT_ID = 20;
+    public static final int BLUE_HUB_FRONT_LEFT_TAG_ID = 19;
+    public static final int BLUE_HUB_FRONT_RIGHT_TAG_ID = 20;
 
-    public static final int BLUE_HUB_LEFTSIDE_LEFT_ID = 27;
-    public static final int BLUE_HUB_LEFTSIDE_RIGHT_ID = 18;
+    public static final int BLUE_HUB_LEFTSIDE_LEFT_TAG_ID = 27;
+    public static final int BLUE_HUB_LEFTSIDE_RIGHT_TAG_ID = 18;
 
-    public static final int BLUE_HUB_RIGHTSIDE_LEFT_ID = 21;
-    public static final int BLUE_HUB_RIGHTSIDE_RIGHT_ID = 24;
+    public static final int BLUE_HUB_RIGHTSIDE_LEFT_TAG_ID = 21;
+    public static final int BLUE_HUB_RIGHTSIDE_RIGHT_TAG_ID = 24;
 
-    public static final int BLUE_HUB_BACK_LEFT_ID = 26;
-    public static final int BLUE_HUB_BACK_RIGHT_ID = 25;
+    public static final int BLUE_HUB_BACK_LEFT_TAG_ID = 26;
+    public static final int BLUE_HUB_BACK_RIGHT_TAG_ID = 25;
 
-    public static final int BLUE_OUTPOST_LEFT_ID = 29;
-    public static final int BLUE_OUTPOST_RIGHT_ID = 30;
+    public static final int BLUE_OUTPOST_LEFT_TAG_ID = 29;
+    public static final int BLUE_OUTPOST_RIGHT_TAG_ID = 30;
 
-    public static final int BLUE_LEFTTRENCH_FRONT_ID = 17;
-    public static final int BLUE_LEFTTRENCH_BACK_ID = 28;
+    public static final int BLUE_LEFTTRENCH_FRONT_TAG_ID = 17;
+    public static final int BLUE_LEFTTRENCH_BACK_TAG_ID = 28;
 
-    public static final int BLUE_RIGHTTRENCH_FRONT_ID = 22;
-    public static final int BLUE_RIGHTTRENCH_BACK_ID = 23;
+    public static final int BLUE_RIGHTTRENCH_FRONT_TAG_ID = 22;
+    public static final int BLUE_RIGHTTRENCH_BACK_TAG_ID = 23;
 
-    public static final int BLUE_TOWERWALL_LEFT = 31;
-    public static final int BLUE_TOWERWALL_RIGHT = 32;
+    public static final int BLUE_TOWERWALL_LEFT_TAG_ID = 31;
+    public static final int BLUE_TOWERWALL_RIGHT_TAG_ID = 32;
   }
 }
