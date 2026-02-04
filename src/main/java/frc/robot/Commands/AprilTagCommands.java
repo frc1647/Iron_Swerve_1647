@@ -1,13 +1,16 @@
 
 package frc.robot.Commands;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.Subsystems.CANDriveSubsystem;
 import frc.robot.Subsystems.CANTurretSubsystem;
 import frc.robot.Subsystems.Camera;
-
+import frc.robot.AprilTags;
+import frc.robot.RobotContainer;
 
 public final class AprilTagCommands {
 
@@ -40,9 +43,17 @@ public final class AprilTagCommands {
         throw new Exception();
     }
 
-    public static Command SwitchShootingMode() {
+    private static Alliance getAlliance() {
+        return DriverStation.getAlliance().orElse(Alliance.Red);
+    }
+
+    public static Command SwitchShootingMode(RobotContainer robotContainer) {
         return Commands.runOnce(() -> {
-            // Switch Target April tag here!!!!!!!!!!!
+            robotContainer.targetingHub = !robotContainer.targetingHub;
+            if (robotContainer.targetingHub) {
+                robotContainer.targetTagLeft = AprilTags.homeHubFrontLeftID;
+                robotContainer.targetTagRight = AprilTags.homeHubFrontLeftID;
+            }
         }
         );
     }

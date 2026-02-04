@@ -131,5 +131,6 @@ public final class Constants {
 
     public static final int BLUE_TOWERWALL_LEFT_TAG_ID = 31;
     public static final int BLUE_TOWERWALL_RIGHT_TAG_ID = 32;
+    
   }
 }
