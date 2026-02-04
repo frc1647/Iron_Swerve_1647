@@ -32,18 +32,18 @@ public final class Constants {
   }
 
   public static final class DriveConstants {
-    //public static final int BRUSHED_LEFT_LEADER_ID = 2;
-    //public static final int BRUSHED_LEFT_FOLLOWER_ID = 9;
-    //public static final int BRUSHED_RIGHT_LEADER_ID = 10;
-    //public static final int BRUSHED_RIGHT_FOLLOWER_ID = 7;
-    public static final int BRUSHLESS_LEFT_LEADER_ID = 15; 
-    public static final int BRUSHLESS_LEFT_FOLLOWER_ID = 16; 
-    public static final int BRUSHLESS_RIGHT_LEADER_ID = 17; 
-    public static final int BRUSHLESS_RIGHT_FOLLOWER_ID = 18; 
+    // public static final int BRUSHED_LEFT_LEADER_ID = 2;
+    // public static final int BRUSHED_LEFT_FOLLOWER_ID = 9;
+    // public static final int BRUSHED_RIGHT_LEADER_ID = 10;
+    // public static final int BRUSHED_RIGHT_FOLLOWER_ID = 7;
+    public static final int BRUSHLESS_LEFT_LEADER_ID = 15;
+    public static final int BRUSHLESS_LEFT_FOLLOWER_ID = 16;
+    public static final int BRUSHLESS_RIGHT_LEADER_ID = 17;
+    public static final int BRUSHLESS_RIGHT_FOLLOWER_ID = 18;
 
     // Drive Motor Speed Limit, Acceptable Range; 30-60
     public static final int DRIVE_MOTOR_CURRENT_LIMIT = 45;
-    // 
+    //
     public static final int kPositionConversionFactor = 60;
     public static final int kVelocityConversionFactor = 60;
     public static final int SPEED = 0;
@@ -52,7 +52,7 @@ public final class Constants {
 
   public static final class ShooterConstants {
     public static final int SHOOTER_ID = 1;
-
+    public static final double SHOOTER_SPEED = 0.6;
     public static final int SHOOTER_MOTOR_CURRENT_LIMIT = 45;
   }
 
@@ -64,11 +64,9 @@ public final class Constants {
   }
 
   public static final class CameraConstants {
-    // TODO: Fill in these values
+    // ★★★★★ TODO: Fill in these values ★★★★★
     public static final double LIMELIGHT_LENS_HEIGHT_IN = 0.0;
     public static final double LIMELIGHT_MOUNT_ANGLE_DEG = 0.0;
-
-    public static final double TAG_HEIGHT_IN = 0.0;
   }
 
   public static final class IntakeConstants {
@@ -81,7 +79,7 @@ public final class Constants {
 
     // Hub faces are relative to the center of the field
 
-    // Red Constants
+    // ★ Red Constants ★
     public static final int RED_HUB_FRONT_LEFT_TAG_ID = 3;
     public static final int RED_HUB_FRONT_RIGHT_TAG_ID = 4;
 
@@ -106,7 +104,7 @@ public final class Constants {
     public static final int RED_TOWERWALL_LEFT_TAG_ID = 15;
     public static final int RED_TOWERWALL_RIGHT_TAG_ID = 16;
 
-    // Blue Constants
+    // ★ Blue Constants ★
 
     public static final int BLUE_HUB_FRONT_LEFT_TAG_ID = 19;
     public static final int BLUE_HUB_FRONT_RIGHT_TAG_ID = 20;
@@ -131,6 +129,42 @@ public final class Constants {
 
     public static final int BLUE_TOWERWALL_LEFT_TAG_ID = 31;
     public static final int BLUE_TOWERWALL_RIGHT_TAG_ID = 32;
+
+
+    /**
+    * This returns the height of the specified ★ April Tag ★
+    * @param id AprilTag ID
+    * @return double the height in inches of the tag
+    */
+    public static double getAprilTagHeight(int id) {
+      switch (id) {
+
+        // ★ HUB TAGS
+        case RED_HUB_FRONT_LEFT_TAG_ID:
+        case RED_HUB_FRONT_RIGHT_TAG_ID:
+        case RED_HUB_LEFTSIDE_LEFT_TAG_ID:
+        case RED_HUB_LEFTSIDE_RIGHT_TAG_ID:
+        case RED_HUB_RIGHTSIDE_LEFT_TAG_ID:
+        case RED_HUB_RIGHTSIDE_RIGHT_TAG_ID:
+        case RED_HUB_BACK_LEFT_TAG_ID:
+        case RED_HUB_BACK_RIGHT_TAG_ID:
+        case BLUE_HUB_FRONT_LEFT_TAG_ID:
+        case BLUE_HUB_FRONT_RIGHT_TAG_ID:
+          return 98.25;
+
+        // ★ OUTPOST
+        case RED_OUTPOST_LEFT_TAG_ID:
+        case RED_OUTPOST_RIGHT_TAG_ID:
+        case BLUE_OUTPOST_LEFT_TAG_ID:
+        case BLUE_OUTPOST_RIGHT_TAG_ID:
+          return 72.0;
+
+        default:
+          return -1;
+      }
+    }
+
+
     
   }
 }

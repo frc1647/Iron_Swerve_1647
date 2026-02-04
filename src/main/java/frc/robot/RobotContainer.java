@@ -2,6 +2,20 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
+/**
+ *                                                                                                                                                                                                                                       
+ *    I8,        8        ,8I            88                                                                                                                                                        88                                88  
+ *    `8b       d8b       d8'            88                                                                ,d                                                                                      88                         ,d     88  
+ *     "8,     ,8"8,     ,8"             88                                                                88                                                                                      88                         88     88  
+ *      Y8     8P Y8     8P   ,adPPYba,  88   ,adPPYba,   ,adPPYba,   88,dPYba,,adPYba,    ,adPPYba,     MM88MMM  ,adPPYba,       ,adPPYba,   88       88  8b,dPPYba,     8b,dPPYba,   ,adPPYba,   88,dPPYba,    ,adPPYba,  MM88MMM  88  
+ *      `8b   d8' `8b   d8'  a8P_____88  88  a8"     ""  a8"     "8a  88P'   "88"    "8a  a8P_____88       88    a8"     "8a     a8"     "8a  88       88  88P'   "Y8     88P'   "Y8  a8"     "8a  88P'    "8a  a8"     "8a   88     88  
+ *       `8a a8'   `8a a8'   8PP"""""""  88  8b          8b       d8  88      88      88  8PP"""""""       88    8b       d8     8b       d8  88       88  88             88          8b       d8  88       d8  8b       d8   88     ""  
+ *        `8a8'     `8a8'    "8b,   ,aa  88  "8a,   ,aa  "8a,   ,a8"  88      88      88  "8b,   ,aa       88,   "8a,   ,a8"     "8a,   ,a8"  "8a,   ,a88  88             88          "8a,   ,a8"  88b,   ,a8"  "8a,   ,a8"   88,    aa  
+ *         `8'       `8'      `"Ybbd8"'  88   `"Ybbd8"'   `"YbbdP"'   88      88      88   `"Ybbd8"'       "Y888  `"YbbdP"'       `"YbbdP"'    `"YbbdP'Y8  88             88           `"YbbdP"'   8Y"Ybbd8"'    `"YbbdP"'    "Y888  88  
+ *                                                                                                                                                                                                                                       
+ *                                                                                                                                                                                                                                       
+ */
+
 package frc.robot;
 
 import java.applet.Applet;
@@ -118,7 +132,15 @@ public class RobotContainer {
      */
     private void configureBindings() {
 
-        // DRIVER COMMANDS
+/**
+ *                  _    _____        _                      ______                                  _         _              
+ *       _         | |  (____ \      (_)                    / _____)                                | |       | |         _   
+ *     _| |_ ___ __|_|   _   \ \ ____ _ _   _ ____  ____   | /      ___  ____  ____   ____ ____   _ | | ___   |_|__ ___ _| |_ 
+ *    (_   _|___|___)   | |   | / ___) | | | / _  )/ ___)  | |     / _ \|    \|    \ / _  |  _ \ / || |/___)   (___|___|_   _)
+ *      |_|        | |  | |__/ / |   | |\ V ( (/ /| |      | \____| |_| | | | | | | ( ( | | | | ( (_| |___ |  | |        |_|  
+ *                 |_|  |_____/|_|   |_| \_/ \____)_|       \______)___/|_|_|_|_|_|_|\_||_|_| |_|\____(___/   |_|             
+ *                                                                                                                            
+ */
 
         // Default command for driving when no button is pressed
         driveSubsystem.setDefaultCommand(
@@ -136,42 +158,23 @@ public class RobotContainer {
                         () -> -driverController.getRawAxis(5), // right stick Y
                         () -> -driverController.getRawAxis(1) // left stick Y
                 ));
-
-        // OPERATOR COMMANDS
-        operatorController.a().whileTrue(AprilTagCommands.GoToAprilTag(driveSubsystem, null, 0));
-        operatorController.b().whileTrue(intakeSubsystem.grabBalls(intakeSubsystem));
+/**
+ *                  _     _____                                             ______                                  _         _              
+ *       _         | |   / ___ \                        _                  / _____)                                | |       | |         _   
+ *     _| |_ ___ __|_|  | |   | |____   ____  ____ ____| |_  ___   ____   | /      ___  ____  ____   ____ ____   _ | | ___   |_|__ ___ _| |_ 
+ *    (_   _|___|___)   | |   | |  _ \ / _  )/ ___) _  |  _)/ _ \ / ___)  | |     / _ \|    \|    \ / _  |  _ \ / || |/___)   (___|___|_   _)
+ *      |_|        | |  | |___| | | | ( (/ /| |  ( ( | | |_| |_| | |      | \____| |_| | | | | | | ( ( | | | | ( (_| |___ |  | |        |_|  
+ *                 |_|   \_____/| ||_/ \____)_|   \_||_|\___)___/|_|       \______)___/|_|_|_|_|_|_|\_||_|_| |_|\____(___/   |_|             
+ *                              |_|                                                                                                          
+ */
         targetingHub = true;
-
         targetTagLeft = AprilTags.homeHubFrontLeftID;
         targetTagRight = AprilTags.homeHubFrontLeftID;
 
-        operatorController.rightBumper().whileTrue(AprilTagCommands.SwitchShootingMode(this));
-
-        // TODO
-        // shooterSubsystem.setDefaultCommand(shooterSubsystem.runShooter(shooterSubsystem,
-        // () -> operatorController.getLeftTriggerAxis()*0.6, () ->
-        // operatorController.getRightTriggerAxis()));
-
-        // driverController.button(8)
-        // .whileTrue(climber.run(climber, 0.3));
-        // driverController.button(7)
-        // .whileTrue(climber.run(climber, -0.3));
-        /*
-         * if(driverController.rightTrigger().getAsBoolean()){
-         * System.out.println("right trigger");
-         * //climber.run(climber, ClimberID.CLIMBER_UP_SPEED);
-         * }
-         * else if(driverController.leftTrigger().getAsBoolean()){
-         * System.out.println("left trigger");
-         * //climber.run(climber, ClimberID.CLIMBER_DOWN_SPEED);
-         * }
-         * else{
-         * System.out.println("neither trigger");
-         * //climber.run(climber, 0.0);
-         * }
-         */
-        // driverController.button(8).or(driverController.button(7)).whileFalse(climber.run(climber,
-        // 0.0));
+        operatorController.rightTrigger().whileTrue(shooterSubsystem.runShooter());
+        operatorController.leftBumper().whileTrue(AprilTagCommands.SwitchShootingMode(this));
+        operatorController.a().whileTrue(AprilTagCommands.GoToAprilTag(driveSubsystem, null, 0));
+        operatorController.b().whileTrue(intakeSubsystem.grabBalls(intakeSubsystem));
     }
 
     /**

@@ -51,8 +51,11 @@ public final class AprilTagCommands {
         return Commands.runOnce(() -> {
             robotContainer.targetingHub = !robotContainer.targetingHub;
             if (robotContainer.targetingHub) {
-                robotContainer.targetTagLeft = AprilTags.homeHubFrontLeftID;
-                robotContainer.targetTagRight = AprilTags.homeHubFrontLeftID;
+                robotContainer.targetTagLeft = AprilTags.homeHubBackLeftID;
+                robotContainer.targetTagRight = AprilTags.homeHubBackLeftID;
+            } else { 
+                robotContainer.targetTagLeft = AprilTags.homeOutpostLeftID;
+                robotContainer.targetTagRight = AprilTags.homeOutpostRightID;
             }
         }
         );

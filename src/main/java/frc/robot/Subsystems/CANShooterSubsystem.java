@@ -31,8 +31,8 @@ import edu.wpi.first.math.system.plant.DCMotor;
 
 
 public class CANShooterSubsystem extends SubsystemBase {
-
-    private SmartMotorControllerConfig smcConfig = new SmartMotorControllerConfig(this)
+  
+  private SmartMotorControllerConfig smcConfig = new SmartMotorControllerConfig(this)
     .withControlMode(ControlMode.CLOSED_LOOP)
     // Feedback Constants (PID Constants)
     .withClosedLoopController(50, 0, 0, DegreesPerSecond.of(90), DegreesPerSecondPerSecond.of(45))
@@ -51,42 +51,31 @@ public class CANShooterSubsystem extends SubsystemBase {
     .withIdleMode(MotorMode.COAST)
     .withStatorCurrentLimit(Amps.of(40));
 
-    /*private SparkMax spark = new SparkMax(4, MotorType.kBrushless);
-    private SmartMotorController sparkSmartMotorController = new SparkWrapper(spark, DCMotor.getNEO(1), smcConfig);
+  /*private SparkMax spark = new SparkMax(4, MotorType.kBrushless);
+  private SmartMotorController sparkSmartMotorController = new SparkWrapper(spark, DCMotor.getNEO(1), smcConfig);
 
-    private final FlyWheelConfig shooterConfig = new FlyWheelConfig(sparkSmartMotorController)
-    // Diameter of the flywheel.
-    .withDiameter(Inches.of(4))
-    // Mass of the flywheel.
-    .withMass(Pounds.of(1))
-    // Maximum speed of the shooter.
-    .withUpperSoftLimit(RPM.of(1000))
-    // Telemetry name and verbosity for the arm.
-    .withTelemetry("ShooterMech", TelemetryVerbosity.HIGH);
+  private final FlyWheelConfig shooterConfig = new FlyWheelConfig(sparkSmartMotorController)
+  // Diameter of the flywheel.
+  .withDiameter(Inches.of(4))
+  // Mass of the flywheel.
+  .withMass(Pounds.of(1))
+  // Maximum speed of the shooter.
+  .withUpperSoftLimit(RPM.of(1000))
+  // Telemetry name and verbosity for the arm.
+  .withTelemetry("ShooterMech", TelemetryVerbosity.HIGH);
 
-    // Shooter Mechanism
-    private FlyWheel shooter = new FlyWheel(shooterConfig);
-
-  public CANShooterSubsystem() {}
-
-  public AngularVelocity getVelocity() {return shooter.getSpeed();}
-  public Command setVelocity(AngularVelocity speed) {return shooter.setSpeed(speed);}
-  public Command set(double dutyCycle) {return shooter.set(dutyCycle);}
-
- 
-  /**
-  * Example command factory method.
-  *
-  * @return a command
-  */
-  public Command exampleMethodCommand() {
-    // Inline construction of command goes here.
-    // Subsystem::RunOnce implicitly requires `this` subsystem.
-    return runOnce(
-        () -> {
-          /* one-time action goes here */
-        });
+  // Shooter Mechanism
+  private FlyWheel shooter = new FlyWheel(shooterConfig);
+*/
+private final SparkMax shooterMotor;
+  public CANShooterSubsystem() {
+    shooterMotor = new SparkMax(ShooterConstants.SHOOTER_ID, MotorType.kBrushless);
   }
+
+
+  // public AngularVelocity getVelocity() {return shooterMotor.getSpeed();}
+  // public Command setVelocity(AngularVelocity speed) {return shooter.setSpeed(speed);}
+  // public Command set(double dutyCycle) {return shooterMotor.set(dutyCycle);}
     
     
   /**
@@ -108,5 +97,11 @@ public class CANShooterSubsystem extends SubsystemBase {
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
     //shooter.simIterate();
+  }
+
+  
+
+  public Command runShooter() {
+    return Commands.run(() -> shooterMotor.set(ShooterConstants.SHOOTER_SPEED), this);
   }
 }

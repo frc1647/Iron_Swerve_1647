@@ -1,10 +1,12 @@
 package frc.robot.Subsystems;
 
+import edu.wpi.first.apriltag.AprilTag;
 import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.numbers.N2;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import static frc.robot.Constants.CameraConstants;
+import frc.robot.Constants.AprilTagIDs;
 
 public class Camera {
     
@@ -53,7 +55,7 @@ public class Camera {
     // MATH
 
     public static double watcherDistanceInches() {
-        return getDistanceToAprilTag(watcherHasTag(), watcherVertical());
+        return getDistanceToAprilTag(watcherHasTag(), watcherVertical(), watcherTagID());
         
         /* if (!watcherHasTag()) return -1;
 
@@ -65,7 +67,7 @@ public class Camera {
     }
 
     public static double sauronDistanceInches() {
-        return getDistanceToAprilTag(sauronHasTag(), sauronVertical());
+        return getDistanceToAprilTag(sauronHasTag(), sauronVertical(), sauronTagID());
     
         /*if (!sauronHasTag()) return -1;
 
@@ -77,13 +79,12 @@ public class Camera {
     }
 
     // Helper Function 
-    private static double getDistanceToAprilTag(boolean camHasTag, double camVertical) {
+    private static double getDistanceToAprilTag(boolean camHasTag, double camVertical, int tagID) {
         if (!camHasTag) return -1;
 
-        double ty = camVertical;
-        double angleDeg = CameraConstants.LIMELIGHT_MOUNT_ANGLE_DEG + ty;
+        double angleDeg = CameraConstants.LIMELIGHT_MOUNT_ANGLE_DEG + camVertical;
         double angleRad = Math.toRadians(angleDeg);
 
-        return (CameraConstants.TAG_HEIGHT_IN - CameraConstants.LIMELIGHT_LENS_HEIGHT_IN) / Math.tan(angleRad);
+        return (AprilTagIDs.getAprilTagHeight(tagID) - CameraConstants.LIMELIGHT_LENS_HEIGHT_IN) / Math.tan(angleRad);
     }
 }

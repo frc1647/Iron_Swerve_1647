@@ -10,16 +10,9 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import 
+import
 
-
-
-
-
-
-
-
-   frc.robot.Constants.ShooterConstants;
+frc.robot.Constants.ShooterConstants;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import yams.gearing.GearBox;
 import edu.wpi.first.units.measure.AngularVelocity;
@@ -43,7 +36,6 @@ import com.revrobotics.spark.*;
 import com.revrobotics.spark.SparkBase;
 import com.revrobotics.spark.SparkBase.ControlType;
 
-
 public class CANTurretSubsystem extends SubsystemBase {
 
     private final SparkMax turretMotor;
@@ -54,7 +46,7 @@ public class CANTurretSubsystem extends SubsystemBase {
     public CANTurretSubsystem() {
         turretMotor = new SparkMax(TurretConstants.TURRET_ID, MotorType.kBrushless);
         turretMotor.setCANTimeout(250);
-        
+
         turretEncoder = turretMotor.getEncoder();
         turretPID = turretMotor.getClosedLoopController();
 
@@ -62,8 +54,8 @@ public class CANTurretSubsystem extends SubsystemBase {
         SparkMaxConfig config = new SparkMaxConfig();
         config.voltageCompensation(12);
         config.smartCurrentLimit(TurretConstants.TURRET_MOTOR_CURRENT_LIMIT);
-        
-        turretMotor.configure(config,ResetMode.kResetSafeParameters,PersistMode.kPersistParameters);
+
+        turretMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     }
 
@@ -84,10 +76,10 @@ public class CANTurretSubsystem extends SubsystemBase {
         if (totalRotation < 270 || totalRotation > -270) {
             totalRotation += angleChange;
             return Commands.runOnce(() -> turretSubsystem.rotateByDegrees(angleChange), turretSubsystem);
-    } else if (totalRotation >= 270) {
-        return Commands.runOnce(() -> turretSubsystem.rotateByDegrees(angleChange-360), turretSubsystem);
-    } else {
-        return Commands.runOnce(() -> turretSubsystem.rotateByDegrees(360+angleChange), turretSubsystem);
+        } else if (totalRotation >= 270) {
+            return Commands.runOnce(() -> turretSubsystem.rotateByDegrees(angleChange - 360), turretSubsystem);
+        } else {
+            return Commands.runOnce(() -> turretSubsystem.rotateByDegrees(360 + angleChange), turretSubsystem);
+        }
     }
-    } 
 }

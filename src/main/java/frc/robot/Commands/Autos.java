@@ -11,9 +11,9 @@ import frc.robot.Subsystems.CANDriveSubsystem;
 public final class Autos {
 
     public static Command exampleAuto(CANDriveSubsystem drivetrain) {
-        return new RunCommand(() -> drivetrain.driveTankII(.5,.5),drivetrain)
-        // .andThen(() -> drivetrain.driveTankII(.7,.7))
-        .withTimeout(3)
-        .andThen(new RunCommand(() -> drivetrain.driveTankII(0, 0)));
+        return new RunCommand(() -> drivetrain.driveTankII(.5, .5), drivetrain)
+                // .andThen(() -> drivetrain.driveTankII(.7,.7))
+                .withTimeout(3)
+                .andThen(new RunCommand(() -> drivetrain.driveTankII(0, 0)));
     }
 }
