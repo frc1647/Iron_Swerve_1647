@@ -4,12 +4,15 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.HttpCamera;
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -38,12 +41,20 @@ public class Robot extends TimedRobot {
     // and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+
     SmartDashboard.putData(CommandScheduler.getInstance());
+    HttpCamera cameraWatcher = new HttpCamera(
+            "TheWatcher",
+            "http://10.16.47.11:5800/"
+        );
+        cameraWatcher.setResolution(320, 240);
+        cameraWatcher.setFPS(30);
+        
+    CameraServer.startAutomaticCapture(cameraWatcher);
 
     // Used to track usage of Kitbot code, please do not remove.
     
-    HAL.report(tResourceType.kResourceType_Framework, 10);
-  }
+    HAL.report(tResourceType.kResourceType_Framework, 10);}
 
   /**
    * This function is called every 20 ms, no matter the mode. Use this for items
@@ -131,4 +142,6 @@ public class Robot extends TimedRobot {
   @Override
   public void simulationPeriodic() {
   }
+
+  
 }

@@ -7,13 +7,16 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import static frc.robot.Constants.CameraConstants;
 import frc.robot.Constants.AprilTagIDs;
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.HttpCamera;
+import edu.wpi.first.cscore.VideoSource;
 
 public class Camera {
     
-    private static NetworkTable watcher =
+    public static NetworkTable watcher =
         NetworkTableInstance.getDefault().getTable("TheWatcher");
 
-    private static NetworkTable sauron =
+    public static NetworkTable sauron =
         NetworkTableInstance.getDefault().getTable("EyeOfSauron");
 
 
@@ -86,5 +89,29 @@ public class Camera {
         double angleRad = Math.toRadians(angleDeg);
 
         return (AprilTagIDs.getAprilTagHeight(tagID) - CameraConstants.LIMELIGHT_LENS_HEIGHT_IN) / Math.tan(angleRad);
-    }
+ 
+   }
+
+
+    public static void startLimelightStream() {
+        // Create an HTTP camera using the Limelight stream URL
+        HttpCamera cameraWatcher = new HttpCamera(
+            "TheWatcher",
+            "http://limelight.local:5800/stream.mjpg"
+        );
+        cameraWatcher.setResolution(320, 240);
+        cameraWatcher.setFPS(30);
+
+
+        HttpCamera cameraSauron = new HttpCamera(
+            "EyeOfSauron",
+            "http://limelight-.local:5800/stream.mjpg"
+        );
+        cameraSauron.setResolution(320, 240);
+        cameraSauron.setFPS(30);
+
+
+        CameraServer.startAutomaticCapture(cameraWatcher);
+        CameraServer.startAutomaticCapture(cameraSauron);
+  }
 }

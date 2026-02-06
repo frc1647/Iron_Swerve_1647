@@ -90,6 +90,8 @@ public class RobotContainer {
         // Initialize alliance (default to red if not present)
         onAllianceChanged(getAlliance());
         AprilTags.setAprilTagIDs();
+        
+        Camera.startLimelightStream();
 
         // Set up trigger to detect alliance changes
         new Trigger(() -> getAlliance() != currentAlliance)
@@ -171,11 +173,11 @@ public class RobotContainer {
         targetTagLeft = AprilTags.homeHubFrontLeftID;
         targetTagRight = AprilTags.homeHubFrontLeftID;
 
-        operatorController.rightTrigger().whileTrue(shooterSubsystem.runShooter());
-        operatorController.leftBumper().whileTrue(AprilTagCommands.SwitchShootingMode(this));
+        operatorController.rightTrigger().whileTrue(shooterSubsystem.runShooter()); // Fire
+        operatorController.leftBumper().whileTrue(AprilTagCommands.SwitchShootingMode(this)); // Change Aim Target
         operatorController.a().whileTrue(AprilTagCommands.GoToAprilTag(driveSubsystem, null, 0));
-        operatorController.b().whileTrue(intakeSubsystem.grabBalls(intakeSubsystem));
-    }
+        operatorController.b().whileTrue(intakeSubsystem.grabBalls());
+ }
 
     /**
      * Use this to pass the autonomous command to the main {@l ink Robot} class.

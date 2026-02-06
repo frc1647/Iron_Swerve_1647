@@ -75,6 +75,11 @@ public final class Constants {
     public static final int INTAKE_MOTOR_CURRENT_LIMIT = 45;
   }
 
+  public static final class HopperConstants {
+    // ★★★★★ TODO: Fill in this!!!!!! ★★★★★
+    public static final int SPINDEXER_MOTOR_ID = -1;
+  }
+
   public static final class AprilTagIDs {
 
     // Hub faces are relative to the center of the field

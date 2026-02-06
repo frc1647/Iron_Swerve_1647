@@ -43,10 +43,6 @@ public final class AprilTagCommands {
         throw new Exception();
     }
 
-    private static Alliance getAlliance() {
-        return DriverStation.getAlliance().orElse(Alliance.Red);
-    }
-
     public static Command SwitchShootingMode(RobotContainer robotContainer) {
         return Commands.runOnce(() -> {
             robotContainer.targetingHub = !robotContainer.targetingHub;

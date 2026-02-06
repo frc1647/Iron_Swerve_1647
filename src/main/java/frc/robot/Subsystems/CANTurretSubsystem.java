@@ -10,9 +10,7 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import
-
-frc.robot.Constants.ShooterConstants;
+import frc.robot.Constants.ShooterConstants;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import yams.gearing.GearBox;
 import edu.wpi.first.units.measure.AngularVelocity;
@@ -73,12 +71,12 @@ public class CANTurretSubsystem extends SubsystemBase {
     }
 
     public Command rotateTurret(CANTurretSubsystem turretSubsystem, double angleChange) {
-        if (totalRotation < 270 || totalRotation > -270) {
+        if (totalRotation < 270 || totalRotation > -270) { // end Rotation is within bounds
             totalRotation += angleChange;
             return Commands.runOnce(() -> turretSubsystem.rotateByDegrees(angleChange), turretSubsystem);
-        } else if (totalRotation >= 270) {
+        } else if (totalRotation >= 270) { // end Rotation is outside of bounds, too large
             return Commands.runOnce(() -> turretSubsystem.rotateByDegrees(angleChange - 360), turretSubsystem);
-        } else {
+        } else {  // end Rotation is outside of bounds, too small
             return Commands.runOnce(() -> turretSubsystem.rotateByDegrees(360 + angleChange), turretSubsystem);
         }
     }

@@ -73,10 +73,10 @@ public class CANIntakeSubsystem extends SubsystemBase {
         rightIntakeMotor.configure(rightConfig,ResetMode.kResetSafeParameters,PersistMode.kPersistParameters);
     }
 
-    public Command grabBalls(CANIntakeSubsystem intakeSubsystem) {
+    public Command grabBalls() {
         return Commands.run(() -> {
             leftIntakeMotor.set(1);
             rightIntakeMotor.set(1);
-        }, intakeSubsystem);
+        }, this);
     }
 }
