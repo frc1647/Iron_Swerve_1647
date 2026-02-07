@@ -5,8 +5,7 @@ import static edu.wpi.first.units.Units.*;
 
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
-import java.util.function.DoubleSupplier;
-
+import java.util.function.DoubleSupplier;                                                     
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;

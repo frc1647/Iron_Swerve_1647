@@ -6,6 +6,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj2.command.Command;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -142,7 +143,7 @@ public final class Constants {
     * @return double the height in inches of the tag
     */
     public static double getAprilTagHeight(int id) {
-      switch (id) {
+      switch (id) { // TODO: implement all the heights
 
         // ★ HUB TAGS
         case RED_HUB_FRONT_LEFT_TAG_ID:
@@ -171,5 +172,9 @@ public final class Constants {
 
 
     
+  }
+
+  public static Command DontDoAnythingStayStillCommand() {
+    return null;
   }
 }

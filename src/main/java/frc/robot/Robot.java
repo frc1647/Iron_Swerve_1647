@@ -1,3 +1,6 @@
+//          ,,,
+//         (o o)
+// ----oOO--( )--OOo----
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
@@ -42,15 +45,25 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
 
+
     SmartDashboard.putData(CommandScheduler.getInstance());
     HttpCamera cameraWatcher = new HttpCamera(
             "TheWatcher",
-            "http://10.16.47.11:5800/"
+            "http://10.16.47.11:5800"
         );
-        cameraWatcher.setResolution(320, 240);
-        cameraWatcher.setFPS(30);
-        
+    cameraWatcher.setResolution(320, 240);
+    cameraWatcher.setFPS(30);
+    
+    HttpCamera cameraSauron = new HttpCamera(
+            "EyeOfSauron",
+            "http://limelight-sauron.local:5800"
+        );
+
+    cameraSauron.setResolution(320, 240);
+    cameraSauron.setFPS(30);
+
     CameraServer.startAutomaticCapture(cameraWatcher);
+    CameraServer.startAutomaticCapture(cameraSauron);
 
     // Used to track usage of Kitbot code, please do not remove.
     
@@ -145,3 +158,43 @@ public class Robot extends TimedRobot {
 
   
 }
+
+
+//         .--'''''''''--.
+//      .'      .---.      '.
+//     /    .-----------.    \
+//    /        .-----.        \
+//    |       .-.   .-.       |
+//    |      /   \ /   \      |
+//     \    | .-. |     |    /
+//      '-._| '-' | .-. |_.-'
+//          |     | '-' |
+//           \___/ \___/
+//        _.-'  /   \  `-._
+//      .' _.--|     |--._ '.
+//      ' _...-|     |-..._ '
+//             |     |
+//             '.___.'
+//               | |
+//              _| |_
+//             /\( )/\
+//            /  ` '  \
+//           | |     | |
+//           '-'     '-'
+//           | |     | |
+//           | |     | |
+//           | |-----| |
+//        .`/  |     | |/`.
+//        |    |     |    |
+//        '._.'| .-. |'._.'
+//              \ | /
+//              | | |
+//              | | |
+//              | | |
+//             /| | |\
+//           .'_| | |_`.
+//           `. | | | .'
+//        .    /  |  \    .
+//       /o`.-'  / \  `-.`o\
+//      /o  o\ .'   `. /o  o\
+//      `.___.'       `.___.'

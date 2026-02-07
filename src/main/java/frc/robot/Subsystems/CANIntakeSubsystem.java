@@ -37,46 +37,44 @@ import edu.wpi.first.math.system.plant.DCMotor;
 
 public class CANIntakeSubsystem extends SubsystemBase {
 
-    private final SparkMax leftIntakeMotor;
-    private final SparkMax rightIntakeMotor;
-    private final RelativeEncoder leftIntakeEncoder;
-    private final RelativeEncoder rightIntakeEncoder;
-    private final SparkClosedLoopController leftIntakePID;
-    private final SparkClosedLoopController rightIntakePID;
-    public double totalRotation = 0;
+    private final SparkMax intakeMotor;
+    private final SparkMax goIntakeMotor;
+    private final RelativeEncoder intakeEncoder;
+    private final RelativeEncoder goIntakeEncoder;
+    private final SparkClosedLoopController intakePID;
+    private final SparkClosedLoopController goIntakePID;
 
     public CANIntakeSubsystem() {
-        leftIntakeMotor = new SparkMax(IntakeConstants.LEFT_INTAKE_ID, MotorType.kBrushless);
-        leftIntakeMotor.setCANTimeout(250);
+        intakeMotor = new SparkMax(IntakeConstants.LEFT_INTAKE_ID, MotorType.kBrushless);
+        intakeMotor.setCANTimeout(250);
         
-        leftIntakeEncoder = leftIntakeMotor.getEncoder();
-        leftIntakePID = leftIntakeMotor.getClosedLoopController();
+        intakeEncoder = intakeMotor.getEncoder();
+        intakePID = intakeMotor.getClosedLoopController();
 
         // Create and apply SparkMax configuration
-        SparkMaxConfig leftConfig = new SparkMaxConfig();
-        leftConfig.voltageCompensation(12);
-        leftConfig.smartCurrentLimit(IntakeConstants.INTAKE_MOTOR_CURRENT_LIMIT);
+        SparkMaxConfig intakeConfig = new SparkMaxConfig();
+        intakeConfig.voltageCompensation(12);
+        intakeConfig.smartCurrentLimit(IntakeConstants.INTAKE_MOTOR_CURRENT_LIMIT);
         
-        leftIntakeMotor.configure(leftConfig,ResetMode.kResetSafeParameters,PersistMode.kPersistParameters);
+        intakeMotor.configure(intakeConfig,ResetMode.kResetSafeParameters,PersistMode.kPersistParameters);
 
-        rightIntakeMotor = new SparkMax(IntakeConstants.RIGHT_INTAKE_ID, MotorType.kBrushless);
-        rightIntakeMotor.setCANTimeout(250);
+        goIntakeMotor = new SparkMax(IntakeConstants.RIGHT_INTAKE_ID, MotorType.kBrushless);
+        goIntakeMotor.setCANTimeout(250);
         
-        rightIntakeEncoder = rightIntakeMotor.getEncoder();
-        rightIntakePID = rightIntakeMotor.getClosedLoopController();
+        goIntakeEncoder = goIntakeMotor.getEncoder();
+        goIntakePID = goIntakeMotor.getClosedLoopController();
 
         // Create and apply SparkMax configuration
-        SparkMaxConfig rightConfig = new SparkMaxConfig();
-        rightConfig.voltageCompensation(12);
-        rightConfig.smartCurrentLimit(IntakeConstants.INTAKE_MOTOR_CURRENT_LIMIT);
+        SparkMaxConfig goConfig = new SparkMaxConfig();
+        goConfig.voltageCompensation(12);
+        goConfig.smartCurrentLimit(IntakeConstants.INTAKE_MOTOR_CURRENT_LIMIT);
         
-        rightIntakeMotor.configure(rightConfig,ResetMode.kResetSafeParameters,PersistMode.kPersistParameters);
+        goIntakeMotor.configure(goConfig,ResetMode.kResetSafeParameters,PersistMode.kPersistParameters);
     }
 
     public Command grabBalls() {
         return Commands.run(() -> {
-            leftIntakeMotor.set(1);
-            rightIntakeMotor.set(1);
+            intakeMotor.set(1);
         }, this);
     }
 }

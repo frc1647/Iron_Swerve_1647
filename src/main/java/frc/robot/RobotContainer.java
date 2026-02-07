@@ -4,7 +4,7 @@
 
 /**
  *                                                                                                                                                                                                                                       
- *    I8,        8        ,8I            88                                                                                                                                                        88                                88  
+ *    I8,        8        ,8I            81                                                                                                                                                       88                                88  
  *    `8b       d8b       d8'            88                                                                ,d                                                                                      88                         ,d     88  
  *     "8,     ,8"8,     ,8"             88                                                                88                                                                                      88                         88     88  
  *      Y8     8P Y8     8P   ,adPPYba,  88   ,adPPYba,   ,adPPYba,   88,dPYba,,adPYba,    ,adPPYba,     MM88MMM  ,adPPYba,       ,adPPYba,   88       88  8b,dPPYba,     8b,dPPYba,   ,adPPYba,   88,dPPYba,    ,adPPYba,  MM88MMM  88  
@@ -15,10 +15,7 @@
  *                                                                                                                                                                                                                                       
  *                                                                                                                                                                                                                                       
  */
-
 package frc.robot;
-
-import java.applet.Applet;
 import java.lang.ModuleLayer.Controller;
 import java.util.List;
 
@@ -91,12 +88,13 @@ public class RobotContainer {
         onAllianceChanged(getAlliance());
         AprilTags.setAprilTagIDs();
         
-        Camera.startLimelightStream();
 
         // Set up trigger to detect alliance changes
         new Trigger(() -> getAlliance() != currentAlliance)
                 .onTrue(Commands.runOnce(() -> onAllianceChanged(getAlliance())).ignoringDisable(true));
 
+
+        
         // Triggers for auto aim/pass poses
         // new Trigger(() -> isInAllianceZone())
         // .onChange(Commands.runOnce(() -> onZoneChanged()).ignoringDisable(true));
@@ -173,9 +171,13 @@ public class RobotContainer {
         targetTagLeft = AprilTags.homeHubFrontLeftID;
         targetTagRight = AprilTags.homeHubFrontLeftID;
 
+
+
+        turretSubsystem.setDefaultCommand(AprilTagCommands.RotateTowardsAprilTag(turretSubsystem, targetTagRight));
+
         operatorController.rightTrigger().whileTrue(shooterSubsystem.runShooter()); // Fire
         operatorController.leftBumper().whileTrue(AprilTagCommands.SwitchShootingMode(this)); // Change Aim Target
-        operatorController.a().whileTrue(AprilTagCommands.GoToAprilTag(driveSubsystem, null, 0));
+        //operatorController.a().whileTrue(AprilTagCommands.GoToAprilTag(driveSubsystem, null, 0));
         operatorController.b().whileTrue(intakeSubsystem.grabBalls());
  }
 

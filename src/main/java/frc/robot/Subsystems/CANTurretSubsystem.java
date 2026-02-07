@@ -71,10 +71,11 @@ public class CANTurretSubsystem extends SubsystemBase {
     }
 
     public Command rotateTurret(CANTurretSubsystem turretSubsystem, double angleChange) {
-        if (totalRotation < 270 || totalRotation > -270) { // end Rotation is within bounds
+        if (totalRotation + angleChange < 270 || totalRotation + angleChange > -270) { // end Rotation is within bounds
             totalRotation += angleChange;
             return Commands.runOnce(() -> turretSubsystem.rotateByDegrees(angleChange), turretSubsystem);
-        } else if (totalRotation >= 270) { // end Rotation is outside of bounds, too large
+        } else if (totalRotation + angleChange >= 270) { // end Rotation is outside of bounds, too large
+            
             return Commands.runOnce(() -> turretSubsystem.rotateByDegrees(angleChange - 360), turretSubsystem);
         } else {  // end Rotation is outside of bounds, too small
             return Commands.runOnce(() -> turretSubsystem.rotateByDegrees(360 + angleChange), turretSubsystem);
