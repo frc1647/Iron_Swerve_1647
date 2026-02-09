@@ -14,7 +14,8 @@ import frc.robot.Constants;
 
 public final class AprilTagCommands {
 
-    // Rotate, then drive forward to the target april tag
+
+
     public static Command GoToAprilTag(CANDriveSubsystem drivetrain, int id) {
         // TODO: Figure out direction stuff for int id
         
