@@ -158,6 +158,13 @@ public class Camera {
         return sauronHasTag() && sauronTagID() == tagID;
     }
 
+    /**
+     * Returns the horizontal distance from an april tag
+     * @param camHasTag
+     * @param camVertical Vertical angle from the camera to april tag
+     * @param tagID AprilTag ID
+     * @return Horizontal distance in inches to the april tag
+     */
     private static double getDistanceToAprilTag(boolean camHasTag, double camVertical, int tagID) {
         if (!camHasTag) return -1;
 
