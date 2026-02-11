@@ -99,6 +99,9 @@ private final SparkMax shooterMotor;
   }
 
   
+  public double GetRPMForDistance(double distanceFT) {
+    return 1028.58174 * Math.pow(distanceFT, 0.469592);    
+  }
 
   public Command runShooter() {
     return Commands.run(() -> shooterMotor.set(ShooterConstants.SHOOTER_SPEED), this);

@@ -52,13 +52,13 @@ public final class Constants {
   }
 
   public static final class ShooterConstants {
-    public static final int SHOOTER_ID = 1;
+    public static final int SHOOTER_ID = 22;
     public static final double SHOOTER_SPEED = 0.6;
     public static final int SHOOTER_MOTOR_CURRENT_LIMIT = 45;
   }
 
   public static final class TurretConstants {
-    public static final int TURRET_ID = 25;
+    public static final int TURRET_ID = 25; //TODO set
     public static final double TURRET_GEAR_RATIO = 1;
     public static final int TURRET_MOTOR_CURRENT_LIMIT = 45;
 
