@@ -60,12 +60,30 @@ public class TurretSubsystem extends SubsystemBase {
     // Joystick deadband to ignore stick noise
     public static final double JOYSTICK_DEADBAND = 0.08;
 
+    // Max motor speed in RPM — limits the NEO to 1 revolution per 2 seconds
+    public static final double MAX_MOTOR_RPM = 30.0;
+
     // Max turret speed in degrees/second when joystick is fully deflected
     // At 50Hz periodic, each tick moves up to MAX_SPEED_DEG_PER_SEC / 50 degrees
     public static final double MAX_SPEED_DEG_PER_SEC = 90.0;
 
     // Button-press rotation speed (degrees per 20ms tick)
     public static final double BUTTON_SPEED_DEG_PER_TICK = 1.5;
+
+    // ── Slow Zone Constants ──────────────────────────────────────────────────
+    // When the turret is within SLOW_ZONE_DEGREES of either limit, output and
+    // current are linearly ramped down so that contact with a physical hard stop
+    // is a gentle tap rather than a slam.
+    public static final double SLOW_ZONE_DEGREES = 20.0;
+
+    // Normal PID output range (symmetric)
+    public static final double NORMAL_OUTPUT_LIMIT = 0.5;
+
+    // Minimum PID output at the very edge of the travel range
+    public static final double MIN_OUTPUT_LIMIT = 0.08;
+
+    // Reduced current limit (amps) when inside the slow zone
+    public static final int SLOW_ZONE_CURRENT_LIMIT_AMPS = 10;
 
     // ── Hardware ───────────────────────────────────────────────────────────────
     private final SparkMax turretMotor;
@@ -75,6 +93,14 @@ public class TurretSubsystem extends SubsystemBase {
     // ── State ──────────────────────────────────────────────────────────────────
     // Target position in motor rotations — the PID setpoint
     private double targetMotorRotations = 0.0;
+
+    // Tracks whether we are currently in the slow zone so we only reconfigure
+    // the SparkMax when transitioning in or out (avoids CAN bus spam).
+    private boolean inSlowZone = false;
+
+    // Reusable config objects for dynamic reconfiguration
+    private final SparkMaxConfig slowZoneConfig = new SparkMaxConfig();
+    private final SparkMaxConfig normalConfig = new SparkMaxConfig();
 
     public TurretSubsystem() {
         turretMotor = new SparkMax(TURRET_CAN_ID, MotorType.kBrushless);
@@ -96,8 +122,12 @@ public class TurretSubsystem extends SubsystemBase {
         pidConfig.p(kP);
         pidConfig.i(kI);
         pidConfig.d(kD);
-        pidConfig.ff(kFF);
+        // TODO: ff() was removed in REVLib 2026. To add feedforward in the future,
+        // use turretPID.setReference(setpoint, ControlType.kPosition, 0, kFF, ArbFFUnits.kVoltage)
+        // pidConfig.ff(kFF);
         pidConfig.outputRange(-0.5, 0.5); // Limit max output for safety during tuning
+        pidConfig.maxMotion.cruiseVelocity(MAX_MOTOR_RPM); // Limit NEO to 30 RPM (1 rev per 2 sec)
+        pidConfig.maxMotion.maxAcceleration(MAX_MOTOR_RPM * 2); // Reach max speed in 0.5 sec
 
         // Hardware soft limits — the SparkMax enforces these in firmware
         SoftLimitConfig softLimits = config.softLimit;
@@ -112,6 +142,15 @@ public class TurretSubsystem extends SubsystemBase {
         // Encoder starts at 0 on power-on (turret assumed at 0°)
         turretEncoder.setPosition(0.0);
         targetMotorRotations = 0.0;
+
+        // Pre-build the two configs used for dynamic slow-zone switching.
+        // These only override output range and current limit; all other settings
+        // are inherited from the initial config already persisted to flash.
+        normalConfig.smartCurrentLimit(CURRENT_LIMIT_AMPS);
+        normalConfig.closedLoop.outputRange(-NORMAL_OUTPUT_LIMIT, NORMAL_OUTPUT_LIMIT);
+
+        slowZoneConfig.smartCurrentLimit(SLOW_ZONE_CURRENT_LIMIT_AMPS);
+        slowZoneConfig.closedLoop.outputRange(-MIN_OUTPUT_LIMIT, MIN_OUTPUT_LIMIT);
     }
 
     // ── Public API ─────────────────────────────────────────────────────────────
@@ -123,7 +162,7 @@ public class TurretSubsystem extends SubsystemBase {
     public void setTargetAngleDegrees(double angleDegrees) {
         angleDegrees = clampAngle(angleDegrees);
         targetMotorRotations = degreesToMotorRotations(angleDegrees);
-        turretPID.setSetpoint(targetMotorRotations, ControlType.kPosition);
+        turretPID.setSetpoint(targetMotorRotations, ControlType.kMAXMotionPositionControl);
     }
 
     /**
@@ -174,12 +213,34 @@ public class TurretSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        // Publish telemetry for dashboard tuning
-        SmartDashboard.putNumber("Turret/CurrentDeg", getCurrentAngleDegrees());
+        double currentDeg = getCurrentAngleDegrees();
+
+        // ── Slow-zone management ─────────────────────────────────────────────
+        // Check how close we are to either travel limit
+        double distToLimit = Math.min(
+                Math.abs(currentDeg - MIN_ANGLE_DEGREES),
+                Math.abs(currentDeg - MAX_ANGLE_DEGREES));
+        boolean shouldBeInSlowZone = distToLimit < SLOW_ZONE_DEGREES;
+
+        // Only reconfigure on transitions to avoid CAN bus spam
+        if (shouldBeInSlowZone && !inSlowZone) {
+            turretMotor.configure(slowZoneConfig,
+                    ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+            inSlowZone = true;
+        } else if (!shouldBeInSlowZone && inSlowZone) {
+            turretMotor.configure(normalConfig,
+                    ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+            inSlowZone = false;
+        }
+
+        // ── Telemetry ────────────────────────────────────────────────────────
+        SmartDashboard.putNumber("Turret/CurrentDeg", currentDeg);
         SmartDashboard.putNumber("Turret/TargetDeg", getTargetAngleDegrees());
         SmartDashboard.putNumber("Turret/MotorRotations", turretEncoder.getPosition());
         SmartDashboard.putBoolean("Turret/OnTarget", isOnTarget());
         SmartDashboard.putNumber("Turret/MotorCurrent", turretMotor.getOutputCurrent());
+        SmartDashboard.putNumber("Turret/DistToLimit", distToLimit);
+        SmartDashboard.putBoolean("Turret/InSlowZone", inSlowZone);
     }
 
     // ── Helpers ────────────────────────────────────────────────────────────────
