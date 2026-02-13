@@ -38,12 +38,14 @@ import frc.robot.Subsystems.CANDriveSubsystem;
 import frc.robot.Subsystems.CANShooterSubsystem;
 import frc.robot.Subsystems.CANTurretSubsystem;
 import frc.robot.Subsystems.CANIntakeSubsystem;
+import frc.robot.Subsystems.TurretSubsystem;
 import frc.robot.Subsystems.Camera;
 import frc.robot.AprilTags;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.simulation.XboxControllerSim;
 import edu.wpi.first.units.*;
+import frc.robot.Commands.TurretControlBindings;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -59,8 +61,11 @@ public class RobotContainer {
     // Add the robot's subsystems
     private final CANDriveSubsystem driveSubsystem = new CANDriveSubsystem();
     private final CANShooterSubsystem shooterSubsystem = new CANShooterSubsystem();
+    // TODO: When merging this branch, remove CANTurretSubsystem and its bindings.
+    //       Both turret subsystems target CAN ID 25. Only one should be active.
     private final CANTurretSubsystem turretSubsystem = new CANTurretSubsystem();
     private final CANIntakeSubsystem intakeSubsystem = new CANIntakeSubsystem();
+    private final TurretSubsystem turretSubsystemNew = new TurretSubsystem();
 
     // The driver's controller
     private final Joystick driverController = new Joystick(OperatorConstants.DRIVER_CONTROLLER_PORT);
@@ -179,6 +184,11 @@ public class RobotContainer {
         operatorController.leftBumper().whileTrue(AprilTagCommands.SwitchShootingMode(this)); // Change Aim Target
         //operatorController.a().whileTrue(AprilTagCommands.GoToAprilTag(driveSubsystem, null, 0));
         operatorController.b().whileTrue(intakeSubsystem.grabBalls());
+
+        // ── Turret + Launcher bindings (auto-detects 1 vs 2 controllers) ──
+        TurretControlBindings.configure(
+                turretSubsystemNew, shooterSubsystem,
+                driverController, operatorController);
  }
 
     /**
