@@ -47,7 +47,6 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
 
-
     Camera.RefreshCams();
 
     SmartDashboard.putData(CommandScheduler.getInstance());
@@ -58,17 +57,17 @@ public class Robot extends TimedRobot {
     cameraWatcher.setResolution(320, 240);
     cameraWatcher.setFPS(30);
 
-    /* 
+    
     HttpCamera cameraSauron = new HttpCamera(
             "EyeOfSauron",
-            "http://limelight-sauron.local:5800/stream.mjpg"
+            "http://10.16.47.12:5800/stream.mjpg"
         );
     cameraSauron.setResolution(320, 240);
     cameraSauron.setFPS(30);
-*/
 
+    CameraServer.startAutomaticCapture(); // test webcam
     CameraServer.startAutomaticCapture(cameraWatcher);
-    //CameraServer.startAutomaticCapture(cameraSauron);
+    CameraServer.startAutomaticCapture(cameraSauron);
 
     // Used to track usage of Kitbot code, please do not remove.
     
