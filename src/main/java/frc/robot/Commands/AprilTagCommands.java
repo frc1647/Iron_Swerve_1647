@@ -46,12 +46,12 @@ public final class AprilTagCommands {
         private final int m_targetTagID;
 
         // --- Tuning Constants ---
-        private static final double kP_Turn  = AutoConstants.TURN_STRENGTH;
+        private static final double kP_Turn = AutoConstants.TURN_STRENGTH;
         private static final double kP_Drive = AutoConstants.DRIVE_STRENGTH;
 
         private static final double kTargetDistanceIn = AutoConstants.TARGET_INCHES_FROM_TAG;
-        private static final double kDistanceTolIn    = AutoConstants.DISTANCE_TOLERANCE;
-        private static final double kAngleTolDeg      = AutoConstants.ANGLE_TOLERANCE;
+        private static final double kDistanceTolIn = AutoConstants.DISTANCE_TOLERANCE;
+        private static final double kAngleTolDeg = AutoConstants.ANGLE_TOLERANCE;
 
         private static final double kMaxSpeed = AutoConstants.AUTO_MAX_SPEED;
 
