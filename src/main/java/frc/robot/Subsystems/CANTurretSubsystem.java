@@ -39,7 +39,6 @@ public class CANTurretSubsystem extends SubsystemBase {
     private final SparkMax turretMotor;
     private final RelativeEncoder turretEncoder;
     private final SparkClosedLoopController turretPID;
-    private double totalRotation = 0;
 
     public CANTurretSubsystem() {
         turretMotor = new SparkMax(TurretConstants.TURRET_ID, MotorType.kBrushless);
@@ -58,7 +57,7 @@ public class CANTurretSubsystem extends SubsystemBase {
     }
 
     public double GetTurretAngle() {
-        return totalRotation;
+        return turretEncoder.getPosition() * 360;
     }
 
     public void zeroTurret() {
@@ -74,16 +73,24 @@ public class CANTurretSubsystem extends SubsystemBase {
         turretPID.setSetpoint(targetRotations, ControlType.kPosition);
     }
 
-    // TODO: Fix totalRotation
     public Command rotateTurret(CANTurretSubsystem turretSubsystem, double angleChange) {
-        if (totalRotation + angleChange < 270 || totalRotation + angleChange > -270) { // end Rotation is within bounds
-            totalRotation += angleChange;
-            return Commands.runOnce(() -> turretSubsystem.rotateByDegrees(angleChange), turretSubsystem);
-        } else if (totalRotation + angleChange >= 270) { // end Rotation is outside of bounds, too large
-            
-            return Commands.runOnce(() -> turretSubsystem.rotateByDegrees(angleChange - 360), turretSubsystem);
-        } else {  // end Rotation is outside of bounds, too small
-            return Commands.runOnce(() -> turretSubsystem.rotateByDegrees(360 + angleChange), turretSubsystem);
-        }
+        return Commands.runOnce(() -> {
+            double rotation = GetTurretAngle();
+            double goalRotation = rotation + angleChange;
+
+
+            if (goalRotation < TurretConstants.TURRET_AIMING_LIMIT_MAX && goalRotation > TurretConstants.TURRET_AIMING_LIMIT_MIN) { 
+                // end Rotation is within bounds, its valid so let it rotate normally
+                turretSubsystem.rotateByDegrees(angleChange);
+            } else if (goalRotation >= TurretConstants.TURRET_AIMING_LIMIT_MAX) { 
+                // end Rotation is outside of bounds, too large
+                turretSubsystem.rotateByDegrees((goalRotation - TurretConstants.TURRET_AIMING_LIMIT_MAX) + TurretConstants.TURRET_AIMING_LIMIT_MIN);
+            } else {  // end Rotation is outside of bounds, too small
+                turretSubsystem.rotateByDegrees((goalRotation - TurretConstants.TURRET_AIMING_LIMIT_MIN) + TurretConstants.TURRET_AIMING_LIMIT_MAX);
+            }
+        }, 
+        turretSubsystem
+        );
+        
     }
 }

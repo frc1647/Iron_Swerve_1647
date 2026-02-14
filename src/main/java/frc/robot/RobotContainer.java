@@ -40,6 +40,7 @@ import frc.robot.Subsystems.CANTurretSubsystem;
 import frc.robot.Subsystems.CANIntakeSubsystem;
 import frc.robot.Subsystems.Camera;
 import frc.robot.Subsystems.Hopper;
+import frc.robot.Subsystems.LEDSubsystem;
 import frc.robot.AprilTags;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -62,6 +63,7 @@ public class RobotContainer {
     private final CANShooterSubsystem shooterSubsystem = new CANShooterSubsystem();
     private final CANTurretSubsystem turretSubsystem = new CANTurretSubsystem();
     private final CANIntakeSubsystem intakeSubsystem = new CANIntakeSubsystem();
+    private final LEDSubsystem ledSubsystem = new LEDSubsystem();
 
     // Add other components
     private final Hopper hopper = new Hopper();
@@ -180,7 +182,11 @@ public class RobotContainer {
 
         turretSubsystem.setDefaultCommand(AprilTagCommands.AimTowardsAprilTag(turretSubsystem, targetTagRight));
 
-        operatorController.rightTrigger().whileTrue(shooterSubsystem.runShooter()/* .alongWith(hopper.runSpindexer().alongWith(hopper.runPassage()))*/); // Fire
+        operatorController.rightTrigger().whileTrue(Commands.run(() -> {
+            shooterSubsystem.runShooter();
+            hopper.runPassage();
+            hopper.runSpindexer();
+        }, shooterSubsystem, hopper)); // Fire
         operatorController.leftBumper().onTrue(AprilTagCommands.SwitchShootingMode(this)); // Change Aim Target
         //operatorController.a().whileTrue(AprilTagCommands.GoToAprilTag(driveSubsystem, null, 0));
         operatorController.b().whileTrue(intakeSubsystem.grabBalls());
@@ -198,7 +204,7 @@ public class RobotContainer {
         return Autos.exampleAuto(driveSubsystem);
     }
 
-    public Alliance getAlliance() {
+    public static Alliance getAlliance() {
         return DriverStation.getAlliance().orElse(Alliance.Red);
     }
 

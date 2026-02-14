@@ -62,6 +62,9 @@ public final class Constants {
     public static final double TURRET_GEAR_RATIO = 1;
     public static final int TURRET_MOTOR_CURRENT_LIMIT = 45;
 
+    public static final double TURRET_AIMING_LIMIT_MIN = -270;
+    public static final double TURRET_AIMING_LIMIT_MAX = 270;
+
   }
 
   public static final class CameraConstants {
@@ -98,6 +101,24 @@ public final class Constants {
     public static final double ANGLE_TOLERANCE = 2.0; // Degrees
 
     public static final double AUTO_MAX_SPEED = 0.4; // 0 - 1
+  }
+
+  public static final class LEDConstants {
+    public static final int BLINKIN_ID = -2;
+
+    public static final double AIM_TOLERANCE = 1;
+
+    public static final class Colors {
+      public static final double OFF = 0.99;
+      public static final double WHITE = 0.93;
+
+      public static final double PATTERN_SHOT_RED = -0.85;
+      public static final double PATTERN_SHOT_BLUE = -0.83;
+
+      public static final double RED = 0.61;
+      public static final double GOLD = 0.67;
+      public static final double LAWN_GREEN = 0.71;
+    }
   }
 
   public static final class AprilTagIDs {
@@ -188,8 +209,5 @@ public final class Constants {
           return -1;
       }
     }
-
-
-    
   }
 }

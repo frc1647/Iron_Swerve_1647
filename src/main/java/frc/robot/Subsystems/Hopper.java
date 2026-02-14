@@ -17,7 +17,6 @@ public class Hopper extends SubsystemBase {
 
     private final TalonFX spindexerMotor;
 
-
     private final SparkMax passageMotorLower;
     private final SparkMax passageMotorUpper;
 

@@ -53,7 +53,7 @@ public class Robot extends TimedRobot {
         );
     cameraWatcher.setResolution(320, 240);
     cameraWatcher.setFPS(30);
-    
+    /*
     HttpCamera cameraSauron = new HttpCamera(
             "EyeOfSauron",
             "http://limelight-sauron.local:5800"
@@ -61,13 +61,14 @@ public class Robot extends TimedRobot {
 
     cameraSauron.setResolution(320, 240);
     cameraSauron.setFPS(30);
-
+*/
     CameraServer.startAutomaticCapture(cameraWatcher);
-    CameraServer.startAutomaticCapture(cameraSauron);
+    //CameraServer.startAutomaticCapture(cameraSauron);
 
     // Used to track usage of Kitbot code, please do not remove.
     
-    HAL.report(tResourceType.kResourceType_Framework, 10);}
+    HAL.report(tResourceType.kResourceType_Framework, 10);
+  }
 
   /**
    * This function is called every 20 ms, no matter the mode. Use this for items
