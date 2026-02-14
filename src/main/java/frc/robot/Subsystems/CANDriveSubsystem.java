@@ -131,7 +131,7 @@ public class CANDriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Right motor Position", 0);
     SmartDashboard.putNumber("Right motor Velocity", 0);
     SmartDashboard.putNumber("Left motor Position", 0);
-    SmartDashboard.putNumber("Right motor Position", 0);
+    SmartDashboard.putNumber("Left motor Velocity", 0);
     SmartDashboard.setDefaultBoolean("Control Mode", false);
     SmartDashboard.setDefaultBoolean("Reset Encoder", false);
   }

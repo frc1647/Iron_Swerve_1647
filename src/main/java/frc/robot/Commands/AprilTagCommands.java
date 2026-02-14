@@ -18,39 +18,12 @@ import frc.robot.Constants;
 public final class AprilTagCommands {
 
     public static Command AimTowardsAprilTag(CANTurretSubsystem turretSubsystem, int id) {
-        boolean valid = Camera.sauronSeesTag(id);
-        
-        
-        if (valid) {
-            return turretSubsystem.run(() -> turretSubsystem.rotateTurret(turretSubsystem, Camera.sauronHorizontal()));
-        }
-        else {
-            return turretSubsystem.run(() -> Commands.none());
-        }
+        return turretSubsystem.run(() -> {
+            if (Camera.sauronSeesTag(id)) {
+                turretSubsystem.rotateByDegrees(Camera.sauronHorizontal());
+            }
+        });
     }
-
-    // public static Command ScanForTargets(CANTurretSubsystem turretSubsystem) {
-    //     return new Command() {
-    //         @Override
-    //         public void execute() {
-    //             if (Camera.sauronSeesTag(id)) {
-    //                 turretSubsystem.rotateTurret(turretSubsystem, Camera.sauronHorizontal());
-    //             } else {
-    //                 turretSubsystem.rotateTurret(turretSubsystem, 0);
-    //             }
-    //         }
-        
-    //         @Override
-    //         public boolean isFinished() {
-    //             return Camera.sauronSeesTag(id) && Math.abs(Camera.sauronHorizontal()) < 2.0;
-    //         }
-        
-    //         @Override
-    //         public void end(boolean interrupted) {
-    //             turretSubsystem.rotateTurret(turretSubsystem, 0);
-    //         }
-    //     }.withTimeout(3.0);
-    // }
 
     public static Command SwitchShootingMode(RobotContainer robotContainer) {
         return Commands.runOnce(() -> {
@@ -62,10 +35,9 @@ public final class AprilTagCommands {
                 robotContainer.targetTagLeft = AprilTags.homeOutpostLeftID;
                 robotContainer.targetTagRight = AprilTags.homeOutpostRightID;
             }
-        }
-        );
-    }  
-    
+        });
+    }
+
     public class DriveToAprilTag extends Command {
 
         // TODO: Rest position of Turret?

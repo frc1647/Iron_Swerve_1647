@@ -16,7 +16,6 @@
  *                                                                                                                                                                                                                                       
  */
 package frc.robot;
-import java.lang.ModuleLayer.Controller;
 import java.util.List;
 
 import edu.wpi.first.cameraserver.CameraServer;
@@ -44,8 +43,6 @@ import frc.robot.Subsystems.LEDSubsystem;
 import frc.robot.AprilTags;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.simulation.XboxControllerSim;
-import edu.wpi.first.units.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -153,8 +150,8 @@ public class RobotContainer {
         driveSubsystem.setDefaultCommand(
                 new RunCommand(
                         () -> driveSubsystem.driveTankII(
-                                -driverController.getRawAxis(1), // right or left idk stick Y
-                                -driverController.getRawAxis(5) // left or right idk stick Y
+                                driverController.getRawAxis(1), // left stick Y
+                                driverController.getRawAxis(5) // right stick Y
                         ),
                         driveSubsystem));
 
@@ -162,8 +159,8 @@ public class RobotContainer {
 
         button6.whileTrue(
                 driveSubsystem.slowCommand(
-                        () -> -driverController.getRawAxis(5), // right stick Y
-                        () -> -driverController.getRawAxis(1) // left stick Y
+                        () -> driverController.getRawAxis(1), // left stick Y
+                        () -> driverController.getRawAxis(5) // right stick Y
                 ));
 /**
  *                  _     _____                                             ______                                  _         _              
@@ -174,19 +171,24 @@ public class RobotContainer {
  *                 |_|   \_____/| ||_/ \____)_|   \_||_|\___)___/|_|       \______)___/|_|_|_|_|_|_|\_||_|_| |_|\____(___/   |_|             
  *                              |_|                                                                                                          
  */
+
         targetingHub = true;
         targetTagLeft = AprilTags.homeHubFrontLeftID;
-        targetTagRight = AprilTags.homeHubFrontLeftID;
+        targetTagRight = AprilTags.homeHubFrontRightID;
 
 
 
         turretSubsystem.setDefaultCommand(AprilTagCommands.AimTowardsAprilTag(turretSubsystem, targetTagRight));
 
         operatorController.rightTrigger().whileTrue(Commands.run(() -> {
-            shooterSubsystem.runShooter();
-            hopper.runPassage();
-            hopper.runSpindexer();
-        }, shooterSubsystem, hopper)); // Fire
+            shooterSubsystem.runShooterDirect();
+            hopper.runPassageDirect();
+            hopper.runSpindexerDirect();
+        }, shooterSubsystem, hopper).finallyDo(() -> {
+            shooterSubsystem.stopShooter();
+            hopper.stopPassage();
+            hopper.stopSpindexer();
+        })); // Fire
         operatorController.leftBumper().onTrue(AprilTagCommands.SwitchShootingMode(this)); // Change Aim Target
         //operatorController.a().whileTrue(AprilTagCommands.GoToAprilTag(driveSubsystem, null, 0));
         operatorController.b().whileTrue(intakeSubsystem.grabBalls());

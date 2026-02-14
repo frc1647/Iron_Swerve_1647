@@ -1,9 +1,5 @@
 package frc.robot.Subsystems;
 
-
-import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.spark.SparkMax;
-
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
@@ -14,19 +10,17 @@ import frc.robot.Constants.LEDConstants;
 
 public class LEDSubsystem extends SubsystemBase {
 
-    public SparkMax ledControllerMotor;
+    public Spark ledControllerMotor;
 
     public static final double turretAimingColor = LEDConstants.Colors.RED;
     public static final double turretLockedOnColor = LEDConstants.Colors.LAWN_GREEN;
 
     public LEDSubsystem() {
-        ledControllerMotor = new SparkMax(LEDConstants.BLINKIN_ID, MotorType.kBrushless);
-
-
+        ledControllerMotor = new Spark(LEDConstants.BLINKIN_ID);
+        
         this.setColor(LEDConstants.Colors.OFF);
     }
-
-
+    
     public void setColor(double color) {
         ledControllerMotor.set(color);
     }
@@ -48,6 +42,7 @@ public class LEDSubsystem extends SubsystemBase {
                 break;
             case Blue:
                 setColor(LEDConstants.Colors.PATTERN_SHOT_BLUE);
+                break;
             default:
                 setColor(LEDConstants.Colors.OFF);
                 break;

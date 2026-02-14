@@ -80,14 +80,14 @@ public final class Constants {
   }
 
   public static final class HopperConstants {
-    // ★★★★★ TODO: Fill in this!!!!!! ★★★★★
-    public static final int SPINDEXER_MOTOR_ID = -1;
+    // TODO: Verify these CAN IDs match actual hardware!
+    public static final int SPINDEXER_MOTOR_ID = 30; // TODO: guess — confirm actual CAN ID
     public static final double SPINDEXER_SPEED = 0.25;
     public static final double SPINDEXER_GEAR_RATIO = 1;
 
 
-    public static final int PASSAGE_MOTOR_UPPER_ID = -10;
-    public static final int PASSAGE_MOTOR_LOWER_ID = -100;
+    public static final int PASSAGE_MOTOR_UPPER_ID = 31; // TODO: guess — confirm actual CAN ID
+    public static final int PASSAGE_MOTOR_LOWER_ID = 32; // TODO: guess — confirm actual CAN ID
     public static final double PASSAGE_SPEED = 0.05;
   }
 
@@ -104,7 +104,7 @@ public final class Constants {
   }
 
   public static final class LEDConstants {
-    public static final int BLINKIN_ID = -2;
+    public static final int BLINKIN_ID = 0; // TODO: guess — confirm actual PWM port on roboRIO
 
     public static final double AIM_TOLERANCE = 1;
 
@@ -196,6 +196,12 @@ public final class Constants {
         case RED_HUB_BACK_RIGHT_TAG_ID:
         case BLUE_HUB_FRONT_LEFT_TAG_ID:
         case BLUE_HUB_FRONT_RIGHT_TAG_ID:
+        case BLUE_HUB_LEFTSIDE_LEFT_TAG_ID:
+        case BLUE_HUB_LEFTSIDE_RIGHT_TAG_ID:
+        case BLUE_HUB_RIGHTSIDE_LEFT_TAG_ID:
+        case BLUE_HUB_RIGHTSIDE_RIGHT_TAG_ID:
+        case BLUE_HUB_BACK_LEFT_TAG_ID:
+        case BLUE_HUB_BACK_RIGHT_TAG_ID:
           return 98.25;
 
         // ★ OUTPOST

@@ -75,6 +75,11 @@ public class CANIntakeSubsystem extends SubsystemBase {
     public Command grabBalls() {
         return Commands.run(() -> {
             intakeMotor.set(1);
-        }, this);
+            goIntakeMotor.set(1);
+        }, this)
+        .finallyDo(() -> {
+            intakeMotor.set(0);
+            goIntakeMotor.set(0);
+        });
     }
 }

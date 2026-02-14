@@ -41,20 +41,30 @@ public class Hopper extends SubsystemBase {
     }
 
     public Command runSpindexer() {
-        return Commands.run(() -> {
-            spindexerMotor.set(HopperConstants.SPINDEXER_SPEED);
-        }, this)
-        .andThen(() -> spindexerMotor.set(0));
+        return Commands.run(() -> runSpindexerDirect(), this)
+        .finallyDo(() -> stopSpindexer());
     }
 
     public Command runPassage() {
-        return Commands.run(() -> {
-            passageMotorLower.set(HopperConstants.PASSAGE_SPEED);
-            passageMotorUpper.set(HopperConstants.PASSAGE_SPEED);
-        }, this)
-        .andThen(() -> {
-            passageMotorLower.set(0);
-            passageMotorUpper.set(0);
-        });
+        return Commands.run(() -> runPassageDirect(), this)
+        .finallyDo(() -> stopPassage());
+    }
+
+    public void runSpindexerDirect() {
+        spindexerMotor.set(HopperConstants.SPINDEXER_SPEED);
+    }
+
+    public void stopSpindexer() {
+        spindexerMotor.set(0);
+    }
+
+    public void runPassageDirect() {
+        passageMotorLower.set(HopperConstants.PASSAGE_SPEED);
+        passageMotorUpper.set(HopperConstants.PASSAGE_SPEED);
+    }
+
+    public void stopPassage() {
+        passageMotorLower.set(0);
+        passageMotorUpper.set(0);
     }
 }
