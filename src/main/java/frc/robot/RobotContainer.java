@@ -22,6 +22,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -74,7 +75,7 @@ public class RobotContainer {
             OperatorConstants.OPERATOR_CONTROLLER_PORT);
 
     // The autonomous chooser
-    private final SendableChooser<Command> autoChooser = new SendableChooser<>();
+    public final SendableChooser<Command> autoChooser = new SendableChooser<>();
 
     private Alliance currentAlliance = Alliance.Red;
     public Boolean targetingHub = true;
@@ -113,8 +114,13 @@ public class RobotContainer {
 
         // Set the options to show up in the Dashboard for selecting auto modes. If you
         // add additional auto modes you can add additional lines here with
-        // autoChooser.addOption
-        // autoChooser.setDefaultOption("Autonomous",
+        autoChooser.addOption("Auto 1", Autos.AutoOne(turretSubsystem, driveSubsystem, shooterSubsystem));        
+        autoChooser.addOption("Auto 2", Autos.AutoTwo());
+        autoChooser.addOption("Auto 3", Autos.AutoThree());
+
+        autoChooser.setDefaultOption("Auto 1", Autos.AutoOne(turretSubsystem, driveSubsystem, shooterSubsystem));
+
+        SmartDashboard.putData("Auto Selector", autoChooser);
         // Autos.exampleAuto(driveSubsystem));
         // Set the default command to force the shooter rest.
         // shooterSubsystem.setDefaultCommand(shooterSubsystem.set(0));
@@ -203,7 +209,7 @@ public class RobotContainer {
 
 
 
-        return Autos.exampleAuto(driveSubsystem);
+        return autoChooser.getSelected();
     }
 
     public static Alliance getAlliance() {

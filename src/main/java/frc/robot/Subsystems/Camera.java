@@ -176,6 +176,15 @@ public class Camera {
    }
 
 
+   public static void RefreshCams() {
+    
+    watcher =
+        NetworkTableInstance.getDefault().getTable("TheWatcher");
+
+    sauron =
+        NetworkTableInstance.getDefault().getTable("EyeOfSauron");
+   }
+
 }
 //       _ _,---._
 //    ,-','       `-.___

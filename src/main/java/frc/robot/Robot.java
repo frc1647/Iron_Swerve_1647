@@ -9,12 +9,14 @@ package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.HttpCamera;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Subsystems.Camera;
 
 
 /**
@@ -46,6 +48,8 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
 
 
+    Camera.RefreshCams();
+
     SmartDashboard.putData(CommandScheduler.getInstance());
     HttpCamera cameraWatcher = new HttpCamera(
             "TheWatcher",
@@ -54,15 +58,17 @@ public class Robot extends TimedRobot {
     cameraWatcher.setResolution(320, 240);
     cameraWatcher.setFPS(30);
 
+    /* 
     HttpCamera cameraSauron = new HttpCamera(
             "EyeOfSauron",
             "http://limelight-sauron.local:5800/stream.mjpg"
         );
     cameraSauron.setResolution(320, 240);
     cameraSauron.setFPS(30);
+*/
 
     CameraServer.startAutomaticCapture(cameraWatcher);
-    CameraServer.startAutomaticCapture(cameraSauron);
+    //CameraServer.startAutomaticCapture(cameraSauron);
 
     // Used to track usage of Kitbot code, please do not remove.
     
@@ -88,6 +94,8 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods. This must be called from the
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
+    SmartDashboard.putNumber("Sauron", LimelightHelpers.getTY("EyeOfSauron"));
+
     CommandScheduler.getInstance().run();
   }
 
@@ -110,7 +118,7 @@ public class Robot extends TimedRobot {
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
+      CommandScheduler.getInstance().schedule(m_autonomousCommand);
     }
   }
 
