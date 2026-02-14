@@ -39,6 +39,7 @@ import frc.robot.Subsystems.CANShooterSubsystem;
 import frc.robot.Subsystems.CANTurretSubsystem;
 import frc.robot.Subsystems.CANIntakeSubsystem;
 import frc.robot.Subsystems.Camera;
+import frc.robot.Subsystems.Hopper;
 import frc.robot.AprilTags;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -61,6 +62,10 @@ public class RobotContainer {
     private final CANShooterSubsystem shooterSubsystem = new CANShooterSubsystem();
     private final CANTurretSubsystem turretSubsystem = new CANTurretSubsystem();
     private final CANIntakeSubsystem intakeSubsystem = new CANIntakeSubsystem();
+
+    // Add other components
+    private final Hopper hopper = new Hopper();
+
 
     // The driver's controller
     private final Joystick driverController = new Joystick(OperatorConstants.DRIVER_CONTROLLER_PORT);
@@ -173,21 +178,23 @@ public class RobotContainer {
 
 
 
-        turretSubsystem.setDefaultCommand(AprilTagCommands.RotateTowardsAprilTag(turretSubsystem, targetTagRight));
+        turretSubsystem.setDefaultCommand(AprilTagCommands.AimTowardsAprilTag(turretSubsystem, targetTagRight));
 
-        operatorController.rightTrigger().whileTrue(shooterSubsystem.runShooter()); // Fire
-        operatorController.leftBumper().whileTrue(AprilTagCommands.SwitchShootingMode(this)); // Change Aim Target
+        operatorController.rightTrigger().whileTrue(shooterSubsystem.runShooter()/* .alongWith(hopper.runSpindexer().alongWith(hopper.runPassage()))*/); // Fire
+        operatorController.leftBumper().onTrue(AprilTagCommands.SwitchShootingMode(this)); // Change Aim Target
         //operatorController.a().whileTrue(AprilTagCommands.GoToAprilTag(driveSubsystem, null, 0));
         operatorController.b().whileTrue(intakeSubsystem.grabBalls());
  }
 
     /**
-     * Use this to pass the autonomous command to the main {@l ink Robot} class.
-     *
+     * Use this to pass the autonomous command to the main {@link Robot} class.
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
         // An example command will be run in autonomous
+
+
+
         return Autos.exampleAuto(driveSubsystem);
     }
 

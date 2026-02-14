@@ -39,7 +39,7 @@ public class CANTurretSubsystem extends SubsystemBase {
     private final SparkMax turretMotor;
     private final RelativeEncoder turretEncoder;
     private final SparkClosedLoopController turretPID;
-    public double totalRotation = 0;
+    private double totalRotation = 0;
 
     public CANTurretSubsystem() {
         turretMotor = new SparkMax(TurretConstants.TURRET_ID, MotorType.kBrushless);
@@ -57,6 +57,10 @@ public class CANTurretSubsystem extends SubsystemBase {
 
     }
 
+    public double GetTurretAngle() {
+        return totalRotation;
+    }
+
     public void zeroTurret() {
         turretEncoder.setPosition(0);
     }
@@ -70,6 +74,7 @@ public class CANTurretSubsystem extends SubsystemBase {
         turretPID.setSetpoint(targetRotations, ControlType.kPosition);
     }
 
+    // TODO: Fix totalRotation
     public Command rotateTurret(CANTurretSubsystem turretSubsystem, double angleChange) {
         if (totalRotation + angleChange < 270 || totalRotation + angleChange > -270) { // end Rotation is within bounds
             totalRotation += angleChange;

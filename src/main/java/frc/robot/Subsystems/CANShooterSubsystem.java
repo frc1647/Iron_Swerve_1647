@@ -67,11 +67,17 @@ public class CANShooterSubsystem extends SubsystemBase {
   }
   
   public double GetRPMForDistance(double distanceIN) {
-    return 320.23162* Math.pow(distanceIN, 0.469592);    
+    return 320.23162 * Math.pow(distanceIN, 0.469592);    
   }
 
   public Command runShooter() {
-    double RPM = GetRPMForDistance(0);
+    // If there are no apriltags in sight of the Sauron camera, do not spin at all
+    double distance = Camera.sauronDistanceInches();
+    if (distance < 0) {
+      distance = 0;
+    }
+
+    double RPM = GetRPMForDistance(distance);
     return Commands.run(() -> closedLoopController.setSetpoint(GetRPMForDistance(RPM), ControlType.kVelocity), this);
   }
 }

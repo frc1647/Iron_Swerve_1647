@@ -79,6 +79,25 @@ public final class Constants {
   public static final class HopperConstants {
     // ★★★★★ TODO: Fill in this!!!!!! ★★★★★
     public static final int SPINDEXER_MOTOR_ID = -1;
+    public static final double SPINDEXER_SPEED = 0.25;
+    public static final double SPINDEXER_GEAR_RATIO = 1;
+
+
+    public static final int PASSAGE_MOTOR_UPPER_ID = -10;
+    public static final int PASSAGE_MOTOR_LOWER_ID = -100;
+    public static final double PASSAGE_SPEED = 0.05;
+  }
+
+  public static final class AutoConstants {
+    // TODO
+    public static final double TARGET_INCHES_FROM_TAG = 24;
+    public static final double TURN_STRENGTH = 0.04; // 0 - 1, how strong the drive-to-apriltag command turns
+    public static final double DRIVE_STRENGTH = 0.03;
+
+    public static final double DISTANCE_TOLERANCE = 2.0; // Inches
+    public static final double ANGLE_TOLERANCE = 2.0; // Degrees
+
+    public static final double AUTO_MAX_SPEED = 0.4; // 0 - 1
   }
 
   public static final class AprilTagIDs {
@@ -172,9 +191,5 @@ public final class Constants {
 
 
     
-  }
-
-  public static Command DontDoAnythingStayStillCommand() {
-    return null;
   }
 }

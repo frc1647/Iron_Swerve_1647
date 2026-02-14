@@ -24,7 +24,7 @@ public final class Autos {
     
     public static Command AutoOne(CANTurretSubsystem turretSubsystem, CANDriveSubsystem driveTrain, CANShooterSubsystem shooterSubsystem) {
         return new RunCommand(()-> driveTrain.driveTankII(1, 1), driveTrain).withTimeout(2)
-        .andThen(AprilTagCommands.RotateTowardsAprilTag(turretSubsystem, AprilTags.homeHubBackLeftID))
+        .andThen(AprilTagCommands.AimTowardsAprilTag(turretSubsystem, AprilTags.homeHubBackLeftID))
         .andThen(new RunCommand(() -> shooterSubsystem.runShooter(), shooterSubsystem)).withTimeout(2)
         .andThen(new RunCommand(()-> driveTrain.driveTankII(1, 1), driveTrain).withTimeout(2));
     }
