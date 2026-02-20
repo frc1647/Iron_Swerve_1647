@@ -116,8 +116,8 @@ public class RobotContainer {
         // Set the options to show up in the Dashboard for selecting auto modes. If you
         // add additional auto modes you can add additional lines here with
         autoChooser.addOption("Auto 1", Autos.AutoOne(turretSubsystem, driveSubsystem, shooterSubsystem));        
-        autoChooser.addOption("Auto 2", Autos.AutoTwo());
-        autoChooser.addOption("Auto 3", Autos.AutoThree());
+        autoChooser.addOption("Auto 2", Autos.AutoTwo(turretSubsystem, driveSubsystem, shooterSubsystem));
+        autoChooser.addOption("Auto 3", Autos.AutoThree(turretSubsystem, driveSubsystem, shooterSubsystem));
 
         autoChooser.setDefaultOption("Auto 1", Autos.AutoOne(turretSubsystem, driveSubsystem, shooterSubsystem));
 

@@ -55,6 +55,7 @@ public final class Constants {
     public static final int SHOOTER_ID = 22;
     public static final double SHOOTER_SPEED = 0.6;
     public static final int SHOOTER_MOTOR_CURRENT_LIMIT = 45;
+    public static final double DEFAULT_SHOOTING_DISTANCE = 91.055;
   }
 
   public static final class TurretConstants {

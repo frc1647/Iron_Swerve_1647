@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.Subsystems.*;
 import frc.robot.AprilTags;
 import frc.robot.Commands.AprilTagCommands;
+import frc.robot.Commands.AprilTagCommands.DriveToAprilTag;
 
 public final class Autos {
 
@@ -29,18 +30,20 @@ public final class Autos {
         .andThen(new RunCommand(()-> driveTrain.driveTankII(1, 1), driveTrain).withTimeout(2));
     }
 
-    // 
-    public static Command AutoTwo() {
-        return new RunCommand(() -> {
-            // Do thing!
-        });
+    
+    // go to player station to retrieve balls
+    public static Command AutoTwo(CANTurretSubsystem turretSubsystem, CANDriveSubsystem driveTrain, CANShooterSubsystem shooterSubsystem) {
+        return AprilTagCommands.AimTowardsAprilTag(turretSubsystem, AprilTags.homeHubBackLeftID)
+        .andThen(shooterSubsystem.runShooter()).withTimeout(2)
+        .andThen(new AprilTagCommands.DriveToAprilTag(driveTrain, turretSubsystem, AprilTags.homeOutpostLeftID))
+        .andThen(Commands.none().withTimeout(3));
     }
 
-
-    public static Command AutoThree() {
-        return new RunCommand(() -> {
-            // Do thing!
-        });
+// Go to center pick up balls and pass to human player station
+    public static Command AutoThree(CANTurretSubsystem turretSubsystem, CANDriveSubsystem driveTrain, CANShooterSubsystem shooterSubsystem) {
+        return new AprilTagCommands.DriveToAprilTag(driveTrain, turretSubsystem, AprilTags.awayHubFrontLeftID)
+        .andThen(AprilTagCommands.AimTowardsAprilTag(turretSubsystem, AprilTags.homeOutpostLeftID))
+        .andThen(shooterSubsystem.runShooter()).withTimeout(2);
     }
     
 }

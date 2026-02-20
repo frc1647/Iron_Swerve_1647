@@ -78,15 +78,14 @@ public class CANTurretSubsystem extends SubsystemBase {
             double rotation = GetTurretAngle();
             double goalRotation = rotation + angleChange;
 
-
             if (goalRotation < TurretConstants.TURRET_AIMING_LIMIT_MAX && goalRotation > TurretConstants.TURRET_AIMING_LIMIT_MIN) { 
-                // end Rotation is within bounds, its valid so let it rotate normally
+                // end Rotation is within bounds, it is valid so let it rotate normally
                 turretSubsystem.rotateByDegrees(angleChange);
             } else if (goalRotation >= TurretConstants.TURRET_AIMING_LIMIT_MAX) { 
                 // end Rotation is outside of bounds, too large
-                turretSubsystem.rotateByDegrees((goalRotation - TurretConstants.TURRET_AIMING_LIMIT_MAX) + TurretConstants.TURRET_AIMING_LIMIT_MIN);
+                turretSubsystem.rotateByDegrees(-360 + goalRotation - rotation);
             } else {  // end Rotation is outside of bounds, too small
-                turretSubsystem.rotateByDegrees((goalRotation - TurretConstants.TURRET_AIMING_LIMIT_MIN) + TurretConstants.TURRET_AIMING_LIMIT_MAX);
+                turretSubsystem.rotateByDegrees(360 + goalRotation - rotation);
             }
         }, 
         turretSubsystem

@@ -38,7 +38,7 @@ public final class AprilTagCommands {
         });
     }
 
-    public class DriveToAprilTag extends Command {
+    public static class DriveToAprilTag extends Command {
 
         // TODO: Rest position of Turret?
         private final CANDriveSubsystem m_drive;
@@ -98,10 +98,12 @@ public final class AprilTagCommands {
         public boolean isFinished() {
             if (!Camera.sauronSeesTag(m_targetTagID)) return false;
 
-            double tx = Camera.sauronHorizontal();
+            double turretOffsetAngle = m_turretSubsystem.GetTurretAngle();
+            double cameraAngle = Camera.sauronHorizontal();
+            double robotAngleToTarget = cameraAngle + turretOffsetAngle;
             double distance = Camera.sauronDistanceInches();
 
-            return distance > 0 && Math.abs(distance - kTargetDistanceIn) < kDistanceTolIn && Math.abs(tx) < kAngleTolDeg;
+            return distance > 0 && Math.abs(distance - kTargetDistanceIn) < kDistanceTolIn && Math.abs(robotAngleToTarget) < kAngleTolDeg;  
         }
 
         @Override

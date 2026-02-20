@@ -78,9 +78,8 @@ public class CANShooterSubsystem extends SubsystemBase {
     // If there are no apriltags in sight of the Sauron camera, do not spin at all
     double distance = Camera.sauronDistanceInches();
     if (distance < 0) {
-      distance = 0;
+      distance = ShooterConstants.DEFAULT_SHOOTING_DISTANCE;
     }
-
     double RPM = GetRPMForDistance(distance);
     closedLoopController.setSetpoint(RPM, ControlType.kVelocity);
   }
