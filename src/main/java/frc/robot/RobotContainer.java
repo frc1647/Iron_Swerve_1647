@@ -69,10 +69,10 @@ public class RobotContainer {
 
 
     // The driver's controller
-    private final Joystick driverController = new Joystick(OperatorConstants.DRIVER_CONTROLLER_PORT);
+    public static final Joystick driverController = new Joystick(OperatorConstants.DRIVER_CONTROLLER_PORT);
 
     // The operator's controller
-    private final CommandXboxController operatorController = new CommandXboxController(
+    public static final CommandXboxController operatorController = new CommandXboxController(
             OperatorConstants.OPERATOR_CONTROLLER_PORT);
 
     // The autonomous chooser
@@ -187,6 +187,7 @@ public class RobotContainer {
 
         turretSubsystem.setDefaultCommand(AprilTagCommands.AimTowardsAprilTag(turretSubsystem, targetTagRight));
 
+/*
         operatorController.rightTrigger().whileTrue(Commands.run(() -> {
             shooterSubsystem.runShooterDirect();
             hopper.runPassageDirect();
@@ -195,7 +196,30 @@ public class RobotContainer {
             shooterSubsystem.stopShooter();
             hopper.stopPassage();
             hopper.stopSpindexer();
-        })); // Fire
+            }
+        )); // Fire
+*/
+        operatorController.rightTrigger().whileTrue(Commands.run
+        (
+            () -> 
+                shooterSubsystem.runShooterDirect())
+                .withTimeout(0.25)
+                .andThen(() -> hopper.runUpperPassageDirect())
+                .withTimeout(0.25)
+                .andThen(() -> hopper.runLowerPassageDirect())
+                .withTimeout(0.25)
+                .andThen(() -> hopper.runSpindexerDirect())
+                .withTimeout(0.25)
+                .finallyDo(() -> {
+                    shooterSubsystem.stopShooter();
+                    hopper.stopPassage();
+                    hopper.stopSpindexer();
+                }
+            )
+        );
+
+
+
         operatorController.leftBumper().onTrue(AprilTagCommands.SwitchShootingMode(this)); // Change Aim Target
         //operatorController.a().whileTrue(AprilTagCommands.GoToAprilTag(driveSubsystem, null, 0));
         operatorController.b().whileTrue(intakeSubsystem.grabBalls());

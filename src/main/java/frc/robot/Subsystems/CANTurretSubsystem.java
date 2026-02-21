@@ -4,7 +4,7 @@ import frc.robot.Constants.TurretConstants;
 import static edu.wpi.first.units.Units.*;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import java.util.function.DoubleSupplier;
-import com.revrobotics.spark.SparkMax;
+
 import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -29,9 +29,7 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import com.revrobotics.PersistMode;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.ResetMode;
-import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.*;
-import com.revrobotics.spark.SparkBase;
 import com.revrobotics.spark.SparkBase.ControlType;
 
 public class CANTurretSubsystem extends SubsystemBase {
@@ -39,6 +37,7 @@ public class CANTurretSubsystem extends SubsystemBase {
     private final SparkMax turretMotor;
     private final RelativeEncoder turretEncoder;
     private final SparkClosedLoopController turretPID;
+    private SparkMaxConfig motorConfig;
 
     public CANTurretSubsystem() {
         turretMotor = new SparkMax(TurretConstants.TURRET_ID, MotorType.kBrushless);
@@ -47,12 +46,29 @@ public class CANTurretSubsystem extends SubsystemBase {
         turretEncoder = turretMotor.getEncoder();
         turretPID = turretMotor.getClosedLoopController();
 
-        // Create and apply SparkMax configuration
-        SparkMaxConfig config = new SparkMaxConfig();
-        config.voltageCompensation(12);
-        config.smartCurrentLimit(TurretConstants.TURRET_MOTOR_CURRENT_LIMIT);
+        motorConfig = new SparkMaxConfig();
 
-        turretMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        motorConfig.closedLoop
+        .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+        // Set PID values for position control. We don't need to pass a closed loop
+        // slot, as it will default to slot 0.
+        .p(0.192)
+        .i(0.0002)
+        .d(0.4)
+        .outputRange(-1, 1)
+        // Set PID values for velocity control in slot 1
+        .p(0.0001, ClosedLoopSlot.kSlot1)
+        .i(0, ClosedLoopSlot.kSlot1)
+        .d(0, ClosedLoopSlot.kSlot1)
+        .outputRange(-1, 1, ClosedLoopSlot.kSlot1)
+        .feedForward
+          // kV is now in Volts, so we multiply by the nominal voltage (12V)
+          .kV(12.0 / 5767, ClosedLoopSlot.kSlot1);
+          
+        motorConfig.voltageCompensation(12);
+        motorConfig.smartCurrentLimit(TurretConstants.TURRET_MOTOR_CURRENT_LIMIT);
+
+        turretMotor.configure(motorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     }
 

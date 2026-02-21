@@ -9,6 +9,8 @@ import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
+import com.revrobotics.spark.SparkFlex;
+
 import java.util.function.DoubleSupplier;
 
 import com.revrobotics.spark.SparkMax;

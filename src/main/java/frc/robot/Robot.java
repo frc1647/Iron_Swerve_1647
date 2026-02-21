@@ -9,7 +9,12 @@ package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.HttpCamera;
+import edu.wpi.first.cscore.MjpegServer;
+import edu.wpi.first.cscore.VideoSink;
+import edu.wpi.first.cscore.VideoSource;
 import edu.wpi.first.hal.HAL;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -32,6 +37,8 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
+  private long lastPrintTime = 0;
+  private final long interval = 1000; // secs
   
 
   /**
@@ -39,39 +46,21 @@ public class Robot extends TimedRobot {
    * for any
    * initialization code.
    */
-  @Override
-  public void robotInit() {
-    // Instantiate our RobotContainer. This will perform all our button bindings,
-    // and put our
-    // autonomous chooser on the dashboard.
+ @Override
+public void robotInit() {
     m_robotContainer = new RobotContainer();
-
-    Camera.RefreshCams();
-
+    //Camera.RefreshCams();
     SmartDashboard.putData(CommandScheduler.getInstance());
-    HttpCamera cameraWatcher = new HttpCamera(
-            "TheWatcher",
-            "http://10.16.47.11:5800/stream.mjpg"
-        );
-    cameraWatcher.setResolution(320, 240);
-    cameraWatcher.setFPS(30);
-
     
     HttpCamera cameraSauron = new HttpCamera(
             "EyeOfSauron",
-            "http://10.16.47.12:5800/stream.mjpg"
+            "http://limelight-sauron.local:5800"
         );
-    cameraSauron.setResolution(320, 240);
-    cameraSauron.setFPS(30);
-
-    CameraServer.startAutomaticCapture(); // test webcam
-    CameraServer.startAutomaticCapture(cameraWatcher);
-    CameraServer.startAutomaticCapture(cameraSauron);
-
-    // Used to track usage of Kitbot code, please do not remove.
     
+    CameraServer.startAutomaticCapture(cameraSauron);
+  
     HAL.report(tResourceType.kResourceType_Framework, 10);
-  }
+}
 
   /**
    * This function is called every 20 ms, no matter the mode. Use this for items
@@ -93,6 +82,11 @@ public class Robot extends TimedRobot {
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
     SmartDashboard.putNumber("Sauron", LimelightHelpers.getTY("EyeOfSauron"));
+    SmartDashboard.putNumber("test", Camera.sauronHorizontal());
+    SmartDashboard.putNumber("Turret ID", Camera.sauronTagID());
+
+    SmartDashboard.putNumber("Joystick", RobotContainer.driverController.getRawAxis(1));
+
 
     CommandScheduler.getInstance().run();
   }
@@ -131,6 +125,12 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
+
+
+    
+
+
+
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
@@ -139,6 +139,19 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
+    long currentTime = System.currentTimeMillis();
+
+    if (currentTime - lastPrintTime >= interval) {
+        lastPrintTime = currentTime;
+
+    System.out.println("Watcher tv: " + Camera.watcherHasTag());
+    System.out.println("Watcher tid: " + Camera.watcherTagID());
+    System.out.println("Watcher tx: " + Camera.watcherHorizontal());
+    
+    System.out.println("Sauron tv: " + Camera.sauronHasTag());
+    System.out.println("Sauron tid: " + Camera.sauronTagID());
+    System.out.println("Sauron tx: " + Camera.sauronHorizontal());
+    }
   }
 
   @Override

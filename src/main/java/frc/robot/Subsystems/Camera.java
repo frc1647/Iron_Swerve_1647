@@ -110,16 +110,6 @@ public class Camera {
     */
     public static double watcherDistanceInches() {
         return getDistanceToAprilTag(watcherHasTag(), watcherVertical(), watcherTagID());
-
-/* 
-
-        /* if (!watcherHasTag()) return -1;
-
-        double ty = watcherVertical();
-        double angleDeg = CameraConstants.LIMELIGHT_MOUNT_ANGLE_DEG + ty;
-        double angleRad = Math.toRadians(angleDeg);
-
-        return (CameraConstants.TAG_HEIGHT_IN - CameraConstants.LIMELIGHT_LENS_HEIGHT_IN) / Math.tan(angleRad); */
     }
 /**
     * Gets the distance in inches from the sauron camera to the detected tag
@@ -127,14 +117,6 @@ public class Camera {
     */
     public static double sauronDistanceInches() {
         return getDistanceToAprilTag(sauronHasTag(), sauronVertical(), sauronTagID());
-    
-        /*if (!sauronHasTag()) return -1;
-
-        double ty = sauronVertical();
-        double angleDeg = CameraConstants.LIMELIGHT_MOUNT_ANGLE_DEG + ty;
-        double angleRad = Math.toRadians(angleDeg);
-
-        return (CameraConstants.TAG_HEIGHT_IN - CameraConstants.LIMELIGHT_LENS_HEIGHT_IN) / Math.tan(angleRad); */
     }
 
 
@@ -173,16 +155,6 @@ public class Camera {
 
         return (AprilTagIDs.getAprilTagHeight(tagID) - CameraConstants.LIMELIGHT_LENS_HEIGHT_IN) / Math.tan(angleRad);
  
-   }
-
-
-   public static void RefreshCams() {
-    
-    watcher =
-        NetworkTableInstance.getDefault().getTable("TheWatcher");
-
-    sauron =
-        NetworkTableInstance.getDefault().getTable("EyeOfSauron");
    }
 
 }

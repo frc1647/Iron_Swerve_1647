@@ -1,62 +1,62 @@
 {
   "version": 1.0,
-  "grid_size": 128,
+  "grid_size": 32,
   "tabs": [
     {
       "name": "Teleoperated",
       "grid_layout": {
-        "layouts": [
-          {
-            "title": "List Layout",
-            "x": 0.0,
-            "y": 128.0,
-            "width": 256.0,
-            "height": 256.0,
-            "type": "List Layout",
-            "properties": {
-              "label_position": "TOP"
-            },
-            "children": []
-          }
-        ],
+        "layouts": [],
         "containers": [
           {
-            "title": "TheWatcher",
-            "x": 512.0,
-            "y": 128.0,
-            "width": 256.0,
-            "height": 256.0,
-            "type": "Camera Stream",
-            "properties": {
-              "topic": "/CameraPublisher/TheWatcher",
-              "period": 0.06,
-              "rotation_turns": 0
-            }
-          },
-          {
-            "title": "Sauron",
-            "x": 512.0,
-            "y": 384.0,
-            "width": 256.0,
-            "height": 256.0,
-            "type": "Camera Stream",
-            "properties": {
-              "topic": "/CameraPublisher/EyeOfSauron",
-              "period": 0.06,
-              "rotation_turns": 0
-            }
-          },
-          {
             "title": "Auto Selector",
-            "x": 768.0,
-            "y": 128.0,
-            "width": 384.0,
-            "height": 256.0,
-            "type": "ComboBox Chooser",
+            "x": 480.0,
+            "y": 0.0,
+            "width": 256.0,
+            "height": 160.0,
+            "type": "Split Button Chooser",
             "properties": {
               "topic": "/SmartDashboard/Auto Selector",
+              "period": 0.06
+            }
+          },
+          {
+            "title": "limelight-sauron",
+            "x": 0.0,
+            "y": 0.0,
+            "width": 480.0,
+            "height": 480.0,
+            "type": "Camera Stream",
+            "properties": {
+              "topic": "/CameraPublisher/limelight-sauron",
               "period": 0.06,
-              "sort_options": false
+              "rotation_turns": 0
+            }
+          },
+          {
+            "title": "The Watcher",
+            "x": 736.0,
+            "y": 0.0,
+            "width": 800.0,
+            "height": 544.0,
+            "type": "Camera Stream",
+            "properties": {
+              "topic": "/CameraPublisher/limelight-watcher",
+              "period": 0.06,
+              "rotation_turns": 0
+            }
+          },
+          {
+            "title": "Turret ID",
+            "x": 480.0,
+            "y": 160.0,
+            "width": 96.0,
+            "height": 96.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/SmartDashboard/Turret ID",
+              "period": 0.06,
+              "data_type": "double",
+              "show_submit_button": false
             }
           }
         ]

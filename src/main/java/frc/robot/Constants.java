@@ -82,7 +82,7 @@ public final class Constants {
 
   public static final class HopperConstants {
     // TODO: Verify these CAN IDs match actual hardware!
-    public static final int SPINDEXER_MOTOR_ID = 30; // TODO: guess — confirm actual CAN ID
+    public static final int SPINDEXER_MOTOR_ID = 6;
     public static final double SPINDEXER_SPEED = 0.25;
     public static final double SPINDEXER_GEAR_RATIO = 1;
 
@@ -184,7 +184,7 @@ public final class Constants {
     * @return double the height in inches of the tag
     */
     public static double getAprilTagHeight(int id) {
-      switch (id) { // TODO: implement all the heights
+      switch (id) { // TODO: Check if these are right
 
         // ★ HUB TAGS
         case RED_HUB_FRONT_LEFT_TAG_ID:
@@ -203,14 +203,14 @@ public final class Constants {
         case BLUE_HUB_RIGHTSIDE_RIGHT_TAG_ID:
         case BLUE_HUB_BACK_LEFT_TAG_ID:
         case BLUE_HUB_BACK_RIGHT_TAG_ID:
-          return 98.25;
+          return 44.25;
 
         // ★ OUTPOST
         case RED_OUTPOST_LEFT_TAG_ID:
         case RED_OUTPOST_RIGHT_TAG_ID:
         case BLUE_OUTPOST_LEFT_TAG_ID:
         case BLUE_OUTPOST_RIGHT_TAG_ID:
-          return 72.0;
+          return 21.75;
 
         default:
           return -1;
