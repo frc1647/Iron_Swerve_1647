@@ -242,19 +242,7 @@ public class RobotContainer {
     }
 
     private void onZoneChanged() {
-
-        /*
-         * TODO: update this for our setup
-         * if (isInAllianceZone()) {
-         * superstructure.setAimPoint(Constants.AimPoints.getAllianceHubPosition());
-         * } else {
-         * if (isOnAllianceOutpostSide()) {
-         * superstructure.setAimPoint(Constants.AimPoints.getAllianceOutpostPosition());
-         * } else {
-         * superstructure.setAimPoint(Constants.AimPoints.getAllianceFarSidePosition());
-         * }
-         * }
-         */
+        
     }
 
     private void onAllianceChanged(Alliance alliance) {

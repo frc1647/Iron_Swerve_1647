@@ -65,13 +65,12 @@ public final class Constants {
 
     public static final double TURRET_AIMING_LIMIT_MIN = -270;
     public static final double TURRET_AIMING_LIMIT_MAX = 270;
-
   }
 
   public static final class CameraConstants {
     // ★★★★★ TODO: Fill in these values ★★★★★
-    public static final double LIMELIGHT_LENS_HEIGHT_IN = 0.0;
-    public static final double LIMELIGHT_MOUNT_ANGLE_DEG = 0.0;
+    public static final double LIMELIGHT_LENS_HEIGHT_IN = 22.5;
+    public static final double LIMELIGHT_MOUNT_ANGLE_DEG = 114.125;
   }
 
   public static final class IntakeConstants {
