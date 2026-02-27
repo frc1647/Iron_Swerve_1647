@@ -215,6 +215,41 @@ public class RobotContainer {
                 })
         );
 
+/* TODO: This is claude but is this better than what we have?
+        operatorController.rightTrigger().whileTrue(
+    Commands.sequence(
+        // Stage 1: Shooter only (0.25s)
+        Commands.run(() -> shooterSubsystem.runShooterDirect())
+            .withTimeout(0.25),
+        
+        // Stage 2: Shooter + Upper passage (0.25s)
+        Commands.run(() -> {
+            shooterSubsystem.runShooterDirect();
+            hopper.runUpperPassageDirect();
+        }).withTimeout(0.25),
+        
+        // Stage 3: Shooter + Upper + Lower (0.25s)
+        Commands.run(() -> {
+            shooterSubsystem.runShooterDirect();
+            hopper.runUpperPassageDirect();
+            hopper.runLowerPassageDirect();
+        }).withTimeout(0.25),
+        
+        // Stage 4: Everything running (0.25s)
+        Commands.run(() -> {
+            shooterSubsystem.runShooterDirect();
+            hopper.runUpperPassageDirect();
+            hopper.runLowerPassageDirect();
+            hopper.runSpindexerDirect();
+        }).withTimeout(0.25)
+    ).finallyDo((interrupted) -> {
+        // Stop everything when done or interrupted
+        shooterSubsystem.stopShooter();
+        hopper.stopPassage();
+        hopper.stopSpindexer();
+    })
+);
+*/
         operatorController.leftTrigger().and(operatorController.a()).whileTrue(Commands.run(() -> turretSubsystem.rotateByDegrees(operatorController.getLeftTriggerAxis()*360)));
 
         operatorController.leftBumper().onTrue(AprilTagCommands.SwitchShootingMode(this)); // Change Aim Target
