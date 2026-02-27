@@ -45,10 +45,6 @@ public class CANShooterSubsystem extends SubsystemBase {
   private final SparkClosedLoopController closedLoopController;
   private final RelativeEncoder encoder;
 
-  private static final double kP = 0.0001;
-  private static final double kI = 0.0;
-  private static final double kD = 0.0;
-  private static final double kFF = 0.000156;
 
   public CANShooterSubsystem() {
     shooterMotor = new SparkMax(ShooterConstants.SHOOTER_ID, MotorType.kBrushless);
@@ -60,21 +56,22 @@ public class CANShooterSubsystem extends SubsystemBase {
 
     config.closedLoop
         .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-        // Set PID values for position control. We don't need to pass a closed loop
-        // slot, as it will default to slot 0.
         .p(0.001)
         .i(0.0)
         .d(0.004)
         .outputRange(-1, 1)
-        //.FF(0.000175)
-        // Set PID values for velocity control in slot 1
+
         .p(0.0001, ClosedLoopSlot.kSlot1)
-        .i(0, ClosedLoopSlot.kSlot1)
-        .d(0, ClosedLoopSlot.kSlot1)
+        .i(0.0, ClosedLoopSlot.kSlot1)
+        .d(0.004, ClosedLoopSlot.kSlot1)
         .outputRange(-1, 1, ClosedLoopSlot.kSlot1)
+
         .feedForward
-          // kV is now in Volts, so we multiply by the nominal voltage (12V)
-          .kV(12.0 / 5767, ClosedLoopSlot.kSlot1);
+          .kV(0.000175, ClosedLoopSlot.kSlot0)
+          .kV(0.000175, ClosedLoopSlot.kSlot1);
+
+    config.voltageCompensation(12);
+    config.smartCurrentLimit(ShooterConstants.SHOOTER_MOTOR_CURRENT_LIMIT);
 
     shooterMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }

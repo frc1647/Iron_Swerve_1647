@@ -50,26 +50,17 @@ public class CANTurretSubsystem extends SubsystemBase {
 
         motorConfig.closedLoop
         .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-        // Set PID values for position control. We don't need to pass a closed loop
-        // slot, as it will default to slot 0.
         .p(0.192)
         .i(0.0002)
         .d(0.4)
-        .outputRange(-1, 1)
-        // Set PID values for velocity control in slot 1
-        .p(0.0001, ClosedLoopSlot.kSlot1)
-        .i(0, ClosedLoopSlot.kSlot1)
-        .d(0, ClosedLoopSlot.kSlot1)
-        .outputRange(-1, 1, ClosedLoopSlot.kSlot1)
+        .outputRange(-1.3, 1.3)
         .feedForward
-          // kV is now in Volts, so we multiply by the nominal voltage (12V)
-          .kV(12.0 / 5767, ClosedLoopSlot.kSlot1);
+          .kV(0.001, ClosedLoopSlot.kSlot0);
           
         motorConfig.voltageCompensation(12);
         motorConfig.smartCurrentLimit(TurretConstants.TURRET_MOTOR_CURRENT_LIMIT);
 
         turretMotor.configure(motorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-
     }
 
     public double GetTurretAngle() {

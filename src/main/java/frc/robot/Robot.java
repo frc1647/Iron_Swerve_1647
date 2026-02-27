@@ -36,9 +36,6 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
-
-  private long lastPrintTime = 0;
-  private final long interval = 1000; // secs
   
 
   /**
@@ -58,7 +55,15 @@ public void robotInit() {
         );
     
     CameraServer.startAutomaticCapture(cameraSauron);
-  
+
+    HttpCamera cameraWatcher = new HttpCamera(
+            "TheWatcher",
+            "http://limelight-watcher.local:5800"
+        );
+    
+    CameraServer.startAutomaticCapture(cameraWatcher);
+
+    
     HAL.report(tResourceType.kResourceType_Framework, 10);
 }
 
@@ -81,10 +86,7 @@ public void robotInit() {
     // and running subsystem periodic() methods. This must be called from the
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
-    SmartDashboard.putNumber("Sauron", LimelightHelpers.getTY("EyeOfSauron"));
-    SmartDashboard.putNumber("test", Camera.sauronHorizontal());
     SmartDashboard.putNumber("Turret ID", Camera.sauronTagID());
-    SmartDashboard.putNumber("Right Stick Y", RobotContainer.driverController.getRawAxis(5));
 
     SmartDashboard.putNumber("Joystick", RobotContainer.driverController.getRawAxis(1));
 
@@ -140,10 +142,9 @@ public void robotInit() {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    long currentTime = System.currentTimeMillis();
-    if (currentTime - lastPrintTime >= interval) {
-        lastPrintTime = currentTime;
 
+
+/*
     System.out.println("Watcher tv: " + Camera.watcherHasTag());
     System.out.println("Watcher tid: " + Camera.watcherTagID());
     System.out.println("Watcher tx: " + Camera.watcherHorizontal());
@@ -151,7 +152,7 @@ public void robotInit() {
     System.out.println("Sauron tv: " + Camera.sauronHasTag());
     System.out.println("Sauron tid: " + Camera.sauronTagID());
     System.out.println("Sauron tx: " + Camera.sauronHorizontal());
-    }
+  */
   }
 
   @Override
