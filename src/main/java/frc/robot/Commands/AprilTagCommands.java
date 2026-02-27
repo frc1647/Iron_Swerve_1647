@@ -20,7 +20,10 @@ public final class AprilTagCommands {
     public static Command AimTowardsAprilTag(CANTurretSubsystem turretSubsystem, int id) {
         return turretSubsystem.run(() -> {
             if (Camera.sauronSeesTag(id)) {
-                turretSubsystem.rotateByDegrees(Camera.sauronHorizontal());
+                turretSubsystem.rotateTurret(turretSubsystem, Camera.sauronHorizontal());
+            }
+            else {
+                turretSubsystem.rotateTurret(turretSubsystem, 90);
             }
         });
     }

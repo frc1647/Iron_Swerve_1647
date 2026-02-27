@@ -188,43 +188,34 @@ public class RobotContainer {
 
         turretSubsystem.setDefaultCommand(AprilTagCommands.AimTowardsAprilTag(turretSubsystem, targetTagRight));
 
-/*
-        operatorController.rightTrigger().whileTrue(Commands.run(() -> {
-            shooterSubsystem.runShooterDirect();
-            hopper.runPassageDirect();
-            hopper.runSpindexerDirect();
-        }, shooterSubsystem, hopper).finallyDo(() -> {
-            shooterSubsystem.stopShooter();
-            hopper.stopPassage();
-            hopper.stopSpindexer();
-            }
-        )); // Fire
-*/
         operatorController.rightTrigger().whileTrue(Commands.run // I changed this because I didn't think it would work
             (() -> shooterSubsystem.runShooterDirect())
             .withTimeout(0.25)
-            .andThen(() -> {shooterSubsystem.runShooterDirect();
-                            hopper.runUpperPassageDirect();
-                            })
+            .andThen(() -> {
+                shooterSubsystem.runShooterDirect();
+                hopper.runUpperPassageDirect();
+                })
             .withTimeout(0.25)
-            .andThen(() -> {shooterSubsystem.runShooterDirect();
-                            hopper.runUpperPassageDirect();
-                            hopper.runLowerPassageDirect();
-                            })
+            .andThen(() -> {
+                shooterSubsystem.runShooterDirect();
+                hopper.runUpperPassageDirect();
+                hopper.runLowerPassageDirect();
+                })
             .withTimeout(0.25)
-            .andThen(() -> {shooterSubsystem.runShooterDirect();
-                            hopper.runUpperPassageDirect();
-                            hopper.runLowerPassageDirect();
-                            hopper.runSpindexerDirect();
-                            })
+            .andThen(() -> {
+                shooterSubsystem.runShooterDirect();
+                hopper.runUpperPassageDirect();
+                hopper.runLowerPassageDirect();
+                hopper.runSpindexerDirect();
+                })
             .finallyDo(() -> {
-                            shooterSubsystem.stopShooter();
-                            hopper.stopPassage();
-                            hopper.stopSpindexer();
-                            })
+                shooterSubsystem.stopShooter();
+                hopper.stopPassage();
+                hopper.stopSpindexer();
+                })
         );
 
-        operatorController.leftTrigger().whileTrue(Commands.run(() -> turretSubsystem.rotateByDegrees(operatorController.getLeftTriggerAxis()*360)));
+        operatorController.leftTrigger().and(operatorController.a()).whileTrue(Commands.run(() -> turretSubsystem.rotateByDegrees(operatorController.getLeftTriggerAxis()*360)));
 
         operatorController.leftBumper().onTrue(AprilTagCommands.SwitchShootingMode(this)); // Change Aim Target
         //operatorController.a().whileTrue(AprilTagCommands.GoToAprilTag(driveSubsystem, null, 0));

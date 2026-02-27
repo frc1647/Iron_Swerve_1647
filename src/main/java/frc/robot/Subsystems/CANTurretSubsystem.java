@@ -80,6 +80,10 @@ public class CANTurretSubsystem extends SubsystemBase {
         turretEncoder.setPosition(0);
     }
 
+    /**
+     * Rotates the turret by a set number of degrees
+     * @param angleChangeDegrees Number of degrees to rotate by
+     */
     public void rotateByDegrees(double angleChangeDegrees) {
         double currentRotations = turretEncoder.getPosition();
         double deltaRotations = (angleChangeDegrees / 360.0) * TurretConstants.TURRET_GEAR_RATIO;
@@ -89,6 +93,11 @@ public class CANTurretSubsystem extends SubsystemBase {
         turretPID.setSetpoint(targetRotations, ControlType.kPosition);
     }
 
+    /**
+     * Rotates the turret to a specific point
+     * @param turretSubsystem The turret
+     * @param angleChange the difference between the end point and current position
+     */
     public Command rotateTurret(CANTurretSubsystem turretSubsystem, double angleChange) {
         return Commands.runOnce(() -> {
             double rotation = GetTurretAngle();
