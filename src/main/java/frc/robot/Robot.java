@@ -84,6 +84,7 @@ public void robotInit() {
     SmartDashboard.putNumber("Sauron", LimelightHelpers.getTY("EyeOfSauron"));
     SmartDashboard.putNumber("test", Camera.sauronHorizontal());
     SmartDashboard.putNumber("Turret ID", Camera.sauronTagID());
+    SmartDashboard.putNumber("Right Stick Y", RobotContainer.driverController.getRawAxis(5));
 
     SmartDashboard.putNumber("Joystick", RobotContainer.driverController.getRawAxis(1));
 
@@ -140,7 +141,6 @@ public void robotInit() {
   @Override
   public void teleopPeriodic() {
     long currentTime = System.currentTimeMillis();
-
     if (currentTime - lastPrintTime >= interval) {
         lastPrintTime = currentTime;
 

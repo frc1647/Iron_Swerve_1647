@@ -151,7 +151,8 @@ public class RobotContainer {
  *      |_|        | |  | |__/ / |   | |\ V ( (/ /| |      | \____| |_| | | | | | | ( ( | | | | ( (_| |___ |  | |        |_|  
  *                 |_|  |_____/|_|   |_| \_/ \____)_|       \______)___/|_|_|_|_|_|_|\_||_|_| |_|\____(___/   |_|             
  *                                                                                                                            
- */
+ */     
+        
 
         // Default command for driving when no button is pressed
         driveSubsystem.setDefaultCommand(
@@ -199,26 +200,31 @@ public class RobotContainer {
             }
         )); // Fire
 */
-        operatorController.rightTrigger().whileTrue(Commands.run
-        (
-            () -> 
-                shooterSubsystem.runShooterDirect())
-                .withTimeout(0.25)
-                .andThen(() -> hopper.runUpperPassageDirect())
-                .withTimeout(0.25)
-                .andThen(() -> hopper.runLowerPassageDirect())
-                .withTimeout(0.25)
-                .andThen(() -> hopper.runSpindexerDirect())
-                .withTimeout(0.25)
-                .finallyDo(() -> {
-                    shooterSubsystem.stopShooter();
-                    hopper.stopPassage();
-                    hopper.stopSpindexer();
-                }
-            )
+        operatorController.rightTrigger().whileTrue(Commands.run // I changed this because I didn't think it would work
+            (() -> shooterSubsystem.runShooterDirect())
+            .withTimeout(0.25)
+            .andThen(() -> {shooterSubsystem.runShooterDirect();
+                            hopper.runUpperPassageDirect();
+                            })
+            .withTimeout(0.25)
+            .andThen(() -> {shooterSubsystem.runShooterDirect();
+                            hopper.runUpperPassageDirect();
+                            hopper.runLowerPassageDirect();
+                            })
+            .withTimeout(0.25)
+            .andThen(() -> {shooterSubsystem.runShooterDirect();
+                            hopper.runUpperPassageDirect();
+                            hopper.runLowerPassageDirect();
+                            hopper.runSpindexerDirect();
+                            })
+            .finallyDo(() -> {
+                            shooterSubsystem.stopShooter();
+                            hopper.stopPassage();
+                            hopper.stopSpindexer();
+                            })
         );
 
-
+        operatorController.leftTrigger().whileTrue(Commands.run(() -> turretSubsystem.rotateByDegrees(operatorController.getLeftTriggerAxis()*360)));
 
         operatorController.leftBumper().onTrue(AprilTagCommands.SwitchShootingMode(this)); // Change Aim Target
         //operatorController.a().whileTrue(AprilTagCommands.GoToAprilTag(driveSubsystem, null, 0));
@@ -242,7 +248,7 @@ public class RobotContainer {
     }
 
     private void onZoneChanged() {
-        
+        // Do something
     }
 
     private void onAllianceChanged(Alliance alliance) {

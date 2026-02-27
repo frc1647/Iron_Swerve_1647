@@ -36,7 +36,7 @@ public final class Constants {
     // public static final int BRUSHED_LEFT_LEADER_ID = 2;
     // public static final int BRUSHED_LEFT_FOLLOWER_ID = 9;
     // public static final int BRUSHED_RIGHT_LEADER_ID = 10;
-    // public static final int BRUSHED_RIGHT_FOLLOWER_ID = 7;
+    // public static final int BRUSHwED_RIGHT_FOLLOWER_ID = 7;
     public static final int BRUSHLESS_LEFT_LEADER_ID = 15;
     public static final int BRUSHLESS_LEFT_FOLLOWER_ID = 16;
     public static final int BRUSHLESS_RIGHT_LEADER_ID = 17;
@@ -60,7 +60,7 @@ public final class Constants {
 
   public static final class TurretConstants {
     public static final int TURRET_ID = 25; //TODO set
-    public static final double TURRET_GEAR_RATIO = 1;
+    public static final double TURRET_GEAR_RATIO = 11;
     public static final int TURRET_MOTOR_CURRENT_LIMIT = 45;
 
     public static final double TURRET_AIMING_LIMIT_MIN = -270;
