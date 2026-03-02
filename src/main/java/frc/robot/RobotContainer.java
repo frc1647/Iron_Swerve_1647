@@ -16,11 +16,7 @@
  *                                                                                                                                                                                                                                       
  */
 package frc.robot;
-import java.util.List;
 
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.util.sendable.Sendable;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -30,9 +26,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.Constants.AprilTagIDs;
 import frc.robot.Commands.AprilTagCommands;
 import frc.robot.Commands.Autos;
 import frc.robot.Subsystems.CANDriveSubsystem;
@@ -42,9 +36,9 @@ import frc.robot.Subsystems.CANIntakeSubsystem;
 import frc.robot.Subsystems.Camera;
 import frc.robot.Subsystems.Hopper;
 import frc.robot.Subsystems.LEDSubsystem;
-import frc.robot.AprilTags;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import frc.robot.Constants.SpecialConstants;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -62,18 +56,15 @@ public class RobotContainer {
     private final CANShooterSubsystem shooterSubsystem = new CANShooterSubsystem();
     private final CANTurretSubsystem turretSubsystem = new CANTurretSubsystem();
     private final CANIntakeSubsystem intakeSubsystem = new CANIntakeSubsystem();
-    private final LEDSubsystem ledSubsystem = new LEDSubsystem();
-
-    // Add other components
     private final Hopper hopper = new Hopper();
-
+    private final LEDSubsystem ledSubsystem = new LEDSubsystem();
+    private final Camera camera = new Camera();
 
     // The driver's controller
     public static final Joystick driverController = new Joystick(OperatorConstants.DRIVER_CONTROLLER_PORT);
 
     // The operator's controller
-    public static final CommandXboxController operatorController = new CommandXboxController(
-            OperatorConstants.OPERATOR_CONTROLLER_PORT);
+    public static final CommandXboxController operatorController = new CommandXboxController(OperatorConstants.OPERATOR_CONTROLLER_PORT);
 
     // The autonomous chooser
     public final SendableChooser<Command> autoChooser = new SendableChooser<>();
@@ -93,13 +84,10 @@ public class RobotContainer {
         // Initialize alliance (default to red if not present)
         onAllianceChanged(getAlliance());
         AprilTags.setAprilTagIDs();
-        
 
         // Set up trigger to detect alliance changes
         new Trigger(() -> getAlliance() != currentAlliance)
                 .onTrue(Commands.runOnce(() -> onAllianceChanged(getAlliance())).ignoringDisable(true));
-
-
         
         // Triggers for auto aim/pass poses
         // new Trigger(() -> isInAllianceZone())
@@ -184,77 +172,16 @@ public class RobotContainer {
         targetTagLeft = AprilTags.homeHubFrontLeftID;
         targetTagRight = AprilTags.homeHubFrontRightID;
 
-
-
         turretSubsystem.setDefaultCommand(AprilTagCommands.AimTowardsAprilTag(turretSubsystem, targetTagRight));
 
-        operatorController.rightTrigger().whileTrue(Commands.run // I changed this because I didn't think it would work
-            (() -> shooterSubsystem.runShooterDirect())
-            .withTimeout(0.25)
-            .andThen(() -> {
-                shooterSubsystem.runShooterDirect();
-                hopper.runUpperPassageDirect();
-                })
-            .withTimeout(0.25)
-            .andThen(() -> {
-                shooterSubsystem.runShooterDirect();
-                hopper.runUpperPassageDirect();
-                hopper.runLowerPassageDirect();
-                })
-            .withTimeout(0.25)
-            .andThen(() -> {
-                shooterSubsystem.runShooterDirect();
-                hopper.runUpperPassageDirect();
-                hopper.runLowerPassageDirect();
-                hopper.runSpindexerDirect();
-                })
-            .finallyDo(() -> {
-                shooterSubsystem.stopShooter();
-                hopper.stopPassage();
-                hopper.stopSpindexer();
-                })
-        );
-
-/* TODO: This is claude but is this better than what we have?
-        operatorController.rightTrigger().whileTrue(
-    Commands.sequence(
-        // Stage 1: Shooter only (0.25s)
-        Commands.run(() -> shooterSubsystem.runShooterDirect())
-            .withTimeout(0.25),
-        
-        // Stage 2: Shooter + Upper passage (0.25s)
-        Commands.run(() -> {
-            shooterSubsystem.runShooterDirect();
-            hopper.runUpperPassageDirect();
-        }).withTimeout(0.25),
-        
-        // Stage 3: Shooter + Upper + Lower (0.25s)
-        Commands.run(() -> {
-            shooterSubsystem.runShooterDirect();
-            hopper.runUpperPassageDirect();
-            hopper.runLowerPassageDirect();
-        }).withTimeout(0.25),
-        
-        // Stage 4: Everything running (0.25s)
-        Commands.run(() -> {
-            shooterSubsystem.runShooterDirect();
-            hopper.runUpperPassageDirect();
-            hopper.runLowerPassageDirect();
-            hopper.runSpindexerDirect();
-        }).withTimeout(0.25)
-    ).finallyDo((interrupted) -> {
-        // Stop everything when done or interrupted
-        shooterSubsystem.stopShooter();
-        hopper.stopPassage();
-        hopper.stopSpindexer();
-    })
-);
-*/
+        operatorController.rightTrigger().whileTrue(Commands.sequence(Commands.run(() -> shooterSubsystem.runShooterDirect()).withTimeout(SpecialConstants.SHOOTER_TIMEOUT), Commands.run(() -> {shooterSubsystem.runShooterDirect();hopper.runUpperPassageDirect();}).withTimeout(SpecialConstants.SHOOTER_TIMEOUT), Commands.run(() -> {shooterSubsystem.runShooterDirect();hopper.runUpperPassageDirect();hopper.runLowerPassageDirect();}).withTimeout(SpecialConstants.SHOOTER_TIMEOUT), Commands.run(() -> {shooterSubsystem.runShooterDirect();hopper.runUpperPassageDirect();hopper.runLowerPassageDirect();hopper.runSpindexerDirect();})));
+        operatorController.rightTrigger().whileFalse(Commands.run(() -> {shooterSubsystem.stopShooter();hopper.stopPassage();hopper.stopSpindexer(); }));
         operatorController.leftTrigger().and(operatorController.a()).whileTrue(Commands.run(() -> turretSubsystem.rotateByDegrees(operatorController.getLeftTriggerAxis()*360)));
-
         operatorController.leftBumper().onTrue(AprilTagCommands.SwitchShootingMode(this)); // Change Aim Target
-        //operatorController.a().whileTrue(AprilTagCommands.GoToAprilTag(driveSubsystem, null, 0));
+        operatorController.povDown().whileTrue(intakeSubsystem.goIntake());
+        operatorController.povUp().whileTrue(intakeSubsystem.comeBackIntake());
         operatorController.b().whileTrue(intakeSubsystem.grabBalls());
+        //operatorController.a().whileTrue(AprilTagCommands.GoToAprilTag(driveSubsystem, null, 0));
  }
 
     /**
@@ -263,8 +190,6 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         // An example command will be run in autonomous
-
-
 
         return autoChooser.getSelected();
     }

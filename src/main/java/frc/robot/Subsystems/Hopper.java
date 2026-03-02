@@ -2,7 +2,6 @@ package frc.robot.Subsystems;
 
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
-import com.ctre.phoenix6.*;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
@@ -76,3 +75,12 @@ public class Hopper extends SubsystemBase {
         passageMotorUpper.set(0);
     }
 }
+
+
+//          .-"""-.__     ltb
+//         /      ' o'\
+//      ,-;  '.  :   _c
+//     :_."\._ ) ::-"
+//            ""m "m
+
+// this is beaver bt

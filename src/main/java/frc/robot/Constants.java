@@ -6,7 +6,6 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj2.command.Command;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -36,7 +35,7 @@ public final class Constants {
     // public static final int BRUSHED_LEFT_LEADER_ID = 2;
     // public static final int BRUSHED_LEFT_FOLLOWER_ID = 9;
     // public static final int BRUSHED_RIGHT_LEADER_ID = 10;
-    // public static final int BRUSHwED_RIGHT_FOLLOWER_ID = 7;
+    // public static final int BRUSHED_RIGHT_FOLLOWER_ID = 7;
     public static final int BRUSHLESS_LEFT_LEADER_ID = 15;
     public static final int BRUSHLESS_LEFT_FOLLOWER_ID = 16;
     public static final int BRUSHLESS_RIGHT_LEADER_ID = 17;
@@ -59,12 +58,12 @@ public final class Constants {
   }
 
   public static final class TurretConstants {
-    public static final int TURRET_ID = 25; //TODO set
+    public static final int TURRET_ID = 25;
     public static final double TURRET_GEAR_RATIO = 11;
     public static final int TURRET_MOTOR_CURRENT_LIMIT = 45;
 
-    public static final double TURRET_AIMING_LIMIT_MIN = -270;
-    public static final double TURRET_AIMING_LIMIT_MAX = 270;
+    public static final double TURRET_AIMING_LIMIT_MIN = 0;
+    public static final double TURRET_AIMING_LIMIT_MAX = 180;
   }
 
   public static final class CameraConstants {
@@ -74,21 +73,19 @@ public final class Constants {
   }
 
   public static final class IntakeConstants {
-    public static final int LEFT_INTAKE_ID = 64;
-    public static final int RIGHT_INTAKE_ID = 65;
+    public static final int INTAKE_ID = 44;
+    public static final int GO_INTAKE_ID = 45;
     public static final int INTAKE_MOTOR_CURRENT_LIMIT = 45;
+    public static final double INTAKE_ANGLE = 100;
   }
 
   public static final class HopperConstants {
-    // TODO: Verify these CAN IDs match actual hardware!
     public static final int SPINDEXER_MOTOR_ID = 6;
-    public static final double SPINDEXER_SPEED = 0.25;
+    public static final double SPINDEXER_SPEED = 0.5;
     public static final double SPINDEXER_GEAR_RATIO = 1;
-
-
-    public static final int PASSAGE_MOTOR_UPPER_ID = 31; // TODO: guess — confirm actual CAN ID
-    public static final int PASSAGE_MOTOR_LOWER_ID = 32; // TODO: guess — confirm actual CAN ID
-    public static final double PASSAGE_SPEED = 0.05;
+    public static final int PASSAGE_MOTOR_UPPER_ID = 32;
+    public static final int PASSAGE_MOTOR_LOWER_ID = 31;
+    public static final double PASSAGE_SPEED = 0.5;
   }
 
   public static final class AutoConstants {
@@ -215,5 +212,9 @@ public final class Constants {
           return -1;
       }
     }
+  }
+
+  public static final class SpecialConstants {
+    public static final double SHOOTER_TIMEOUT = 0.25;
   }
 }

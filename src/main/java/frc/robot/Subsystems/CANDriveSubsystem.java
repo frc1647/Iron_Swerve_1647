@@ -50,6 +50,7 @@ public class CANDriveSubsystem extends SubsystemBase {
   DifferentialDrive drive;
   // TalonFXConfiguration configs = new TalonFXConfiguration();
 
+  @SuppressWarnings("removal")
   public CANDriveSubsystem() {
     // if (isBrushlessMotors()) {
     // Brushless configuration (NEO motors with SparkMax)
