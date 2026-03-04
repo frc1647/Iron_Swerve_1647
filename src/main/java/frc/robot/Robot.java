@@ -124,11 +124,6 @@ public void robotInit() {
     // continue until interrupted by another command, remove
     // this line or comment it out.
 
-
-    
-
-
-
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
@@ -137,8 +132,6 @@ public void robotInit() {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-
-
 /*
     System.out.println("Watcher tv: " + Camera.watcherHasTag());
     System.out.println("Watcher tid: " + Camera.watcherTagID());
@@ -170,10 +163,7 @@ public void robotInit() {
   @Override
   public void simulationPeriodic() {
   }
-
-  
 }
-
 
 //         .--'''''''''--.
 //      .'      .---.      '.

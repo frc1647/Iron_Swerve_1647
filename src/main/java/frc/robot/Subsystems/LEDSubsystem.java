@@ -9,7 +9,6 @@ import frc.robot.Constants.LEDConstants;
 public class LEDSubsystem extends SubsystemBase {
 
     public Spark ledControllerMotor;
-
     public static final double turretAimingColor = LEDConstants.Colors.RED;
     public static final double turretLockedOnColor = LEDConstants.Colors.LAWN_GREEN;
 

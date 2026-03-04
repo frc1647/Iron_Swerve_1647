@@ -103,11 +103,11 @@ public class RobotContainer {
 
         // Set the options to show up in the Dashboard for selecting auto modes. If you
         // add additional auto modes you can add additional lines here with
-        autoChooser.addOption("Auto 1", Autos.AutoOne(turretSubsystem, driveSubsystem, shooterSubsystem));        
-        autoChooser.addOption("Auto 2", Autos.AutoTwo(turretSubsystem, driveSubsystem, shooterSubsystem));
-        autoChooser.addOption("Auto 3", Autos.AutoThree(turretSubsystem, driveSubsystem, shooterSubsystem));
+        autoChooser.addOption("Auto 1", Autos.AutoOne(turretSubsystem, driveSubsystem, shooterSubsystem, hopper));        
+        autoChooser.addOption("Auto 2", Autos.AutoTwo(turretSubsystem, driveSubsystem, shooterSubsystem, hopper));
+        autoChooser.addOption("Auto 3", Autos.AutoThree(turretSubsystem, driveSubsystem, shooterSubsystem, hopper));
 
-        autoChooser.setDefaultOption("Auto 1", Autos.AutoOne(turretSubsystem, driveSubsystem, shooterSubsystem));
+        autoChooser.setDefaultOption("Auto 1", Autos.AutoOne(turretSubsystem, driveSubsystem, shooterSubsystem, hopper));
 
         SmartDashboard.putData("Auto Selector", autoChooser);
         // Autos.exampleAuto(driveSubsystem));
@@ -152,7 +152,6 @@ public class RobotContainer {
                         driveSubsystem));
 
         JoystickButton button6 = new JoystickButton(driverController, 6);
-
         button6.whileTrue(
                 driveSubsystem.slowCommand(
                         () -> driverController.getRawAxis(1), // left stick Y
@@ -176,12 +175,12 @@ public class RobotContainer {
 
         operatorController.rightTrigger().whileTrue(Commands.sequence(Commands.run(() -> shooterSubsystem.runShooterDirect()).withTimeout(SpecialConstants.SHOOTER_TIMEOUT), Commands.run(() -> {shooterSubsystem.runShooterDirect();hopper.runUpperPassageDirect();}).withTimeout(SpecialConstants.SHOOTER_TIMEOUT), Commands.run(() -> {shooterSubsystem.runShooterDirect();hopper.runUpperPassageDirect();hopper.runLowerPassageDirect();}).withTimeout(SpecialConstants.SHOOTER_TIMEOUT), Commands.run(() -> {shooterSubsystem.runShooterDirect();hopper.runUpperPassageDirect();hopper.runLowerPassageDirect();hopper.runSpindexerDirect();})));
         operatorController.rightTrigger().whileFalse(Commands.run(() -> {shooterSubsystem.stopShooter();hopper.stopPassage();hopper.stopSpindexer(); }));
-        operatorController.leftTrigger().and(operatorController.a()).whileTrue(Commands.run(() -> turretSubsystem.rotateByDegrees(operatorController.getLeftTriggerAxis()*360)));
+        operatorController.leftTrigger().and(operatorController.a()).onTrue(Commands.run(() -> turretSubsystem.rotateTurret(turretSubsystem, operatorController.getLeftTriggerAxis()*360)));
         operatorController.leftBumper().onTrue(AprilTagCommands.SwitchShootingMode(this)); // Change Aim Target
         operatorController.povDown().whileTrue(intakeSubsystem.goIntake());
         operatorController.povUp().whileTrue(intakeSubsystem.comeBackIntake());
         operatorController.b().whileTrue(intakeSubsystem.grabBalls());
-        //operatorController.a().whileTrue(AprilTagCommands.GoToAprilTag(driveSubsystem, null, 0));
+        //operatorController.a().whileTrue(new AprilTagCommands.DriveToAprilTag(driveSubsystem, turretSubsystem, 0));
  }
 
     /**

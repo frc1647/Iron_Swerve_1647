@@ -62,10 +62,16 @@ public class Hopper extends SubsystemBase {
         runUpperPassageDirect();
     }
 
+    /**
+     * Runs lower passage
+     */
     public void runLowerPassageDirect() {
         passageMotorLower.set(HopperConstants.PASSAGE_SPEED);
     }
 
+    /**
+     * Runs upper passage
+     */
     public void runUpperPassageDirect() {
         passageMotorUpper.set(HopperConstants.PASSAGE_SPEED);
     }

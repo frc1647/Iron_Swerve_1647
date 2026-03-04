@@ -1,12 +1,9 @@
 package frc.robot.Subsystems;
 
 import frc.robot.Constants.TurretConstants;
-import static edu.wpi.first.units.Units.*;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
-import java.util.function.DoubleSupplier;
 
 import com.revrobotics.spark.config.SparkMaxConfig;
-import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -38,7 +35,7 @@ public class CANTurretSubsystem extends SubsystemBase {
         .p(0.192)
         .i(0.0002)
         .d(0.4)
-        .outputRange(-1.3, 1.3)
+        .outputRange(-1, 1)
         .feedForward
           .kV(0.001, ClosedLoopSlot.kSlot0);
           
@@ -62,9 +59,9 @@ public class CANTurretSubsystem extends SubsystemBase {
      */
     public void rotateByDegrees(double angleChangeDegrees) {
         double currentRotations = turretEncoder.getPosition();
-        double deltaRotations = (angleChangeDegrees / 360.0) * TurretConstants.TURRET_GEAR_RATIO;
+        double deltaRotations = angleChangeDegrees / 360.0;
 
-        double targetRotations = currentRotations + deltaRotations;
+        double targetRotations = (currentRotations + deltaRotations) * TurretConstants.TURRET_GEAR_RATIO;
 
         turretPID.setSetpoint(targetRotations, ControlType.kPosition);
     }
@@ -84,13 +81,10 @@ public class CANTurretSubsystem extends SubsystemBase {
                 turretSubsystem.rotateByDegrees(angleChange);
             } else if (goalRotation >= TurretConstants.TURRET_AIMING_LIMIT_MAX) { 
                 // end Rotation is outside of bounds, too large
-                turretSubsystem.rotateByDegrees(-360 + goalRotation - rotation);
+                turretSubsystem.rotateByDegrees(-360 + angleChange);
             } else {  // end Rotation is outside of bounds, too small
-                turretSubsystem.rotateByDegrees(360 + goalRotation - rotation);
+                turretSubsystem.rotateByDegrees(360 + angleChange);
             }
-        }, 
-        turretSubsystem
-        );
-        
+        }, turretSubsystem);
     }
 }

@@ -59,15 +59,14 @@ public final class Constants {
 
   public static final class TurretConstants {
     public static final int TURRET_ID = 25;
-    public static final double TURRET_GEAR_RATIO = 11;
+    public static final double TURRET_GEAR_RATIO = 1; //TODO Update after testing, I found 11
     public static final int TURRET_MOTOR_CURRENT_LIMIT = 45;
 
     public static final double TURRET_AIMING_LIMIT_MIN = 0;
-    public static final double TURRET_AIMING_LIMIT_MAX = 180;
+    public static final double TURRET_AIMING_LIMIT_MAX = 360;
   }
 
   public static final class CameraConstants {
-    // ★★★★★ TODO: Fill in these values ★★★★★
     public static final double LIMELIGHT_LENS_HEIGHT_IN = 22.5;
     public static final double LIMELIGHT_MOUNT_ANGLE_DEG = 114.125;
   }
@@ -97,7 +96,9 @@ public final class Constants {
     public static final double DISTANCE_TOLERANCE = 2.0; // Inches
     public static final double ANGLE_TOLERANCE = 2.0; // Degrees
 
-    public static final double AUTO_MAX_SPEED = 0.4; // 0 - 1
+    public static final double AUTO_MAX_SPEED = 1; // 0 - 1
+
+    public static final double AUTO_SHOOT_TIME = 2.0;
   }
 
   public static final class LEDConstants {

@@ -51,6 +51,11 @@ public class CANShooterSubsystem extends SubsystemBase {
     shooterMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
   
+  /**
+   * Returns the RPM needed to shoot a ball a specific distance
+   * @param distanceIN Distance you want to shoot in inches
+   * @return RPM
+   */
   public double GetRPMForDistance(double distanceIN) {
     return 320.23162 * Math.pow(distanceIN, 0.469592);    
   }

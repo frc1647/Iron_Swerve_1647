@@ -1,6 +1,5 @@
 package frc.robot.Subsystems;
 
-import edu.wpi.first.apriltag.AprilTag;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import static frc.robot.Constants.CameraConstants;

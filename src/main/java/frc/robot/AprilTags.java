@@ -59,6 +59,9 @@ public class AprilTags {
         return DriverStation.getAlliance().orElse(Alliance.Red);
     }
 
+    /**
+     * Configures all AprilTags to home or away
+     */
     public static void setAprilTagIDs() {
         if (getAlliance() == Alliance.Red) {
             // Home IDs

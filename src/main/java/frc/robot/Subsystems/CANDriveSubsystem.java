@@ -196,10 +196,15 @@ public class CANDriveSubsystem extends SubsystemBase {
         this);
   }
 
+  /**
+   * Drives the robot
+   * @param leftSpeed Speed of left side
+   * @param rightSpeed Speed of right side
+   */
   public void driveTankII(double leftSpeed, double rightSpeed) {
     drive.tankDrive(
-        0.533 * Math.pow(-leftSpeed, 1) + 0.467 * -leftSpeed,
-        0.533 * Math.pow(-rightSpeed, 1) + 0.467 * -rightSpeed);
+        0.533 * Math.pow(leftSpeed, 1) + 0.467 * leftSpeed,
+        0.533 * Math.pow(rightSpeed, 1) + 0.467 * rightSpeed);
   }
 
   public double getLeftPositionMeters() {
@@ -210,6 +215,12 @@ public class CANDriveSubsystem extends SubsystemBase {
     return rightPositionMeters;
   }
 
+  /**
+   * Makes the robot drive at half speed
+   * @param leftSpeed Speed of left side
+   * @param rightSpeed Speed of right side
+   * @return Locomotion
+   */
   public Command slowCommand(DoubleSupplier leftSpeed, DoubleSupplier rightSpeed) {
     double conversionFactor = 0.5;
     return new RunCommand(
