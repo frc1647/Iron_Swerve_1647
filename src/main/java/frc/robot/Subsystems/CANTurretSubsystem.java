@@ -32,12 +32,12 @@ public class CANTurretSubsystem extends SubsystemBase {
 
         motorConfig.closedLoop
         .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-        .p(0.192)
-        .i(0.0002)
-        .d(0.4)
+        .p(TurretConstants.TURRET_P)
+        .i(TurretConstants.TURRET_I)
+        .d(TurretConstants.TURRET_D)
         .outputRange(-1, 1)
         .feedForward
-          .kV(0.001, ClosedLoopSlot.kSlot0);
+        .kV(0.001, ClosedLoopSlot.kSlot0);
           
         motorConfig.voltageCompensation(12);
         motorConfig.smartCurrentLimit(TurretConstants.TURRET_MOTOR_CURRENT_LIMIT);

@@ -31,19 +31,19 @@ public class CANShooterSubsystem extends SubsystemBase {
 
     config.closedLoop
         .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-        .p(0.001)
-        .i(0.0)
-        .d(0.004)
+        .p(ShooterConstants.SHOOTER_SLOT0_P)
+        .i(ShooterConstants.SHOOTER_SLOT0_I)
+        .d(ShooterConstants.SHOOTER_SLOT0_D)
         .outputRange(-1, 1)
 
-        .p(0.0001, ClosedLoopSlot.kSlot1)
-        .i(0.0, ClosedLoopSlot.kSlot1)
-        .d(0.004, ClosedLoopSlot.kSlot1)
+        .p(ShooterConstants.SHOOTER_SLOT1_P, ClosedLoopSlot.kSlot1)
+        .i(ShooterConstants.SHOOTER_SLOT1_I, ClosedLoopSlot.kSlot1)
+        .d(ShooterConstants.SHOOTER_SLOT1_D, ClosedLoopSlot.kSlot1)
         .outputRange(-1, 1, ClosedLoopSlot.kSlot1)
 
         .feedForward
-          .kV(0.000175, ClosedLoopSlot.kSlot0)
-          .kV(0.000175, ClosedLoopSlot.kSlot1);
+        .kV(0.000175, ClosedLoopSlot.kSlot0)
+        .kV(0.000175, ClosedLoopSlot.kSlot1);
 
     config.voltageCompensation(12);
     config.smartCurrentLimit(ShooterConstants.SHOOTER_MOTOR_CURRENT_LIMIT);

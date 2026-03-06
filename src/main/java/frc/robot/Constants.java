@@ -52,18 +52,31 @@ public final class Constants {
 
   public static final class ShooterConstants {
     public static final int SHOOTER_ID = 22;
-    public static final double SHOOTER_SPEED = 0.6;
+    
     public static final int SHOOTER_MOTOR_CURRENT_LIMIT = 45;
     public static final double DEFAULT_SHOOTING_DISTANCE = 91.055;
+
+    public static final double SHOOTER_SLOT0_P = 0.001;
+    public static final double SHOOTER_SLOT0_I = 0.0;
+    public static final double SHOOTER_SLOT0_D = 0.004;
+
+    public static final double SHOOTER_SLOT1_P = 0.001;
+    public static final double SHOOTER_SLOT1_I = 0.0;
+    public static final double SHOOTER_SLOT1_D = 0.004;
   }
 
   public static final class TurretConstants {
     public static final int TURRET_ID = 25;
-    public static final double TURRET_GEAR_RATIO = 1; //TODO Update after testing, I found 11
+    public static final double TURRET_GEAR_RATIO = 1; //TODO Update after testing, I found 11 by counting gear teeth
     public static final int TURRET_MOTOR_CURRENT_LIMIT = 45;
 
     public static final double TURRET_AIMING_LIMIT_MIN = 0;
     public static final double TURRET_AIMING_LIMIT_MAX = 360;
+    
+    //TODO: Test and seet for all 3, theoretically correct values in comments
+    public static final double TURRET_P = 0.0192; //0.192
+    public static final double TURRET_I = 0.00002; //0.0002
+    public static final double TURRET_D = 0.04;    //0.4
   }
 
   public static final class CameraConstants {
@@ -97,6 +110,7 @@ public final class Constants {
     public static final double ANGLE_TOLERANCE = 2.0; // Degrees
 
     public static final double AUTO_MAX_SPEED = 1; // 0 - 1
+    public static final double AUTO_COLLECTION_DRIVE_SPEED = 0.5; //TODO: Find correct speed
 
     public static final double AUTO_SHOOT_TIME = 2.0;
   }
