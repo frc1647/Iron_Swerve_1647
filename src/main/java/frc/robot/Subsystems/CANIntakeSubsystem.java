@@ -11,6 +11,7 @@ import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.SparkFlexConfig;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -32,12 +33,11 @@ public class CANIntakeSubsystem extends SubsystemBase {
         intakeEncoder = intakeMotor.getEncoder();
         intakePID = intakeMotor.getClosedLoopController();
 
-        // Create and apply SparkMax configuration
-        SparkMaxConfig intakeConfig = new SparkMaxConfig();
+        SparkFlexConfig intakeConfig = new SparkFlexConfig();
         intakeConfig.voltageCompensation(12);
         intakeConfig.smartCurrentLimit(IntakeConstants.INTAKE_MOTOR_CURRENT_LIMIT);
         
-        intakeMotor.configure(intakeConfig,ResetMode.kResetSafeParameters,PersistMode.kPersistParameters);
+        intakeMotor.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         goIntakeMotor = new SparkMax(IntakeConstants.GO_INTAKE_ID, MotorType.kBrushless);
         goIntakeMotor.setCANTimeout(250);
@@ -50,6 +50,12 @@ public class CANIntakeSubsystem extends SubsystemBase {
         goConfig.voltageCompensation(12);
         goConfig.smartCurrentLimit(IntakeConstants.INTAKE_MOTOR_CURRENT_LIMIT);
         
+        goConfig.closedLoop
+            .p(IntakeConstants.GO_INTAKE_P)
+            .i(IntakeConstants.GO_INTAKE_I)
+            .d(IntakeConstants.GO_INTAKE_D)
+            .outputRange(-1, 1);
+
         goIntakeMotor.configure(goConfig,ResetMode.kResetSafeParameters,PersistMode.kPersistParameters);
     }
 

@@ -53,13 +53,13 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 public class RobotContainer {
 
     // Add the robot's subsystems
-    private final CANDriveSubsystem driveSubsystem = new CANDriveSubsystem();
-    private final CANShooterSubsystem shooterSubsystem = new CANShooterSubsystem();
-    private final CANTurretSubsystem turretSubsystem = new CANTurretSubsystem();
-    private final CANIntakeSubsystem intakeSubsystem = new CANIntakeSubsystem();
-    private final Hopper hopper = new Hopper();
-    private final LEDSubsystem ledSubsystem = new LEDSubsystem();
-    private final Camera camera = new Camera();
+    public final CANDriveSubsystem driveSubsystem = new CANDriveSubsystem();
+    public final CANShooterSubsystem shooterSubsystem = new CANShooterSubsystem();
+    public final CANTurretSubsystem turretSubsystem = new CANTurretSubsystem();
+    public final CANIntakeSubsystem intakeSubsystem = new CANIntakeSubsystem();
+    public final Hopper hopper = new Hopper();
+    public final LEDSubsystem ledSubsystem = new LEDSubsystem();
+    public final Camera camera = new Camera();
 
     // The driver's controller
     public static final Joystick driverController = new Joystick(OperatorConstants.DRIVER_CONTROLLER_PORT);
@@ -85,6 +85,7 @@ public class RobotContainer {
         // Initialize alliance (default to red if not present)
         onAllianceChanged(getAlliance());
         AprilTags.setAprilTagIDs();
+        turretSubsystem.zeroTurret();
 
         // Set up trigger to detect alliance changes
         new Trigger(() -> getAlliance() != currentAlliance)
@@ -177,7 +178,7 @@ public class RobotContainer {
 
         operatorController.rightTrigger().whileTrue(Commands.sequence(Commands.run(() -> shooterSubsystem.runShooterDirect()).withTimeout(ShooterConstants.SHOOTER_TIMEOUT), Commands.run(() -> {shooterSubsystem.runShooterDirect();hopper.runUpperPassageDirect();}).withTimeout(ShooterConstants.SHOOTER_TIMEOUT), Commands.run(() -> {shooterSubsystem.runShooterDirect();hopper.runUpperPassageDirect();hopper.runLowerPassageDirect();}).withTimeout(ShooterConstants.SHOOTER_TIMEOUT), Commands.run(() -> {shooterSubsystem.runShooterDirect();hopper.runUpperPassageDirect();hopper.runLowerPassageDirect();hopper.runSpindexerDirect();})));
         operatorController.rightTrigger().whileFalse(Commands.run(() -> {shooterSubsystem.stopShooter();hopper.stopPassage();hopper.stopSpindexer(); }));
-        operatorController.leftTrigger().and(operatorController.a()).onTrue(Commands.run(() -> turretSubsystem.rotateTurret(turretSubsystem, operatorController.getLeftTriggerAxis()*360)));
+        operatorController.leftTrigger().and(operatorController.a()).onTrue(Commands.run(() -> turretSubsystem.rotateTurret(operatorController.getLeftTriggerAxis()*-360)));
         operatorController.leftBumper().onTrue(AprilTagCommands.SwitchShootingMode(this)); // Change Aim Target
         operatorController.povDown().whileTrue(intakeSubsystem.goIntake());
         operatorController.povUp().whileTrue(intakeSubsystem.comeBackIntake());

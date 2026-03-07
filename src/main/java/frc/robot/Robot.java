@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Subsystems.CANTurretSubsystem;
 import frc.robot.Subsystems.Camera;
 
 
@@ -82,9 +83,7 @@ public void robotInit() {
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
     SmartDashboard.putNumber("Turret ID", Camera.sauronTagID());
-
-    SmartDashboard.putNumber("Joystick", RobotContainer.driverController.getRawAxis(1));
-
+    SmartDashboard.putNumber("Turret Angle", m_robotContainer.turretSubsystem.GetTurretAngle());
 
     CommandScheduler.getInstance().run();
   }
@@ -176,10 +175,10 @@ public void robotInit() {
 //          |     | '-' |
 //           \___/ \___/
 //        _.-'  /   \  `-._
-//      .' _.--|     |--._ '.
-//      ' _...-|     |-..._ '
-//             |     |
-//             '.___.'
+//      .' _.--'.___.'--._ '.
+//      ' _...---------..._ '
+//               | |          
+//               | |
 //               | |
 //              _| |_
 //             /\( )/\

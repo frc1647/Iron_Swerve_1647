@@ -19,14 +19,23 @@ public final class AprilTagCommands {
     public static Command AimTowardsAprilTag(CANTurretSubsystem turretSubsystem, int id) {
         return turretSubsystem.run(() -> {
             if (Camera.sauronSeesTag(id)) {
-                turretSubsystem.rotateTurret(turretSubsystem, Camera.sauronHorizontal());
+                turretSubsystem.rotateTurret(Camera.sauronHorizontal());
             }
             else {
-                turretSubsystem.rotateTurret(turretSubsystem, 90);
+                turretSubsystem.rotateTurret(3);
             }
         });
     }
 
+/*
+    public static Command ForceAimToTargetAprilTag(CANTurretSubsystem turretSubsystem, int id) {
+        return turretSubsystem.run(() -> {
+            if (Camera.sauronHorizontal() < AutoConstants.ANGLE_TOLERANCE) {
+                
+            }
+        });
+    }
+*/
     public static Command SwitchShootingMode(RobotContainer robotContainer) {
         return Commands.runOnce(() -> {
             robotContainer.targetingHub = !robotContainer.targetingHub;
@@ -42,7 +51,6 @@ public final class AprilTagCommands {
 
     public static class DriveToAprilTag extends Command {
 
-        // TODO: Rest position of Turret?
         private final CANDriveSubsystem m_drive;
         private final CANTurretSubsystem m_turretSubsystem;
         private final int m_targetTagID;

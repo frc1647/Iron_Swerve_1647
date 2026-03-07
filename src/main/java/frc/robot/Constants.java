@@ -69,16 +69,16 @@ public final class Constants {
 
   public static final class TurretConstants {
     public static final int TURRET_ID = 25;
-    public static final double TURRET_GEAR_RATIO = 1; //TODO Update after testing, I found 11 by counting gear teeth
+    public static final double TURRET_GEAR_RATIO = 11; //TODO Update after testing, I found 11 by counting gear teeth
     public static final int TURRET_MOTOR_CURRENT_LIMIT = 45;
 
-    public static final double TURRET_AIMING_LIMIT_MIN = -30; // TODO double check direction
-    public static final double TURRET_AIMING_LIMIT_MAX = 30;
+    public static final double TURRET_AIMING_LIMIT_MIN = -269; // TODO double check direction
+    public static final double TURRET_AIMING_LIMIT_MAX = 17;
     
     //TODO: Test and seet for all 3, theoretically correct values in comments
-    public static final double TURRET_P = 0.0192; //0.192
-    public static final double TURRET_I = 0.00002; //0.0002 - most dangerous, be careful 
-    public static final double TURRET_D = 0.04;    //0.4
+    public static final double TURRET_P = 0.00192; //0.192
+    public static final double TURRET_I = 0.000002; //0.0002 - most dangerous, be careful 
+    public static final double TURRET_D = 0.004;    //0.4
   }
 
   public static final class CameraConstants {
@@ -90,9 +90,13 @@ public final class Constants {
     public static final int INTAKE_ID = 44;
     public static final int GO_INTAKE_ID = 45;
     
-    public static final int INTAKE_MOTOR_CURRENT_LIMIT = 45;
+    public static final int INTAKE_MOTOR_CURRENT_LIMIT = 65;
     public static final double INTAKE_ANGLE = 90;
     public static final double INTAKE_START_ANGLE = 45;
+
+    public static final double GO_INTAKE_P = 0.1;
+    public static final double GO_INTAKE_I = 0.0002;
+    public static final double GO_INTAKE_D = 0.04;
   }
 
   public static final class HopperConstants {

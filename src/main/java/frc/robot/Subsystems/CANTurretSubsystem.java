@@ -16,6 +16,7 @@ import com.revrobotics.spark.SparkBase.ControlType;
 
 public class CANTurretSubsystem extends SubsystemBase {
 
+    public double turretRotation;
     private final SparkMax turretMotor;
     private final RelativeEncoder turretEncoder;
     private final SparkClosedLoopController turretPID;
@@ -46,7 +47,7 @@ public class CANTurretSubsystem extends SubsystemBase {
     }
 
     public double GetTurretAngle() {
-        return turretEncoder.getPosition() * 360;
+        return turretEncoder.getPosition() * 360/TurretConstants.TURRET_GEAR_RATIO;
     }
 
     public void zeroTurret() {
@@ -59,11 +60,12 @@ public class CANTurretSubsystem extends SubsystemBase {
      */
     public void rotateByDegrees(double angleChangeDegrees) {
         double currentRotations = turretEncoder.getPosition();
-        double deltaRotations = angleChangeDegrees / 360.0;
-
-        double targetRotations = (currentRotations + deltaRotations) * TurretConstants.TURRET_GEAR_RATIO;
+        double deltaRotations = (angleChangeDegrees / 360.0) * TurretConstants.TURRET_GEAR_RATIO;
+        double targetRotations = currentRotations + deltaRotations;
 
         turretPID.setSetpoint(targetRotations, ControlType.kPosition);
+
+        turretRotation += angleChangeDegrees;
     }
 
     /**
@@ -71,20 +73,16 @@ public class CANTurretSubsystem extends SubsystemBase {
      * @param turretSubsystem The turret
      * @param angleChange the difference between the end point and current position
      */
-    public Command rotateTurret(CANTurretSubsystem turretSubsystem, double angleChange) {
-        return Commands.runOnce(() -> {
-            double rotation = GetTurretAngle();
-            double goalRotation = rotation + angleChange;
+    public void rotateTurret(double angleChange) {
+    double rotation = GetTurretAngle();
+    double goalRotation = rotation + angleChange;
 
-            if (goalRotation < TurretConstants.TURRET_AIMING_LIMIT_MAX && goalRotation > TurretConstants.TURRET_AIMING_LIMIT_MIN) { 
-                // end Rotation is within bounds, it is valid so let it rotate normally
-                turretSubsystem.rotateByDegrees(angleChange);
-            } else if (goalRotation >= TurretConstants.TURRET_AIMING_LIMIT_MAX) { 
-                // end Rotation is outside of bounds, too large
-                turretSubsystem.rotateByDegrees(-360 + angleChange);
-            } else {  // end Rotation is outside of bounds, too small
-                turretSubsystem.rotateByDegrees(360 + angleChange);
-            }
-        }, turretSubsystem);
+    if (goalRotation <= TurretConstants.TURRET_AIMING_LIMIT_MAX && goalRotation >= TurretConstants.TURRET_AIMING_LIMIT_MIN) {
+        rotateByDegrees(angleChange);
+    } else if (goalRotation > TurretConstants.TURRET_AIMING_LIMIT_MAX) {
+        rotateByDegrees(-360 + angleChange);
+    } else {
+        rotateByDegrees(360 + angleChange);
     }
+}
 }
