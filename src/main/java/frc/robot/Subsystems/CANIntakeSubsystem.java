@@ -18,15 +18,15 @@ import frc.robot.Constants.IntakeConstants;
 
 public class CANIntakeSubsystem extends SubsystemBase {
 
-    private final SparkMax intakeMotor;
-    private final SparkFlex goIntakeMotor;
+    private final SparkFlex intakeMotor;
+    private final SparkMax goIntakeMotor;
     private final RelativeEncoder intakeEncoder;
     private final RelativeEncoder goIntakeEncoder;
     private final SparkClosedLoopController intakePID;
     private final SparkClosedLoopController goIntakePID;
 
     public CANIntakeSubsystem() {
-        intakeMotor = new SparkMax(IntakeConstants.INTAKE_ID, MotorType.kBrushless);
+        intakeMotor = new SparkFlex(IntakeConstants.INTAKE_ID, MotorType.kBrushless);
         intakeMotor.setCANTimeout(250);
         
         intakeEncoder = intakeMotor.getEncoder();
@@ -39,7 +39,7 @@ public class CANIntakeSubsystem extends SubsystemBase {
         
         intakeMotor.configure(intakeConfig,ResetMode.kResetSafeParameters,PersistMode.kPersistParameters);
 
-        goIntakeMotor = new SparkFlex(IntakeConstants.GO_INTAKE_ID, MotorType.kBrushless);
+        goIntakeMotor = new SparkMax(IntakeConstants.GO_INTAKE_ID, MotorType.kBrushless);
         goIntakeMotor.setCANTimeout(250);
         
         goIntakeEncoder = goIntakeMotor.getEncoder();
@@ -63,6 +63,6 @@ public class CANIntakeSubsystem extends SubsystemBase {
     }
 
     public Command comeBackIntake() {
-        return Commands.run(() -> goIntakePID.setSetpoint(0, ControlType.kPosition));
+        return Commands.run(() -> goIntakePID.setSetpoint(IntakeConstants.INTAKE_START_ANGLE, ControlType.kPosition));
     }
 }

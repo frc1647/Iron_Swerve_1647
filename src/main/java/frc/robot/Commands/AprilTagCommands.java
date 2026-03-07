@@ -114,7 +114,4 @@ public final class AprilTagCommands {
             Camera.setSauronPriorityTag(-1);
         }
     }
-    
-
-    
 } 

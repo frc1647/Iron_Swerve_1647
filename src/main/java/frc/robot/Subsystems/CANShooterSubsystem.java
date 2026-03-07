@@ -9,6 +9,7 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.Constants.ShooterConstants;
 
 import com.revrobotics.PersistMode;
@@ -76,5 +77,65 @@ public class CANShooterSubsystem extends SubsystemBase {
 
   public void stopShooter() {
     closedLoopController.setSetpoint(0, ControlType.kVelocity);
+  }
+
+  public void score(Hopper hopper) {
+    Commands.sequence(
+      Commands.run(() -> 
+        this.runShooterDirect()).withTimeout(ShooterConstants.SHOOTER_TIMEOUT), 
+
+      Commands.run(() -> {
+        this.runShooterDirect();
+        hopper.runUpperPassageDirect();
+      }).withTimeout(ShooterConstants.SHOOTER_TIMEOUT), 
+
+      Commands.run(() -> {
+        this.runShooterDirect();
+        hopper.runUpperPassageDirect();
+        hopper.runLowerPassageDirect();
+      }).withTimeout(ShooterConstants.SHOOTER_TIMEOUT), 
+
+      Commands.run(() -> {
+        this.runShooterDirect();
+        hopper.runUpperPassageDirect();
+        hopper.runLowerPassageDirect();
+        hopper.runSpindexerDirect();
+      }));
+  }
+
+  public void score(double shooterTime, Hopper hopper) {
+    Commands.sequence(
+      Commands.run(() -> 
+        this.runShooterDirect()).withTimeout(ShooterConstants.SHOOTER_TIMEOUT), 
+
+      Commands.run(() -> {
+        this.runShooterDirect();
+        hopper.runUpperPassageDirect();
+      }).withTimeout(ShooterConstants.SHOOTER_TIMEOUT), 
+
+      Commands.run(() -> {
+        this.runShooterDirect();
+        hopper.runUpperPassageDirect();
+        hopper.runLowerPassageDirect();
+      }).withTimeout(ShooterConstants.SHOOTER_TIMEOUT), 
+
+      Commands.run(() -> {
+        this.runShooterDirect();
+        hopper.runUpperPassageDirect();
+        hopper.runLowerPassageDirect();
+        hopper.runSpindexerDirect();
+      })).withTimeout(2);
+  }
+
+  public Command scoreCommand(Hopper hopper) {
+    return new RunCommand(() -> 
+      score(hopper)
+    );
+  }
+
+  public Command scoreCommand(double shootTime, Hopper hopper) {
+    return new RunCommand(() -> 
+      score(shootTime, hopper)
+    );
   }
 }

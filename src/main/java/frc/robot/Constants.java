@@ -63,6 +63,8 @@ public final class Constants {
     public static final double SHOOTER_SLOT1_P = 0.001;
     public static final double SHOOTER_SLOT1_I = 0.0;
     public static final double SHOOTER_SLOT1_D = 0.004;
+
+    public static final double SHOOTER_TIMEOUT = 0.25;
   }
 
   public static final class TurretConstants {
@@ -70,12 +72,12 @@ public final class Constants {
     public static final double TURRET_GEAR_RATIO = 1; //TODO Update after testing, I found 11 by counting gear teeth
     public static final int TURRET_MOTOR_CURRENT_LIMIT = 45;
 
-    public static final double TURRET_AIMING_LIMIT_MIN = 0;
-    public static final double TURRET_AIMING_LIMIT_MAX = 360;
+    public static final double TURRET_AIMING_LIMIT_MIN = -90; // TODO double check direction
+    public static final double TURRET_AIMING_LIMIT_MAX = 180;
     
     //TODO: Test and seet for all 3, theoretically correct values in comments
     public static final double TURRET_P = 0.0192; //0.192
-    public static final double TURRET_I = 0.00002; //0.0002
+    public static final double TURRET_I = 0.00002; //0.0002 - most dangerous, be careful 
     public static final double TURRET_D = 0.04;    //0.4
   }
 
@@ -87,16 +89,20 @@ public final class Constants {
   public static final class IntakeConstants {
     public static final int INTAKE_ID = 44;
     public static final int GO_INTAKE_ID = 45;
+    
     public static final int INTAKE_MOTOR_CURRENT_LIMIT = 45;
-    public static final double INTAKE_ANGLE = 100;
+    public static final double INTAKE_ANGLE = 90;
+    public static final double INTAKE_START_ANGLE = 45;
   }
 
   public static final class HopperConstants {
     public static final int SPINDEXER_MOTOR_ID = 6;
-    public static final double SPINDEXER_SPEED = 0.5;
-    public static final double SPINDEXER_GEAR_RATIO = 1;
     public static final int PASSAGE_MOTOR_UPPER_ID = 32;
     public static final int PASSAGE_MOTOR_LOWER_ID = 31;
+
+    public static final double SPINDEXER_SPEED = 0.5;
+    public static final double SPINDEXER_GEAR_RATIO = 1;
+    
     public static final double PASSAGE_SPEED = 0.5;
   }
 
@@ -227,9 +233,5 @@ public final class Constants {
           return -1;
       }
     }
-  }
-
-  public static final class SpecialConstants {
-    public static final double SHOOTER_TIMEOUT = 0.25;
   }
 }

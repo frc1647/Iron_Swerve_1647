@@ -81,12 +81,10 @@ public class Hopper extends SubsystemBase {
         passageMotorUpper.set(0);
     }
 }
-
-
-//          .-"""-.__     ltb
+//          .-"""-.__
 //         /      ' o'\
 //      ,-;  '.  :   _c
 //     :_."\._ ) ::-"
 //            ""m "m
 
-// this is beaver bt
+// this is beaver btw

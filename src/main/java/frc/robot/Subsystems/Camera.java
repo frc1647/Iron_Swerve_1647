@@ -2,7 +2,7 @@ package frc.robot.Subsystems;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import static frc.robot.Constants.CameraConstants;
+import frc.robot.Constants.CameraConstants;
 import frc.robot.Constants.AprilTagIDs;
 
 public class Camera {
@@ -51,7 +51,6 @@ public class Camera {
         return sauron.getEntry("tv").getDouble(0)==1;
     }
 
-
 /**
     * Shows the the target id that the camera sauron is looking at
     * @return the target id of sauron
@@ -90,9 +89,6 @@ public class Camera {
     public static void setWatcherPriorityTag(int tagID) {
         watcher.getEntry("priorityid").setNumber(tagID);
     }
-
-
-
     
     // MATH
 /**
@@ -109,7 +105,6 @@ public class Camera {
     public static double sauronDistanceInches() {
         return getDistanceToAprilTag(sauronHasTag(), sauronVertical(), sauronTagID());
     }
-
 
     /**
     * Checks if TheWatcher is looking at a specific AprilTag

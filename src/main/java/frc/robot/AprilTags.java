@@ -166,7 +166,4 @@ public class AprilTags {
             awayTowerWallRightID = AprilTagIDs.RED_TOWERWALL_RIGHT_TAG_ID;
         }
     }
-
-    
-
 }

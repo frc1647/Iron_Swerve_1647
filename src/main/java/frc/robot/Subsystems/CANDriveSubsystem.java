@@ -25,16 +25,10 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-//import edu.wpi.first.wpilibj2.command.Command;
 //import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 import static frc.robot.Constants.isBrushlessMotors;
-
-//Brushed Motor Controller Imports
-//import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-// import frc.robot.Constants;
-//import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 public class CANDriveSubsystem extends SubsystemBase {
   private final MotorController leftLeader;
@@ -232,4 +226,3 @@ public class CANDriveSubsystem extends SubsystemBase {
         this);
   }
 }
-        

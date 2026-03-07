@@ -27,6 +27,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.Commands.AprilTagCommands;
 import frc.robot.Commands.Autos;
 import frc.robot.Subsystems.CANDriveSubsystem;
@@ -38,7 +39,6 @@ import frc.robot.Subsystems.Hopper;
 import frc.robot.Subsystems.LEDSubsystem;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import frc.robot.Constants.SpecialConstants;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -153,10 +153,11 @@ public class RobotContainer {
 
         JoystickButton button6 = new JoystickButton(driverController, 6);
         button6.whileTrue(
-                driveSubsystem.slowCommand(
-                        () -> driverController.getRawAxis(1), // left stick Y
-                        () -> driverController.getRawAxis(5) // right stick Y
-                ));
+            driveSubsystem.slowCommand(
+                () -> driverController.getRawAxis(1), // left stick Y
+                () -> driverController.getRawAxis(5) // right stick Y
+            )
+        );
 /**
  *                  _     _____                                             ______                                  _         _              
  *       _         | |   / ___ \                        _                  / _____)                                | |       | |         _   
@@ -173,7 +174,7 @@ public class RobotContainer {
 
         turretSubsystem.setDefaultCommand(AprilTagCommands.AimTowardsAprilTag(turretSubsystem, targetTagRight));
 
-        operatorController.rightTrigger().whileTrue(Commands.sequence(Commands.run(() -> shooterSubsystem.runShooterDirect()).withTimeout(SpecialConstants.SHOOTER_TIMEOUT), Commands.run(() -> {shooterSubsystem.runShooterDirect();hopper.runUpperPassageDirect();}).withTimeout(SpecialConstants.SHOOTER_TIMEOUT), Commands.run(() -> {shooterSubsystem.runShooterDirect();hopper.runUpperPassageDirect();hopper.runLowerPassageDirect();}).withTimeout(SpecialConstants.SHOOTER_TIMEOUT), Commands.run(() -> {shooterSubsystem.runShooterDirect();hopper.runUpperPassageDirect();hopper.runLowerPassageDirect();hopper.runSpindexerDirect();})));
+        operatorController.rightTrigger().whileTrue(shooterSubsystem.scoreCommand(hopper));
         operatorController.rightTrigger().whileFalse(Commands.run(() -> {shooterSubsystem.stopShooter();hopper.stopPassage();hopper.stopSpindexer(); }));
         operatorController.leftTrigger().and(operatorController.a()).onTrue(Commands.run(() -> turretSubsystem.rotateTurret(turretSubsystem, operatorController.getLeftTriggerAxis()*360)));
         operatorController.leftBumper().onTrue(AprilTagCommands.SwitchShootingMode(this)); // Change Aim Target
@@ -204,66 +205,7 @@ public class RobotContainer {
     private void onAllianceChanged(Alliance alliance) {
         currentAlliance = alliance;
         AprilTags.setAprilTagIDs();
-
-        // Update aim point based on alliance
-        /*
-         * TODO : make this part work with our system
-         * if (alliance == Alliance.Blue) {
-         * superstructure.setAimPoint(Constants.AimPoints.BLUE_HUB.value);
-         * } else {
-         * superstructure.setAimPoint(Constants.AimPoints.RED_HUB.value);
-         * }
-         */
         System.out.println("Alliance changed to: " + alliance);
-    }
 
-    {
-        /*
-         * autoChooser = AutoBuilder.buildAutoChooser();
-         * 
-         * // Set the default auto (do nothing)
-         * autoChooser.setDefaultOption("Do Nothing", Commands.none());
-         * 
-         * // Add a simple auto option to have the robot drive forward for 1 second then
-         * // stop
-         * autoChooser.addOption("Drive Forward",
-         * drivebase.driveForward().withTimeout(10));
-         * 
-         * // Put the autoChooser on the SmartDashboard
-         * SmartDashboard.putData("Auto Chooser", autoChooser);
-         */
-
-        /*
-         * private boolean isInAllianceZone() {
-         * Alliance alliance = getAlliance();
-         * Distance blueZone = Inches.of(182);
-         * Distance redZone = Inches.of(469);
-         * 
-         * if (alliance == Alliance.Blue &&
-         * drivebase.getPose().getMeasureX().lt(blueZone)) {
-         * return true;
-         * } else if (alliance == Alliance.Red &&
-         * drivebase.getPose().getMeasureX().gt(redZone)) {
-         * return true;
-         * }
-         * 
-         * return false;
-         * }
-         * 
-         * private boolean isOnAllianceOutpostSide() {
-         * Alliance alliance = getAlliance();
-         * Distance midLine = Inches.of(158.84375);
-         * 
-         * if (alliance == Alliance.Blue &&
-         * drivebase.getPose().getMeasureY().lt(midLine)) {
-         * return true;
-         * } else if (alliance == Alliance.Red &&
-         * drivebase.getPose().getMeasureY().gt(midLine)) {
-         * return true;
-         * }
-         * 
-         * return false;
-         * }
-         */
     }
 }
