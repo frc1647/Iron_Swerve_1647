@@ -71,9 +71,7 @@ public class RobotContainer {
     public final SendableChooser<Command> autoChooser = new SendableChooser<>();
 
     private Alliance currentAlliance = Alliance.Red;
-    public Boolean targetingHub = true;
-    public int targetTagLeft;
-    public int targetTagRight;
+    
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -170,16 +168,14 @@ public class RobotContainer {
  *                              |_|                                                                                                          
  */
 
-        targetingHub = true;
-        targetTagLeft = AprilTags.homeHubFrontLeftID;
-        targetTagRight = AprilTags.homeHubFrontRightID;
+        
 
-        turretSubsystem.setDefaultCommand(AprilTagCommands.AimTowardsAprilTag(turretSubsystem, targetTagRight));
+        turretSubsystem.setDefaultCommand(AprilTagCommands.AimTowardsAprilTag(turretSubsystem, AprilTagCommands.targetTagRight));
 
-        operatorController.rightTrigger().whileTrue(Commands.sequence(Commands.run(() -> shooterSubsystem.runShooterDirect()).withTimeout(ShooterConstants.SHOOTER_TIMEOUT), Commands.run(() -> {shooterSubsystem.runShooterDirect();hopper.runUpperPassageDirect();}).withTimeout(ShooterConstants.SHOOTER_TIMEOUT), Commands.run(() -> {shooterSubsystem.runShooterDirect();hopper.runUpperPassageDirect();hopper.runLowerPassageDirect();}).withTimeout(ShooterConstants.SHOOTER_TIMEOUT), Commands.run(() -> {shooterSubsystem.runShooterDirect();hopper.runUpperPassageDirect();hopper.runLowerPassageDirect();hopper.runSpindexerDirect();})));
+        operatorController.rightTrigger().whileTrue(Commands.sequence(Commands.run(() -> shooterSubsystem.runShooterDirect()).withTimeout(ShooterConstants.SHOOTER_TIMEOUT), Commands.run(() -> {shooterSubsystem.runShooterDirect();hopper.runUpperPassageDirect();}).withTimeout(ShooterConstants.SHOOTER_TIMEOUT), Commands.run(() -> {shooterSubsystem.runShooterDirect();hopper.runUpperPassageDirect();hopper.runSpindexerDirect();})));
         operatorController.rightTrigger().whileFalse(Commands.run(() -> {shooterSubsystem.stopShooter();hopper.stopPassage();hopper.stopSpindexer(); }));
         operatorController.leftTrigger().and(operatorController.a()).onTrue(Commands.run(() -> turretSubsystem.rotateTurret(operatorController.getLeftTriggerAxis()*-360)));
-        operatorController.leftBumper().onTrue(AprilTagCommands.SwitchShootingMode(this)); // Change Aim Target
+        operatorController.leftBumper().onTrue(AprilTagCommands.SwitchShootingMode());
         operatorController.povDown().whileTrue(intakeSubsystem.goIntake());
         operatorController.povUp().whileTrue(intakeSubsystem.comeBackIntake());
         operatorController.b().whileTrue(intakeSubsystem.grabBalls());

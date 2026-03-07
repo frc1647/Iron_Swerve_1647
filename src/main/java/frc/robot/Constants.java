@@ -72,8 +72,8 @@ public final class Constants {
     public static final double TURRET_GEAR_RATIO = 11; //TODO Update after testing, I found 11 by counting gear teeth
     public static final int TURRET_MOTOR_CURRENT_LIMIT = 45;
 
-    public static final double TURRET_AIMING_LIMIT_MIN = -269; // TODO double check direction
-    public static final double TURRET_AIMING_LIMIT_MAX = 17;
+    public static final double TURRET_AIMING_LIMIT_MIN = -288; // TODO double check direction
+    public static final double TURRET_AIMING_LIMIT_MAX = 0;
     
     //TODO: Test and seet for all 3, theoretically correct values in comments
     public static final double TURRET_P = 0.00192; //0.192
@@ -93,6 +93,9 @@ public final class Constants {
     public static final int INTAKE_MOTOR_CURRENT_LIMIT = 65;
     public static final double INTAKE_ANGLE = 90;
     public static final double INTAKE_START_ANGLE = 45;
+    public static final double INTAKE_POWER = 19625;
+
+    public static final double GO_INTAKE_GEAR_RATIO = 16;
 
     public static final double GO_INTAKE_P = 0.1;
     public static final double GO_INTAKE_I = 0.0002;
@@ -105,7 +108,7 @@ public final class Constants {
     public static final int PASSAGE_MOTOR_LOWER_ID = 31;
 
     public static final double SPINDEXER_SPEED = 1;
-    public static final double SPINDEXER_GEAR_RATIO = 28;
+    public static final double SPINDEXER_GEAR_RATIO = 28*1.25;
     
     public static final double PASSAGE_SPEED = 0.5;
   }

@@ -1,5 +1,6 @@
 package frc.robot.Subsystems;
 
+import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.TurretConstants;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
@@ -77,12 +78,23 @@ public class CANTurretSubsystem extends SubsystemBase {
     double rotation = GetTurretAngle();
     double goalRotation = rotation + angleChange;
 
-    if (goalRotation <= TurretConstants.TURRET_AIMING_LIMIT_MAX && goalRotation >= TurretConstants.TURRET_AIMING_LIMIT_MIN) {
-        rotateByDegrees(angleChange);
-    } else if (goalRotation > TurretConstants.TURRET_AIMING_LIMIT_MAX) {
-        rotateByDegrees(-360 + angleChange);
-    } else {
-        rotateByDegrees(360 + angleChange);
+    // Try normalizing into range by wrapping
+    while (goalRotation < TurretConstants.TURRET_AIMING_LIMIT_MIN) {
+        goalRotation += 360;
     }
+    while (goalRotation > TurretConstants.TURRET_AIMING_LIMIT_MAX) {
+        goalRotation -= 360;
+    }
+
+    // Only move if wrapping found a valid position
+    if (goalRotation >= TurretConstants.TURRET_AIMING_LIMIT_MIN && 
+        goalRotation <= TurretConstants.TURRET_AIMING_LIMIT_MAX) {
+        rotateByDegrees(goalRotation - rotation);
+    }
+    // else do nothing, position is unreachable
 }
+
+    public boolean isAtTarget(double deltaRotation) {
+        return Math.abs(deltaRotation) < AutoConstants.ANGLE_TOLERANCE;
+    }
 }

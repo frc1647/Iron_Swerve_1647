@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Commands.AprilTagCommands;
 import frc.robot.Subsystems.CANTurretSubsystem;
 import frc.robot.Subsystems.Camera;
 
@@ -84,7 +85,8 @@ public void robotInit() {
     // block in order for anything in the Command-based framework to work.
     SmartDashboard.putNumber("Turret ID", Camera.sauronTagID());
     SmartDashboard.putNumber("Turret Angle", m_robotContainer.turretSubsystem.GetTurretAngle());
-
+    SmartDashboard.putNumber("Target ID", AprilTagCommands.targetTagRight);
+    
     CommandScheduler.getInstance().run();
   }
 

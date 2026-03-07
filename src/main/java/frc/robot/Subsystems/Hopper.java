@@ -59,7 +59,7 @@ public class Hopper extends SubsystemBase {
     }
 
     public void runPassageDirect() {
-        runLowerPassageDirect();
+       // runLowerPassageDirect();
         runUpperPassageDirect();
     }
 
@@ -78,7 +78,7 @@ public class Hopper extends SubsystemBase {
     }
 
     public void stopPassage() {
-        passageMotorLower.set(0);
+       // passageMotorLower.set(0);
         passageMotorUpper.set(0);
     }
 }
@@ -87,5 +87,5 @@ public class Hopper extends SubsystemBase {
 //      ,-;  '.  :   _c
 //     :_."\._ ) ::-"
 //            ""m "m
-
+//
 // this is beaver btw

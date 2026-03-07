@@ -9,6 +9,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.FeedbackSensor;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkFlexConfig;
@@ -36,6 +37,8 @@ public class CANIntakeSubsystem extends SubsystemBase {
         SparkFlexConfig intakeConfig = new SparkFlexConfig();
         intakeConfig.voltageCompensation(12);
         intakeConfig.smartCurrentLimit(IntakeConstants.INTAKE_MOTOR_CURRENT_LIMIT);
+        intakeConfig.encoder.positionConversionFactor(IntakeConstants.INTAKE_POWER);
+        intakeConfig.encoder.velocityConversionFactor(IntakeConstants.INTAKE_POWER);
         
         intakeMotor.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
@@ -51,10 +54,14 @@ public class CANIntakeSubsystem extends SubsystemBase {
         goConfig.smartCurrentLimit(IntakeConstants.INTAKE_MOTOR_CURRENT_LIMIT);
         
         goConfig.closedLoop
+            .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
             .p(IntakeConstants.GO_INTAKE_P)
             .i(IntakeConstants.GO_INTAKE_I)
             .d(IntakeConstants.GO_INTAKE_D)
             .outputRange(-1, 1);
+
+        goConfig.encoder.positionConversionFactor(IntakeConstants.GO_INTAKE_GEAR_RATIO);
+        goConfig.encoder.velocityConversionFactor(IntakeConstants.GO_INTAKE_GEAR_RATIO);
 
         goIntakeMotor.configure(goConfig,ResetMode.kResetSafeParameters,PersistMode.kPersistParameters);
     }
@@ -69,6 +76,6 @@ public class CANIntakeSubsystem extends SubsystemBase {
     }
 
     public Command comeBackIntake() {
-        return Commands.run(() -> goIntakePID.setSetpoint(IntakeConstants.INTAKE_START_ANGLE, ControlType.kPosition));
+        return Commands.run(() -> goIntakePID.setSetpoint(IntakeConstants.INTAKE_START_ANGLE/360, ControlType.kPosition));
     }
 }

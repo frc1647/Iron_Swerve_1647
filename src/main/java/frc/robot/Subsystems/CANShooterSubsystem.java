@@ -76,29 +76,22 @@ public class CANShooterSubsystem extends SubsystemBase {
   }
 
   public void stopShooter() {
-    closedLoopController.setSetpoint(0, ControlType.kVelocity);
+    shooterMotor.stopMotor();
   }
 
   public void score(Hopper hopper) {
     Commands.sequence(
       Commands.run(() -> 
-        this.runShooterDirect()).withTimeout(ShooterConstants.SHOOTER_TIMEOUT), 
+        runShooterDirect()).withTimeout(ShooterConstants.SHOOTER_TIMEOUT), 
 
       Commands.run(() -> {
-        this.runShooterDirect();
+        runShooterDirect();
         hopper.runUpperPassageDirect();
       }).withTimeout(ShooterConstants.SHOOTER_TIMEOUT), 
 
       Commands.run(() -> {
-        this.runShooterDirect();
+        runShooterDirect();
         hopper.runUpperPassageDirect();
-        hopper.runLowerPassageDirect();
-      }).withTimeout(ShooterConstants.SHOOTER_TIMEOUT), 
-
-      Commands.run(() -> {
-        this.runShooterDirect();
-        hopper.runUpperPassageDirect();
-        hopper.runLowerPassageDirect();
         hopper.runSpindexerDirect();
       }));
   }
@@ -106,23 +99,16 @@ public class CANShooterSubsystem extends SubsystemBase {
   public void score(double shooterTime, Hopper hopper) {
     Commands.sequence(
       Commands.run(() -> 
-        this.runShooterDirect()).withTimeout(ShooterConstants.SHOOTER_TIMEOUT), 
+        runShooterDirect()).withTimeout(ShooterConstants.SHOOTER_TIMEOUT), 
 
       Commands.run(() -> {
-        this.runShooterDirect();
+        runShooterDirect();
         hopper.runUpperPassageDirect();
       }).withTimeout(ShooterConstants.SHOOTER_TIMEOUT), 
 
       Commands.run(() -> {
-        this.runShooterDirect();
+        runShooterDirect();
         hopper.runUpperPassageDirect();
-        hopper.runLowerPassageDirect();
-      }).withTimeout(ShooterConstants.SHOOTER_TIMEOUT), 
-
-      Commands.run(() -> {
-        this.runShooterDirect();
-        hopper.runUpperPassageDirect();
-        hopper.runLowerPassageDirect();
         hopper.runSpindexerDirect();
       })).withTimeout(2);
   }

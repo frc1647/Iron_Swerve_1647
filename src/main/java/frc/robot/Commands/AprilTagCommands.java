@@ -14,18 +14,29 @@ import frc.robot.RobotContainer;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.TurretConstants;
 
-public final class AprilTagCommands {
+public class AprilTagCommands {
+    public static boolean targetingHub = true;
+    public static int targetTagLeft = AprilTags.homeHubBackLeftID;
+    public static int targetTagRight = AprilTags.homeHubBackRightID;
 
     public static Command AimTowardsAprilTag(CANTurretSubsystem turretSubsystem, int id) {
-        return turretSubsystem.run(() -> {
+    return Commands.repeatingSequence(
+        turretSubsystem.runOnce(() -> {
             if (Camera.sauronSeesTag(id)) {
-                turretSubsystem.rotateTurret(Camera.sauronHorizontal());
+                turretSubsystem.rotateTurret(-Camera.sauronHorizontal());
+            } else {
+                turretSubsystem.rotateTurret(0.5);
             }
-            else {
-                turretSubsystem.rotateTurret(3);
+        })
+        .andThen(Commands.waitUntil(() -> {
+            if (Camera.sauronSeesTag(id)) {
+                return turretSubsystem.isAtTarget(-Camera.sauronHorizontal()); // aimed at tag
+            } else {
+                return true; // don't wait, keep spinning
             }
-        });
-    }
+        }))
+    );
+}
 
 /*
     public static Command ForceAimToTargetAprilTag(CANTurretSubsystem turretSubsystem, int id) {
@@ -36,15 +47,16 @@ public final class AprilTagCommands {
         });
     }
 */
-    public static Command SwitchShootingMode(RobotContainer robotContainer) {
-        return Commands.runOnce(() -> {
-            robotContainer.targetingHub = !robotContainer.targetingHub;
-            if (robotContainer.targetingHub) {
-                robotContainer.targetTagLeft = AprilTags.homeHubBackLeftID;
-                robotContainer.targetTagRight = AprilTags.homeHubBackLeftID;
+
+    public static Command SwitchShootingMode() {
+        return new RunCommand(() -> {
+            targetingHub = !targetingHub;
+            if (targetingHub) {
+                targetTagLeft = AprilTags.homeHubBackLeftID;
+                targetTagRight = AprilTags.homeHubBackRightID;
             } else { 
-                robotContainer.targetTagLeft = AprilTags.homeOutpostLeftID;
-                robotContainer.targetTagRight = AprilTags.homeOutpostRightID;
+                targetTagLeft = AprilTags.homeOutpostLeftID;
+                targetTagRight = AprilTags.homeOutpostRightID;
             }
         });
     }

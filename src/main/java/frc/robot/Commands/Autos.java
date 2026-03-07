@@ -14,13 +14,6 @@ import frc.robot.Commands.AprilTagCommands;
 
 public final class Autos {
 
-    public static Command exampleAuto(CANDriveSubsystem drivetrain) {
-        return new RunCommand(() -> drivetrain.driveTankII(.5, .5), drivetrain)
-                // .andThen(() -> drivetrain.driveTankII(.7,.7))
-                .withTimeout(3)
-                .andThen(new RunCommand(() -> drivetrain.driveTankII(0, 0)));
-    }
-
     public static Command AutoOne(CANTurretSubsystem turretSubsystem, CANDriveSubsystem driveTrain, CANShooterSubsystem shooterSubsystem, Hopper hopper) {
         return new RunCommand(()-> driveTrain.driveTankII(1, 1), driveTrain).withTimeout(2)
         .andThen(AprilTagCommands.AimTowardsAprilTag(turretSubsystem, AprilTags.homeHubBackLeftID))
