@@ -37,6 +37,7 @@ public class Hopper extends SubsystemBase {
         passageMotorLower = new SparkMax(HopperConstants.PASSAGE_MOTOR_LOWER_ID, MotorType.kBrushless);
         passageMotorUpper = new SparkMax(HopperConstants.PASSAGE_MOTOR_UPPER_ID, MotorType.kBrushless);
 
+        spindexerMotor.getConfigurator().apply(config);
     }
 
     public Command runSpindexer() {
@@ -66,7 +67,7 @@ public class Hopper extends SubsystemBase {
      * Runs lower passage
      */
     public void runLowerPassageDirect() {
-        passageMotorLower.set(HopperConstants.PASSAGE_SPEED);
+        passageMotorLower.set(-HopperConstants.PASSAGE_SPEED);
     }
 
     /**
