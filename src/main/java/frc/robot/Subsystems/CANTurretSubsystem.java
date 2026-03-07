@@ -78,6 +78,8 @@ public class CANTurretSubsystem extends SubsystemBase {
     double rotation = GetTurretAngle();
     double goalRotation = rotation + angleChange;
 
+    double range = Math.abs(TurretConstants.TURRET_AIMING_LIMIT_MAX) + Math.abs(TurretConstants.TURRET_AIMING_LIMIT_MIN);
+
     // Try normalizing into range by wrapping
     while (goalRotation < TurretConstants.TURRET_AIMING_LIMIT_MIN) {
         goalRotation += 360;
