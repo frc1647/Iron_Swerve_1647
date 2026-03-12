@@ -76,6 +76,10 @@ public class CANIntakeSubsystem extends SubsystemBase {
     }
 
     public Command comeBackIntake() {
-        return Commands.run(() -> goIntakePID.setSetpoint(IntakeConstants.INTAKE_START_ANGLE/360, ControlType.kPosition));
+        return Commands.run(() -> goIntakePID.setSetpoint(0, ControlType.kPosition));
+    }
+
+    public void zeroIntake() {
+        goIntakeEncoder.setPosition(0);
     }
 }

@@ -55,6 +55,10 @@ public class CANTurretSubsystem extends SubsystemBase {
         turretEncoder.setPosition(0);
     }
 
+    public void resetTurret() {
+        turretPID.setSetpoint(0, ControlType.kPosition);
+    }
+
     /**
      * Rotates the turret by a set number of degrees
      * @param angleChangeDegrees Number of degrees to rotate by
@@ -77,8 +81,6 @@ public class CANTurretSubsystem extends SubsystemBase {
     public void rotateTurret(double angleChange) {
     double rotation = GetTurretAngle();
     double goalRotation = rotation + angleChange;
-
-    double range = Math.abs(TurretConstants.TURRET_AIMING_LIMIT_MAX) + Math.abs(TurretConstants.TURRET_AIMING_LIMIT_MIN);
 
     // Try normalizing into range by wrapping
     while (goalRotation < TurretConstants.TURRET_AIMING_LIMIT_MIN) {

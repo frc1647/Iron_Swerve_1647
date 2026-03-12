@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Constants.TurretConstants;
 import frc.robot.Commands.AprilTagCommands;
 import frc.robot.Subsystems.CANTurretSubsystem;
 import frc.robot.Subsystems.Camera;
@@ -62,6 +63,9 @@ public void robotInit() {
 
     
     HAL.report(tResourceType.kResourceType_Framework, 10);
+
+    m_robotContainer.turretSubsystem.zeroTurret();
+    m_robotContainer.intakeSubsystem.zeroIntake();
 }
 
   /**
@@ -128,6 +132,8 @@ public void robotInit() {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
+    AprilTagCommands.AimTowardsAprilTag(m_robotContainer.turretSubsystem, AprilTagCommands.targetTagRight, TurretConstants.AIMING_TIME_FACTOR);
   }
 
   /** This function is called periodically during operator control. */

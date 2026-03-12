@@ -4,49 +4,27 @@ package frc.robot.Commands;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.Subsystems.CANDriveSubsystem;
 import frc.robot.Subsystems.CANTurretSubsystem;
 import frc.robot.Subsystems.Camera;
 import frc.robot.AprilTags;
-import frc.robot.RobotContainer;
 import frc.robot.Constants.AutoConstants;
-import frc.robot.Constants.TurretConstants;
 
 public class AprilTagCommands {
     public static boolean targetingHub = true;
     public static int targetTagLeft = AprilTags.homeHubBackLeftID;
     public static int targetTagRight = AprilTags.homeHubBackRightID;
 
-    public static Command AimTowardsAprilTag(CANTurretSubsystem turretSubsystem, int id) {
-    return Commands.repeatingSequence(
-        turretSubsystem.runOnce(() -> {
+    public static Command AimTowardsAprilTag(CANTurretSubsystem turretSubsystem, int id, double factor) {
+        return turretSubsystem.runOnce(() -> {
             if (Camera.sauronSeesTag(id)) {
-                turretSubsystem.rotateTurret(-Camera.sauronHorizontal());
+                turretSubsystem.rotateTurret(-Camera.sauronHorizontal()/factor);
             } else {
-                turretSubsystem.rotateTurret(0.5);
+                turretSubsystem.rotateTurret(20/factor);
             }
-        })
-        .andThen(Commands.waitUntil(() -> {
-            if (Camera.sauronSeesTag(id)) {
-                return turretSubsystem.isAtTarget(-Camera.sauronHorizontal()); // aimed at tag
-            } else {
-                return true; // don't wait, keep spinning
-            }
-        }))
-    );
-}
-
-/*
-    public static Command ForceAimToTargetAprilTag(CANTurretSubsystem turretSubsystem, int id) {
-        return turretSubsystem.run(() -> {
-            if (Camera.sauronHorizontal() < AutoConstants.ANGLE_TOLERANCE) {
-                
-            }
-        });
+        });    
     }
-*/
 
     public static Command SwitchShootingMode() {
         return new RunCommand(() -> {
@@ -102,7 +80,7 @@ public class AprilTagCommands {
             double distance = Camera.sauronDistanceInches();
 
             if (distance < 0) {
-                m_drive.driveTankII(0, 0);
+                m_drive.driveTankII(1, 1);
                 return;
             }
 

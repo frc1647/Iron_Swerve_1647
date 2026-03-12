@@ -83,7 +83,6 @@ public class RobotContainer {
         // Initialize alliance (default to red if not present)
         onAllianceChanged(getAlliance());
         AprilTags.setAprilTagIDs();
-        turretSubsystem.zeroTurret();
 
         // Set up trigger to detect alliance changes
         new Trigger(() -> getAlliance() != currentAlliance)
@@ -103,11 +102,11 @@ public class RobotContainer {
 
         // Set the options to show up in the Dashboard for selecting auto modes. If you
         // add additional auto modes you can add additional lines here with
-        autoChooser.addOption("Depot", Autos.AutoOne(turretSubsystem, driveSubsystem, shooterSubsystem, hopper));        
-        autoChooser.addOption("Outpost", Autos.AutoTwo(turretSubsystem, driveSubsystem, shooterSubsystem, hopper));
-        autoChooser.addOption("Center", Autos.AutoThree(turretSubsystem, driveSubsystem, shooterSubsystem, hopper));
+        autoChooser.addOption("Depot", Autos.AutoOne(turretSubsystem, driveSubsystem, shooterSubsystem, hopper, intakeSubsystem));        
+        autoChooser.addOption("Outpost", Autos.AutoTwo(turretSubsystem, driveSubsystem, shooterSubsystem, hopper, intakeSubsystem));
+        autoChooser.addOption("Center", Autos.AutoThree(turretSubsystem, driveSubsystem, shooterSubsystem, hopper, intakeSubsystem));
 
-        autoChooser.setDefaultOption("Depot", Autos.AutoOne(turretSubsystem, driveSubsystem, shooterSubsystem, hopper));
+        autoChooser.setDefaultOption("Depot", Autos.AutoOne(turretSubsystem, driveSubsystem, shooterSubsystem, hopper, intakeSubsystem));
 
         SmartDashboard.putData("Auto Selector", autoChooser);
         // Autos.exampleAuto(driveSubsystem));
@@ -167,11 +166,6 @@ public class RobotContainer {
  *                 |_|   \_____/| ||_/ \____)_|   \_||_|\___)___/|_|       \______)___/|_|_|_|_|_|_|\_||_|_| |_|\____(___/   |_|             
  *                              |_|                                                                                                          
  */
-
-        
-
-        turretSubsystem.setDefaultCommand(AprilTagCommands.AimTowardsAprilTag(turretSubsystem, AprilTagCommands.targetTagRight));
-
         operatorController.rightTrigger().whileTrue(Commands.sequence(Commands.run(() -> shooterSubsystem.runShooterDirect()).withTimeout(ShooterConstants.SHOOTER_TIMEOUT), Commands.run(() -> {shooterSubsystem.runShooterDirect();hopper.runUpperPassageDirect();}).withTimeout(ShooterConstants.SHOOTER_TIMEOUT), Commands.run(() -> {shooterSubsystem.runShooterDirect();hopper.runUpperPassageDirect();hopper.runSpindexerDirect();})));
         operatorController.rightTrigger().whileFalse(Commands.run(() -> {shooterSubsystem.stopShooter();hopper.stopPassage();hopper.stopSpindexer(); }));
         operatorController.leftTrigger().and(operatorController.a()).onTrue(Commands.run(() -> turretSubsystem.rotateTurret(operatorController.getLeftTriggerAxis()*-360)));

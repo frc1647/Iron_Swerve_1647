@@ -14,23 +14,29 @@ import frc.robot.Commands.AprilTagCommands;
 
 public final class Autos {
 
-    public static Command AutoOne(CANTurretSubsystem turretSubsystem, CANDriveSubsystem driveTrain, CANShooterSubsystem shooterSubsystem, Hopper hopper) {
-        return new RunCommand(()-> driveTrain.driveTankII(1, 1), driveTrain).withTimeout(2)
-        .andThen(AprilTagCommands.AimTowardsAprilTag(turretSubsystem, AprilTags.homeHubBackLeftID))
-        .andThen(shooterSubsystem.scoreCommand(AutoConstants.AUTO_SHOOT_TIME, hopper)).andThen(new RunCommand(()-> driveTrain.driveTankII(1, 1), driveTrain).withTimeout(2));
+    public static Command AutoOne(CANTurretSubsystem turretSubsystem, CANDriveSubsystem driveTrain, CANShooterSubsystem shooterSubsystem, Hopper hopper, CANIntakeSubsystem intakeSubsystem) {
+        return new RunCommand(() -> intakeSubsystem.goIntake())
+            .andThen(()-> driveTrain.driveTankII(1, 1), driveTrain).withTimeout(2)
+            .andThen(AprilTagCommands.AimTowardsAprilTag(turretSubsystem, AprilTags.homeHubBackLeftID, 1).until(() -> Camera.sauronSeesTag(AprilTags.homeHubBackLeftID)&&Math.abs(Camera.sauronHorizontal())<=AutoConstants.ANGLE_TOLERANCE))
+            .andThen(shooterSubsystem.scoreCommand(AutoConstants.AUTO_SHOOT_TIME, hopper)).andThen(new RunCommand(()-> driveTrain.driveTankII(1, 1), driveTrain).withTimeout(2))
+            .andThen(Commands.parallel(new RunCommand(() -> driveTrain.driveTankII(1, 1)), intakeSubsystem.grabBalls()).withTimeout(2))
+            .andThen(AprilTagCommands.AimTowardsAprilTag(turretSubsystem, AprilTags.homeHubBackLeftID, 1).until(() -> Camera.sauronSeesTag(AprilTags.homeHubBackLeftID)&&Math.abs(Camera.sauronHorizontal())<=AutoConstants.ANGLE_TOLERANCE))
+            .andThen(shooterSubsystem.scoreCommand(AutoConstants.AUTO_SHOOT_TIME, hopper)).andThen(new RunCommand(()-> driveTrain.driveTankII(1, 1), driveTrain).withTimeout(2));
     }
 
     // go to player station to retrieve balls
-    public static Command AutoTwo(CANTurretSubsystem turretSubsystem, CANDriveSubsystem driveTrain, CANShooterSubsystem shooterSubsystem, Hopper hopper) {
-        return AprilTagCommands.AimTowardsAprilTag(turretSubsystem, AprilTags.homeHubBackLeftID)
-        .andThen(shooterSubsystem.runShooter()).withTimeout(AutoConstants.AUTO_SHOOT_TIME)
-        .andThen(new AprilTagCommands.DriveToAprilTag(driveTrain, turretSubsystem, AprilTags.homeOutpostLeftID));
+    public static Command AutoTwo(CANTurretSubsystem turretSubsystem, CANDriveSubsystem driveTrain, CANShooterSubsystem shooterSubsystem, Hopper hopper, CANIntakeSubsystem intakeSubsystem) {
+        return new RunCommand(() -> intakeSubsystem.goIntake())
+            .andThen(AprilTagCommands.AimTowardsAprilTag(turretSubsystem, AprilTags.homeHubBackLeftID, 1))
+            .andThen(shooterSubsystem.scoreCommand(AutoConstants.AUTO_SHOOT_TIME, hopper)).withTimeout(AutoConstants.AUTO_SHOOT_TIME)
+            .andThen(() -> turretSubsystem.resetTurret())
+            .andThen(new AprilTagCommands.DriveToAprilTag(driveTrain, turretSubsystem, AprilTags.homeOutpostLeftID));
     }
 
     // Go to center pick up balls and pass to human player station
-    public static Command AutoThree(CANTurretSubsystem turretSubsystem, CANDriveSubsystem driveTrain, CANShooterSubsystem shooterSubsystem, Hopper hopper) {
+    public static Command AutoThree(CANTurretSubsystem turretSubsystem, CANDriveSubsystem driveTrain, CANShooterSubsystem shooterSubsystem, Hopper hopper, CANIntakeSubsystem intakeSubsystem) {
         return new AprilTagCommands.DriveToAprilTag(driveTrain, turretSubsystem, AprilTags.awayHubFrontLeftID)
-        .andThen(AprilTagCommands.AimTowardsAprilTag(turretSubsystem, AprilTags.homeOutpostLeftID))
-        .andThen(shooterSubsystem.runShooter()).withTimeout(AutoConstants.AUTO_SHOOT_TIME);
+            .andThen(AprilTagCommands.AimTowardsAprilTag(turretSubsystem, AprilTags.homeOutpostLeftID, 1))
+            .andThen(shooterSubsystem.scoreCommand(AutoConstants.AUTO_SHOOT_TIME, hopper)).withTimeout(AutoConstants.AUTO_SHOOT_TIME);
     }
 }

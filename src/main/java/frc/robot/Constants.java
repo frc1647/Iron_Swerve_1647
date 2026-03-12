@@ -74,6 +74,8 @@ public final class Constants {
 
     public static final double TURRET_AIMING_LIMIT_MIN = -288; // TODO double check direction
     public static final double TURRET_AIMING_LIMIT_MAX = 0;
+
+    public static final double AIMING_TIME_FACTOR = 100;
     
     //TODO: Test and seet for all 3, theoretically correct values in comments
     public static final double TURRET_P = 0.00192; //0.192
@@ -83,7 +85,7 @@ public final class Constants {
 
   public static final class CameraConstants {
     public static final double LIMELIGHT_LENS_HEIGHT_IN = 22.5;
-    public static final double LIMELIGHT_MOUNT_ANGLE_DEG = 114.125;
+    public static final double LIMELIGHT_MOUNT_ANGLE_DEG = 24.125;
   }
 
   public static final class IntakeConstants {
@@ -91,8 +93,7 @@ public final class Constants {
     public static final int GO_INTAKE_ID = 45;
     
     public static final int INTAKE_MOTOR_CURRENT_LIMIT = 65;
-    public static final double INTAKE_ANGLE = 90;
-    public static final double INTAKE_START_ANGLE = 45;
+    public static final double INTAKE_ANGLE = 67;//TODO
     public static final double INTAKE_POWER = 2560000; //19625
 
     public static final double GO_INTAKE_GEAR_RATIO = 16;
@@ -111,13 +112,16 @@ public final class Constants {
     public static final double SPINDEXER_GEAR_RATIO = 28*1.25;
     
     public static final double PASSAGE_SPEED = 0.5;
+
+    public static final double STATOR_CURRENT_LIMIT = 40;
+    public static final double SUPPLY_CURRENT_LIMIT = 30;
   }
 
   public static final class AutoConstants {
     // TODO
     public static final double TARGET_INCHES_FROM_TAG = 24;
-    public static final double TURN_STRENGTH = 0.04; // 0 - 1, how strong the drive-to-apriltag command turns
-    public static final double DRIVE_STRENGTH = 0.03;
+    public static final double TURN_STRENGTH = 0.02; // 0 - 1, how strong the drive-to-apriltag command turns
+    public static final double DRIVE_STRENGTH = 0.05;
 
     public static final double DISTANCE_TOLERANCE = 2.0; // Inches
     public static final double ANGLE_TOLERANCE = 2.0; // Degrees
