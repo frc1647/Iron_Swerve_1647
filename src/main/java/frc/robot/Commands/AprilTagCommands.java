@@ -27,8 +27,7 @@ public class AprilTagCommands {
         });    
     }
 
-    public static Command SwitchShootingMode() {
-        return new RunCommand(() -> {
+    public static void SwitchShootingMode() {
             targetingHub = !targetingHub;
             if (targetingHub) {
                 targetTagLeft = AprilTags.homeHubBackLeftID;
@@ -39,8 +38,8 @@ public class AprilTagCommands {
                 targetTagRight = AprilTags.homeOutpostRightID;
                 target = "Outpost";
             }
-        });
-    }
+        };
+    
 
     public static class DriveToAprilTag extends Command {
 

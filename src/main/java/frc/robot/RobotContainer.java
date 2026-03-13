@@ -171,10 +171,11 @@ public class RobotContainer {
         operatorController.rightTrigger().whileTrue(Commands.sequence(Commands.run(() -> shooterSubsystem.runShooterDirect()).withTimeout(ShooterConstants.SHOOTER_TIMEOUT), Commands.run(() -> {shooterSubsystem.runShooterDirect();hopper.runUpperPassageDirect();}).withTimeout(ShooterConstants.SHOOTER_TIMEOUT), Commands.run(() -> {shooterSubsystem.runShooterDirect();hopper.runUpperPassageDirect();hopper.runSpindexerDirect();})));
         operatorController.rightTrigger().whileFalse(Commands.run(() -> {shooterSubsystem.stopShooter();hopper.stopPassage();hopper.stopSpindexer(); }));
         operatorController.leftTrigger().and(operatorController.a()).onTrue(Commands.run(() -> turretSubsystem.rotateTurret(operatorController.getLeftTriggerAxis()*-360)));
-        operatorController.leftBumper().onTrue(AprilTagCommands.SwitchShootingMode());
+        operatorController.leftBumper().onTrue(Commands.runOnce(() -> AprilTagCommands.SwitchShootingMode()));
         operatorController.povDown().onTrue(intakeSubsystem.goIntake(intakeSubsystem));
         operatorController.povUp().onTrue(intakeSubsystem.comeBackIntake(intakeSubsystem));
         operatorController.b().whileTrue(rollerSubsystem.grabBalls(rollerSubsystem));
+        operatorController.b().whileFalse(rollerSubsystem.stopRoller(rollerSubsystem));
         //operatorController.a().whileTrue(new AprilTagCommands.DriveToAprilTag(driveSubsystem, turretSubsystem, 0));
  }
 

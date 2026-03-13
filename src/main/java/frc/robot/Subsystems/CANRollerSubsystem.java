@@ -38,4 +38,8 @@ public class CANRollerSubsystem extends SubsystemBase {
     public Command grabBalls(CANRollerSubsystem rollerSubsystem) {
         return Commands.run(() -> intakeMotor.set(1), rollerSubsystem);
     }
+
+    public Command stopRoller(CANRollerSubsystem rollerSubsystem) {
+        return Commands.run(() -> intakeMotor.set(0), rollerSubsystem);
+    }
 }
