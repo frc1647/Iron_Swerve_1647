@@ -15,6 +15,7 @@ public class AprilTagCommands {
     public static boolean targetingHub = true;
     public static int targetTagLeft = AprilTags.homeHubBackLeftID;
     public static int targetTagRight = AprilTags.homeHubBackRightID;
+    public static String target = "Hub";
 
     public static Command AimTowardsAprilTag(CANTurretSubsystem turretSubsystem, int id, double factor) {
         return turretSubsystem.runOnce(() -> {
@@ -32,9 +33,11 @@ public class AprilTagCommands {
             if (targetingHub) {
                 targetTagLeft = AprilTags.homeHubBackLeftID;
                 targetTagRight = AprilTags.homeHubBackRightID;
+                target = "Hub";
             } else { 
                 targetTagLeft = AprilTags.homeOutpostLeftID;
                 targetTagRight = AprilTags.homeOutpostRightID;
+                target = "Outpost";
             }
         });
     }

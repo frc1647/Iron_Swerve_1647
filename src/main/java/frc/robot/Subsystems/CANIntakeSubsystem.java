@@ -7,42 +7,25 @@ import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
-import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.FeedbackSensor;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.config.SparkMaxConfig;
-import com.revrobotics.spark.config.SparkFlexConfig;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import frc.robot.Constants.IntakeConstants;
 
 public class CANIntakeSubsystem extends SubsystemBase {
-
-    private final SparkFlex intakeMotor;
     private final SparkMax goIntakeMotor;
-    private final RelativeEncoder intakeEncoder;
+    
     private final RelativeEncoder goIntakeEncoder;
-    private final SparkClosedLoopController intakePID;
+    
     private final SparkClosedLoopController goIntakePID;
     public double goIntakePosition;
 
     public CANIntakeSubsystem() {
-        intakeMotor = new SparkFlex(IntakeConstants.INTAKE_ID, MotorType.kBrushless);
-        intakeMotor.setCANTimeout(250);
         
-        intakeEncoder = intakeMotor.getEncoder();
-        intakePID = intakeMotor.getClosedLoopController();
-
-        SparkFlexConfig intakeConfig = new SparkFlexConfig();
-        intakeConfig.voltageCompensation(12);
-        intakeConfig.smartCurrentLimit(IntakeConstants.INTAKE_MOTOR_CURRENT_LIMIT);
-        intakeConfig.encoder.positionConversionFactor(IntakeConstants.INTAKE_POWER);
-        intakeConfig.encoder.velocityConversionFactor(IntakeConstants.INTAKE_POWER);
-        
-        intakeMotor.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-
         goIntakeMotor = new SparkMax(IntakeConstants.GO_INTAKE_ID, MotorType.kBrushless);
         goIntakeMotor.setCANTimeout(250);
         
@@ -65,10 +48,6 @@ public class CANIntakeSubsystem extends SubsystemBase {
         goConfig.encoder.velocityConversionFactor(IntakeConstants.GO_INTAKE_GEAR_RATIO);
 
         goIntakeMotor.configure(goConfig,ResetMode.kResetSafeParameters,PersistMode.kPersistParameters);
-    }
-
-    public Command grabBalls(CANIntakeSubsystem intakeSubsystem) {
-        return Commands.run(() -> intakeMotor.set(1), intakeSubsystem);
     }
 
     public Command goIntake(CANIntakeSubsystem intakeSubsystem) {

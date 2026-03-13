@@ -17,7 +17,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Constants.TurretConstants;
 import frc.robot.Commands.AprilTagCommands;
-import frc.robot.Subsystems.CANTurretSubsystem;
 import frc.robot.Subsystems.Camera;
 
 
@@ -89,7 +88,7 @@ public void robotInit() {
     // block in order for anything in the Command-based framework to work.
     SmartDashboard.putNumber("Turret ID", Camera.sauronTagID());
     SmartDashboard.putNumber("Turret Angle", m_robotContainer.turretSubsystem.GetTurretAngle());
-    SmartDashboard.putNumber("Target ID", AprilTagCommands.targetTagRight);
+    SmartDashboard.putString("Target", AprilTagCommands.target);
     SmartDashboard.putNumber("Intake Position", m_robotContainer.intakeSubsystem.getIntakePosition());
     
     CommandScheduler.getInstance().run();
@@ -134,21 +133,13 @@ public void robotInit() {
       m_autonomousCommand.cancel();
     }
 
-    AprilTagCommands.AimTowardsAprilTag(m_robotContainer.turretSubsystem, AprilTagCommands.targetTagRight, TurretConstants.AIMING_TIME_FACTOR);
+    
   }
 
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-/*
-    System.out.println("Watcher tv: " + Camera.watcherHasTag());
-    System.out.println("Watcher tid: " + Camera.watcherTagID());
-    System.out.println("Watcher tx: " + Camera.watcherHorizontal());
-    
-    System.out.println("Sauron tv: " + Camera.sauronHasTag());
-    System.out.println("Sauron tid: " + Camera.sauronTagID());
-    System.out.println("Sauron tx: " + Camera.sauronHorizontal());
-  */
+    AprilTagCommands.AimTowardsAprilTag(m_robotContainer.turretSubsystem, AprilTagCommands.targetTagRight, TurretConstants.AIMING_TIME_FACTOR);
   }
 
   @Override

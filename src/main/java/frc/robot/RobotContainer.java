@@ -35,6 +35,7 @@ import frc.robot.Subsystems.CANDriveSubsystem;
 import frc.robot.Subsystems.CANShooterSubsystem;
 import frc.robot.Subsystems.CANTurretSubsystem;
 import frc.robot.Subsystems.CANIntakeSubsystem;
+import frc.robot.Subsystems.CANRollerSubsystem;
 import frc.robot.Subsystems.Camera;
 import frc.robot.Subsystems.Hopper;
 import frc.robot.Subsystems.LEDSubsystem;
@@ -57,6 +58,7 @@ public class RobotContainer {
     public final CANShooterSubsystem shooterSubsystem = new CANShooterSubsystem();
     public final CANTurretSubsystem turretSubsystem = new CANTurretSubsystem();
     public final CANIntakeSubsystem intakeSubsystem = new CANIntakeSubsystem();
+    public final CANRollerSubsystem rollerSubsystem = new CANRollerSubsystem();
     public final Hopper hopper = new Hopper();
     public final LEDSubsystem ledSubsystem = new LEDSubsystem();
     public final Camera camera = new Camera();
@@ -102,11 +104,11 @@ public class RobotContainer {
 
         // Set the options to show up in the Dashboard for selecting auto modes. If you
         // add additional auto modes you can add additional lines here with
-        autoChooser.addOption("Depot", Autos.AutoOne(turretSubsystem, driveSubsystem, shooterSubsystem, hopper, intakeSubsystem));        
+        autoChooser.addOption("Depot", Autos.AutoOne(turretSubsystem, driveSubsystem, shooterSubsystem, hopper, intakeSubsystem, rollerSubsystem));        
         autoChooser.addOption("Outpost", Autos.AutoTwo(turretSubsystem, driveSubsystem, shooterSubsystem, hopper, intakeSubsystem));
-        autoChooser.addOption("Center", Autos.AutoThree(turretSubsystem, driveSubsystem, shooterSubsystem, hopper, intakeSubsystem));
+        autoChooser.addOption("Center", Autos.AutoThree(turretSubsystem, driveSubsystem, shooterSubsystem, hopper, intakeSubsystem, rollerSubsystem));
 
-        autoChooser.setDefaultOption("Depot", Autos.AutoOne(turretSubsystem, driveSubsystem, shooterSubsystem, hopper, intakeSubsystem));
+        autoChooser.setDefaultOption("Depot", Autos.AutoOne(turretSubsystem, driveSubsystem, shooterSubsystem, hopper, intakeSubsystem, rollerSubsystem));
 
         SmartDashboard.putData("Auto Selector", autoChooser);
         // Autos.exampleAuto(driveSubsystem));
@@ -172,7 +174,7 @@ public class RobotContainer {
         operatorController.leftBumper().onTrue(AprilTagCommands.SwitchShootingMode());
         operatorController.povDown().onTrue(intakeSubsystem.goIntake(intakeSubsystem));
         operatorController.povUp().onTrue(intakeSubsystem.comeBackIntake(intakeSubsystem));
-        operatorController.b().whileTrue(intakeSubsystem.grabBalls(intakeSubsystem));
+        operatorController.b().whileTrue(rollerSubsystem.grabBalls(rollerSubsystem));
         //operatorController.a().whileTrue(new AprilTagCommands.DriveToAprilTag(driveSubsystem, turretSubsystem, 0));
  }
 
