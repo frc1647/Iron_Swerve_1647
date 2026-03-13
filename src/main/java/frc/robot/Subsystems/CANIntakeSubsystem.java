@@ -26,6 +26,7 @@ public class CANIntakeSubsystem extends SubsystemBase {
     private final RelativeEncoder goIntakeEncoder;
     private final SparkClosedLoopController intakePID;
     private final SparkClosedLoopController goIntakePID;
+    public double goIntakePosition;
 
     public CANIntakeSubsystem() {
         intakeMotor = new SparkFlex(IntakeConstants.INTAKE_ID, MotorType.kBrushless);
@@ -66,20 +67,23 @@ public class CANIntakeSubsystem extends SubsystemBase {
         goIntakeMotor.configure(goConfig,ResetMode.kResetSafeParameters,PersistMode.kPersistParameters);
     }
 
-    public Command grabBalls() {
-        return Commands.run(() -> intakeMotor.set(1), this)
-        .finallyDo(() -> intakeMotor.set(0));
+    public Command grabBalls(CANIntakeSubsystem intakeSubsystem) {
+        return Commands.run(() -> intakeMotor.set(1), intakeSubsystem);
     }
 
-    public Command goIntake() {
-        return Commands.run(() -> goIntakePID.setSetpoint(IntakeConstants.INTAKE_ANGLE/360, ControlType.kPosition));
+    public Command goIntake(CANIntakeSubsystem intakeSubsystem) {
+        return Commands.run(() -> goIntakePID.setSetpoint(getIntakePosition()+IntakeConstants.INTAKE_ANGLE/(360), ControlType.kPosition), intakeSubsystem);
     }
 
-    public Command comeBackIntake() {
-        return Commands.run(() -> goIntakePID.setSetpoint(0, ControlType.kPosition));
+    public Command comeBackIntake(CANIntakeSubsystem intakeSubsystem) {
+        return Commands.run(() -> goIntakePID.setSetpoint(getIntakePosition()-IntakeConstants.INTAKE_ANGLE/(360), ControlType.kPosition), intakeSubsystem);
     }
 
     public void zeroIntake() {
         goIntakeEncoder.setPosition(0);
+    }
+
+    public double getIntakePosition() {
+        return goIntakeEncoder.getPosition();
     }
 }

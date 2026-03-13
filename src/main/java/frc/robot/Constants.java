@@ -93,10 +93,10 @@ public final class Constants {
     public static final int GO_INTAKE_ID = 45;
     
     public static final int INTAKE_MOTOR_CURRENT_LIMIT = 65;
-    public static final double INTAKE_ANGLE = 67;//TODO
+    public static final double INTAKE_ANGLE = 112;
     public static final double INTAKE_POWER = 2560000; //19625
 
-    public static final double GO_INTAKE_GEAR_RATIO = 16;
+    public static final double GO_INTAKE_GEAR_RATIO = 1.0/16.0;
 
     public static final double GO_INTAKE_P = 0.1;
     public static final double GO_INTAKE_I = 0.0002;

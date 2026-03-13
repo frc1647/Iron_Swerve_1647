@@ -15,18 +15,18 @@ import frc.robot.Commands.AprilTagCommands;
 public final class Autos {
 
     public static Command AutoOne(CANTurretSubsystem turretSubsystem, CANDriveSubsystem driveTrain, CANShooterSubsystem shooterSubsystem, Hopper hopper, CANIntakeSubsystem intakeSubsystem) {
-        return new RunCommand(() -> intakeSubsystem.goIntake())
+        return new RunCommand(() -> intakeSubsystem.goIntake(intakeSubsystem))
             .andThen(()-> driveTrain.driveTankII(1, 1), driveTrain).withTimeout(2)
             .andThen(AprilTagCommands.AimTowardsAprilTag(turretSubsystem, AprilTags.homeHubBackLeftID, 1).until(() -> Camera.sauronSeesTag(AprilTags.homeHubBackLeftID)&&Math.abs(Camera.sauronHorizontal())<=AutoConstants.ANGLE_TOLERANCE))
             .andThen(shooterSubsystem.scoreCommand(AutoConstants.AUTO_SHOOT_TIME, hopper)).andThen(new RunCommand(()-> driveTrain.driveTankII(1, 1), driveTrain).withTimeout(2))
-            .andThen(Commands.parallel(new RunCommand(() -> driveTrain.driveTankII(1, 1)), intakeSubsystem.grabBalls()).withTimeout(2))
+            .andThen(Commands.parallel(new RunCommand(() -> driveTrain.driveTankII(1, 1)), intakeSubsystem.grabBalls(intakeSubsystem)).withTimeout(2))
             .andThen(AprilTagCommands.AimTowardsAprilTag(turretSubsystem, AprilTags.homeHubBackLeftID, 1).until(() -> Camera.sauronSeesTag(AprilTags.homeHubBackLeftID)&&Math.abs(Camera.sauronHorizontal())<=AutoConstants.ANGLE_TOLERANCE))
             .andThen(shooterSubsystem.scoreCommand(AutoConstants.AUTO_SHOOT_TIME, hopper)).andThen(new RunCommand(()-> driveTrain.driveTankII(1, 1), driveTrain).withTimeout(2));
     }
 
     // go to player station to retrieve balls
     public static Command AutoTwo(CANTurretSubsystem turretSubsystem, CANDriveSubsystem driveTrain, CANShooterSubsystem shooterSubsystem, Hopper hopper, CANIntakeSubsystem intakeSubsystem) {
-        return new RunCommand(() -> intakeSubsystem.goIntake())
+        return new RunCommand(() -> intakeSubsystem.goIntake(intakeSubsystem))
             .andThen(AprilTagCommands.AimTowardsAprilTag(turretSubsystem, AprilTags.homeHubBackLeftID, 1))
             .andThen(shooterSubsystem.scoreCommand(AutoConstants.AUTO_SHOOT_TIME, hopper)).withTimeout(AutoConstants.AUTO_SHOOT_TIME)
             .andThen(() -> turretSubsystem.resetTurret())

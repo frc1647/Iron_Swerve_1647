@@ -90,6 +90,7 @@ public void robotInit() {
     SmartDashboard.putNumber("Turret ID", Camera.sauronTagID());
     SmartDashboard.putNumber("Turret Angle", m_robotContainer.turretSubsystem.GetTurretAngle());
     SmartDashboard.putNumber("Target ID", AprilTagCommands.targetTagRight);
+    SmartDashboard.putNumber("Intake Position", m_robotContainer.intakeSubsystem.getIntakePosition());
     
     CommandScheduler.getInstance().run();
   }
