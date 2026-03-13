@@ -11,6 +11,8 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.FeedbackSensor;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -47,6 +49,9 @@ public class CANIntakeSubsystem extends SubsystemBase {
         goConfig.encoder.positionConversionFactor(IntakeConstants.GO_INTAKE_GEAR_RATIO);
         goConfig.encoder.velocityConversionFactor(IntakeConstants.GO_INTAKE_GEAR_RATIO);
 
+        goConfig.idleMode(IdleMode.kCoast);
+        
+
         goIntakeMotor.configure(goConfig,ResetMode.kResetSafeParameters,PersistMode.kPersistParameters);
     }
 
@@ -64,5 +69,17 @@ public class CANIntakeSubsystem extends SubsystemBase {
 
     public double getIntakePosition() {
         return goIntakeEncoder.getPosition();
+    }
+
+    public void goDown() {
+        goIntakeMotor.set(IntakeConstants.GO_INTAKE_SPEED);
+    }
+
+    public void goUp() {
+        goIntakeMotor.set(-IntakeConstants.GO_INTAKE_SPEED);
+    }
+
+    public void brakeIntake() {
+        goIntakeMotor.set(0);
     }
 }

@@ -101,6 +101,8 @@ public final class Constants {
     public static final double GO_INTAKE_P = 0.1;
     public static final double GO_INTAKE_I = 0.0002;
     public static final double GO_INTAKE_D = 0.04;
+
+    public static final double GO_INTAKE_SPEED = 0.25;
   }
 
   public static final class HopperConstants {
