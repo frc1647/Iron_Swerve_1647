@@ -111,6 +111,17 @@ public class RobotContainer {
         autoChooser.setDefaultOption("Depot", Autos.AutoOne(turretSubsystem, driveSubsystem, shooterSubsystem, hopper, intakeSubsystem, rollerSubsystem));
 
         SmartDashboard.putData("Auto Selector", autoChooser);
+
+        turretSubsystem.setDefaultCommand(
+            Commands.run(() -> {
+                if (Camera.sauronSeesTag(AprilTagCommands.targetTagRight)) {
+                    turretSubsystem.rotateTurret(-Camera.sauronHorizontal() / TurretConstants.AIMING_TIME_FACTOR);
+                } else {
+                    turretSubsystem.rotateTurret(20.0 / TurretConstants.AIMING_TIME_FACTOR);
+                }
+            }, turretSubsystem)
+        );
+
         // Autos.exampleAuto(driveSubsystem));
         // Set the default command to force the shooter rest.
         // shooterSubsystem.setDefaultCommand(shooterSubsystem.set(0));
@@ -174,12 +185,11 @@ public class RobotContainer {
         //operatorController.leftTrigger().and(operatorController.a()).onTrue(Commands.runOnce(() -> turretSubsystem.rotateTurret(operatorController.getLeftTriggerAxis()*-360)));
         //operatorController.leftTrigger().and(operatorController.y()).onTrue(Commands.runOnce(() -> turretSubsystem.rotateTurret(operatorController.getLeftTriggerAxis()*360)));
 
-        //operatorController.leftStick().whileTrue(Commands.run(() -> turretSubsystem.rotateTurret(operatorController.getRawAxis(1) * 90)));
+        operatorController.leftStick().whileTrue(Commands.run(() -> turretSubsystem.rotateTurret(operatorController.getRawAxis(1) * 90)));
 
         operatorController.leftBumper().onTrue(Commands.runOnce(() -> AprilTagCommands.SwitchShootingMode()));
-        operatorController.povDown().whileTrue(Commands.runOnce(() -> intakeSubsystem.goDown()));
-        operatorController.povUp().whileTrue(Commands.runOnce(() -> intakeSubsystem.goUp()));
-        operatorController.povDown().or(operatorController.povUp()).whileFalse(Commands.runOnce(() -> intakeSubsystem.brakeIntake()));
+        operatorController.povDown().whileTrue(Commands.runOnce(() -> intakeSubsystem.goDownCommand()));
+        operatorController.povUp().whileTrue(Commands.runOnce(() -> intakeSubsystem.goUpCommand()));
         operatorController.b().whileTrue(Commands.runOnce(() -> rollerSubsystem.grabBalls()));
         operatorController.b().whileFalse(Commands.runOnce(() -> rollerSubsystem.stopRoller()));
         //operatorController.a().whileTrue(new AprilTagCommands.DriveToAprilTag(driveSubsystem, turretSubsystem, 0));

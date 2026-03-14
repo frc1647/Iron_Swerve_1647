@@ -22,7 +22,7 @@ public class AprilTagCommands {
             if (Camera.sauronSeesTag(id)) {
                 turretSubsystem.rotateTurret(-Camera.sauronHorizontal()/factor);
             } else {
-                turretSubsystem.rotateTurret(20/factor);
+                turretSubsystem.rotateTurret(20.0/factor);
             }
         });    
     }
