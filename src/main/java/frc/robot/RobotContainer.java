@@ -171,10 +171,10 @@ public class RobotContainer {
         operatorController.rightTrigger().whileTrue(Commands.sequence(Commands.run(() -> shooterSubsystem.runShooterDirect()).withTimeout(ShooterConstants.SHOOTER_TIMEOUT), Commands.run(() -> {shooterSubsystem.runShooterDirect();hopper.runUpperPassageDirect();}).withTimeout(ShooterConstants.SHOOTER_TIMEOUT), Commands.run(() -> {shooterSubsystem.runShooterDirect();hopper.runUpperPassageDirect();hopper.runSpindexerDirect();})));
         operatorController.rightTrigger().whileFalse(Commands.run(() -> {shooterSubsystem.stopShooter();hopper.stopPassage();hopper.stopSpindexer(); }));
         
-        operatorController.leftTrigger().and(operatorController.a()).onTrue(Commands.runOnce(() -> turretSubsystem.rotateTurret(operatorController.getLeftTriggerAxis()*-360)));
-        operatorController.leftTrigger().and(operatorController.y()).onTrue(Commands.runOnce(() -> turretSubsystem.rotateTurret(operatorController.getLeftTriggerAxis()*360)));
+        //operatorController.leftTrigger().and(operatorController.a()).onTrue(Commands.runOnce(() -> turretSubsystem.rotateTurret(operatorController.getLeftTriggerAxis()*-360)));
+        //operatorController.leftTrigger().and(operatorController.y()).onTrue(Commands.runOnce(() -> turretSubsystem.rotateTurret(operatorController.getLeftTriggerAxis()*360)));
 
-        operatorController.leftStick().whileTrue(Commands.run(() -> turretSubsystem.rotateTurret(operatorController.getRawAxis(1) * 90)));
+        //operatorController.leftStick().whileTrue(Commands.run(() -> turretSubsystem.rotateTurret(operatorController.getRawAxis(1) * 90)));
 
         operatorController.leftBumper().onTrue(Commands.runOnce(() -> AprilTagCommands.SwitchShootingMode()));
         operatorController.povDown().whileTrue(Commands.runOnce(() -> intakeSubsystem.goDown()));

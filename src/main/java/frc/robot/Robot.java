@@ -90,7 +90,7 @@ public void robotInit() {
     SmartDashboard.putNumber("Turret Angle", m_robotContainer.turretSubsystem.GetTurretAngle());
     SmartDashboard.putString("Target", AprilTagCommands.target);
     SmartDashboard.putNumber("Intake Position", m_robotContainer.intakeSubsystem.getIntakePosition());
-    SmartDashboard.putNumber("April tag angle", );
+    SmartDashboard.putNumber("April tag angle", Camera.sauronHorizontal());
     SmartDashboard.putNumber("Turret Forceturn Angle", RobotContainer.operatorController.getLeftTriggerAxis()*360);
 
     CommandScheduler.getInstance().run();
@@ -141,7 +141,7 @@ public void robotInit() {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    AprilTagCommands.AimTowardsAprilTag(m_robotContainer.turretSubsystem, AprilTagCommands.targetTagRight, TurretConstants.AIMING_TIME_FACTOR);
+    //AprilTagCommands.AimTowardsAprilTag(m_robotContainer.turretSubsystem, AprilTagCommands.targetTagRight, TurretConstants.AIMING_TIME_FACTOR);
   }
 
   @Override

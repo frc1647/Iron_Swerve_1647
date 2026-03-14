@@ -111,7 +111,7 @@ public final class Constants {
     public static final int PASSAGE_MOTOR_LOWER_ID = 31;
 
     public static final double SPINDEXER_SPEED = 1;
-    public static final double SPINDEXER_GEAR_RATIO = 28*1.25;
+    public static final double SPINDEXER_GEAR_RATIO = 28*1.25*2;
     
     public static final double PASSAGE_SPEED = 0.5;
 
