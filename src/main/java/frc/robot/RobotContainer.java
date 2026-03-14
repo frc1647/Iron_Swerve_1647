@@ -170,13 +170,18 @@ public class RobotContainer {
  */
         operatorController.rightTrigger().whileTrue(Commands.sequence(Commands.run(() -> shooterSubsystem.runShooterDirect()).withTimeout(ShooterConstants.SHOOTER_TIMEOUT), Commands.run(() -> {shooterSubsystem.runShooterDirect();hopper.runUpperPassageDirect();}).withTimeout(ShooterConstants.SHOOTER_TIMEOUT), Commands.run(() -> {shooterSubsystem.runShooterDirect();hopper.runUpperPassageDirect();hopper.runSpindexerDirect();})));
         operatorController.rightTrigger().whileFalse(Commands.run(() -> {shooterSubsystem.stopShooter();hopper.stopPassage();hopper.stopSpindexer(); }));
+        
         operatorController.leftTrigger().and(operatorController.a()).onTrue(Commands.runOnce(() -> turretSubsystem.rotateTurret(operatorController.getLeftTriggerAxis()*-360)));
+        operatorController.leftTrigger().and(operatorController.y()).onTrue(Commands.runOnce(() -> turretSubsystem.rotateTurret(operatorController.getLeftTriggerAxis()*360)));
+
+        operatorController.leftStick().whileTrue(Commands.run(() -> turretSubsystem.rotateTurret(operatorController.getRawAxis(1) * 90)));
+
         operatorController.leftBumper().onTrue(Commands.runOnce(() -> AprilTagCommands.SwitchShootingMode()));
-        operatorController.povDown().whileTrue(Commands.run(() -> intakeSubsystem.goDown()));
-        operatorController.povUp().whileTrue(Commands.run(() -> intakeSubsystem.goUp()));
-        operatorController.povDown().and(operatorController.povUp()).whileFalse(Commands.run(() -> intakeSubsystem.brakeIntake()));
-        operatorController.b().whileTrue(rollerSubsystem.grabBalls(rollerSubsystem));
-        operatorController.b().whileFalse(rollerSubsystem.stopRoller(rollerSubsystem));
+        operatorController.povDown().whileTrue(Commands.runOnce(() -> intakeSubsystem.goDown()));
+        operatorController.povUp().whileTrue(Commands.runOnce(() -> intakeSubsystem.goUp()));
+        operatorController.povDown().or(operatorController.povUp()).whileFalse(Commands.runOnce(() -> intakeSubsystem.brakeIntake()));
+        operatorController.b().whileTrue(Commands.runOnce(() -> rollerSubsystem.grabBalls()));
+        operatorController.b().whileFalse(Commands.runOnce(() -> rollerSubsystem.stopRoller()));
         //operatorController.a().whileTrue(new AprilTagCommands.DriveToAprilTag(driveSubsystem, turretSubsystem, 0));
  }
 

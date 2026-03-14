@@ -19,7 +19,7 @@ public final class Autos {
             .andThen(()-> driveTrain.driveTankII(1, 1), driveTrain).withTimeout(2)
             .andThen(AprilTagCommands.AimTowardsAprilTag(turretSubsystem, AprilTags.homeHubBackLeftID, 1).until(() -> Camera.sauronSeesTag(AprilTags.homeHubBackLeftID)&&Math.abs(Camera.sauronHorizontal())<=AutoConstants.ANGLE_TOLERANCE))
             .andThen(shooterSubsystem.scoreCommand(AutoConstants.AUTO_SHOOT_TIME, hopper)).andThen(new RunCommand(()-> driveTrain.driveTankII(1, 1), driveTrain).withTimeout(2))
-            .andThen(Commands.parallel(new RunCommand(() -> driveTrain.driveTankII(1, 1)), rollerSubsystem.grabBalls(rollerSubsystem)).withTimeout(2))
+            .andThen(Commands.parallel(new RunCommand(() -> driveTrain.driveTankII(1, 1)), new RunCommand(() -> rollerSubsystem.grabBalls()).withTimeout(2)))
             .andThen(AprilTagCommands.AimTowardsAprilTag(turretSubsystem, AprilTags.homeHubBackLeftID, 1).until(() -> Camera.sauronSeesTag(AprilTags.homeHubBackLeftID)&&Math.abs(Camera.sauronHorizontal())<=AutoConstants.ANGLE_TOLERANCE))
             .andThen(shooterSubsystem.scoreCommand(AutoConstants.AUTO_SHOOT_TIME, hopper)).andThen(new RunCommand(()-> driveTrain.driveTankII(1, 1), driveTrain).withTimeout(2));
     }

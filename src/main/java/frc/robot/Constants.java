@@ -75,7 +75,7 @@ public final class Constants {
     public static final double TURRET_AIMING_LIMIT_MIN = -288; // TODO double check direction
     public static final double TURRET_AIMING_LIMIT_MAX = 0;
 
-    public static final double AIMING_TIME_FACTOR = 100;
+    public static final double AIMING_TIME_FACTOR = 1; //25
     
     //TODO: Test and seet for all 3, theoretically correct values in comments
     public static final double TURRET_P = 0.00192; //0.192
@@ -92,7 +92,7 @@ public final class Constants {
     public static final int INTAKE_ID = 44;
     public static final int GO_INTAKE_ID = 45;
     
-    public static final int INTAKE_MOTOR_CURRENT_LIMIT = 65;
+    public static final int INTAKE_MOTOR_CURRENT_LIMIT = 80;
     public static final double INTAKE_ANGLE = 112;
     public static final double INTAKE_POWER = 2560000; //19625
 

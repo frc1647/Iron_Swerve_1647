@@ -80,6 +80,6 @@ public class CANIntakeSubsystem extends SubsystemBase {
     }
 
     public void brakeIntake() {
-        goIntakeMotor.set(0);
+        goIntakeMotor.stopMotor();
     }
 }

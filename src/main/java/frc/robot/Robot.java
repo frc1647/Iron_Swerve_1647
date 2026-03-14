@@ -90,7 +90,9 @@ public void robotInit() {
     SmartDashboard.putNumber("Turret Angle", m_robotContainer.turretSubsystem.GetTurretAngle());
     SmartDashboard.putString("Target", AprilTagCommands.target);
     SmartDashboard.putNumber("Intake Position", m_robotContainer.intakeSubsystem.getIntakePosition());
-    
+    SmartDashboard.putNumber("April tag angle", );
+    SmartDashboard.putNumber("Turret Forceturn Angle", RobotContainer.operatorController.getLeftTriggerAxis()*360);
+
     CommandScheduler.getInstance().run();
   }
 

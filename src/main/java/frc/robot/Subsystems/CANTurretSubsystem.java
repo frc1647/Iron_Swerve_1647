@@ -3,7 +3,7 @@ package frc.robot.Subsystems;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.TurretConstants;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
-
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -43,6 +43,7 @@ public class CANTurretSubsystem extends SubsystemBase {
           
         motorConfig.voltageCompensation(12);
         motorConfig.smartCurrentLimit(TurretConstants.TURRET_MOTOR_CURRENT_LIMIT);
+        motorConfig.idleMode(IdleMode.kBrake);
 
         turretMotor.configure(motorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
@@ -79,6 +80,7 @@ public class CANTurretSubsystem extends SubsystemBase {
      * @param angleChange the difference between the end point and current position
      */
     public void rotateTurret(double angleChange) {
+        System.out.println("in rotateTurret");
     double rotation = GetTurretAngle();
     double goalRotation = rotation + angleChange;
 

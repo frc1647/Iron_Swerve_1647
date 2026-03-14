@@ -16,30 +16,32 @@ import frc.robot.Constants.IntakeConstants;
 
 public class CANRollerSubsystem extends SubsystemBase {
     private final SparkFlex intakeMotor;
-    private final RelativeEncoder intakeEncoder;
-    private final SparkClosedLoopController intakePID;
+    //private final RelativeEncoder intakeEncoder;
+    //private final SparkClosedLoopController intakePID;
 
     public CANRollerSubsystem() {
         intakeMotor = new SparkFlex(IntakeConstants.INTAKE_ID, MotorType.kBrushless);
         intakeMotor.setCANTimeout(250);
 
-        intakeEncoder = intakeMotor.getEncoder();
-        intakePID = intakeMotor.getClosedLoopController();
+        //intakeEncoder = intakeMotor.getEncoder();
+        //intakePID = intakeMotor.getClosedLoopController();
 
         SparkFlexConfig intakeConfig = new SparkFlexConfig();
         intakeConfig.voltageCompensation(12);
         intakeConfig.smartCurrentLimit(IntakeConstants.INTAKE_MOTOR_CURRENT_LIMIT);
-        intakeConfig.encoder.positionConversionFactor(IntakeConstants.INTAKE_POWER);
-        intakeConfig.encoder.velocityConversionFactor(IntakeConstants.INTAKE_POWER);
+        //intakeConfig.encoder.positionConversionFactor(IntakeConstants.INTAKE_POWER);
+        //intakeConfig.encoder.velocityConversionFactor(IntakeConstants.INTAKE_POWER);
         
         intakeMotor.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
-    public Command grabBalls(CANRollerSubsystem rollerSubsystem) {
-        return Commands.run(() -> intakeMotor.set(1), rollerSubsystem);
+    public void grabBalls() {
+        System.out.println("in startroller");
+        intakeMotor.set(1);
     }
 
-    public Command stopRoller(CANRollerSubsystem rollerSubsystem) {
-        return Commands.run(() -> intakeMotor.set(0), rollerSubsystem);
+    public void stopRoller() {
+        System.out.println("in stoproller");
+        intakeMotor.set(0);
     }
 }
