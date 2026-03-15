@@ -75,6 +75,16 @@ public class CANShooterSubsystem extends SubsystemBase {
     closedLoopController.setSetpoint(RPM, ControlType.kVelocity);
   }
 
+  public void runShooterDirect(double powerMultiplier) {
+    // If there are no apriltags in sight of the Sauron camera, do not spin at all
+    double distance = Camera.sauronDistanceInches();
+    if (distance < 0) {
+      distance = ShooterConstants.DEFAULT_SHOOTING_DISTANCE;
+    }
+    double RPM = GetRPMForDistance(distance);
+    closedLoopController.setSetpoint(RPM*powerMultiplier, ControlType.kVelocity);
+  }
+
   public void stopShooter() {
     shooterMotor.stopMotor();
   }
@@ -110,7 +120,7 @@ public class CANShooterSubsystem extends SubsystemBase {
         runShooterDirect();
         hopper.runUpperPassageDirect();
         hopper.runSpindexerDirect();
-      })).withTimeout(2);
+      })).withTimeout(shooterTime-(2*ShooterConstants.SHOOTER_TIMEOUT));
   }
 
   public Command scoreCommand(Hopper hopper) {

@@ -129,10 +129,11 @@ public final class Constants {
     public static final double DISTANCE_TOLERANCE = 2.0; // Inches
     public static final double ANGLE_TOLERANCE = 2.0; // Degrees
 
-    public static final double AUTO_MAX_SPEED = 1; // 0 - 1
+    public static final double AUTO_MAX_SPEED = 0.5; // 0 - 1
     public static final double AUTO_COLLECTION_DRIVE_SPEED = 0.5; //TODO: Find correct speed
 
-    public static final double AUTO_SHOOT_TIME = 2.0;
+    public static final double AUTO_SHOOT_TIME = 5.0;
+    public static final double AUTO_TURN_TIME = 1.0;
   }
 
   public static final class LEDConstants {

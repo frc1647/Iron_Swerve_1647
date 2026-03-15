@@ -36,8 +36,11 @@ public class CANRollerSubsystem extends SubsystemBase {
     }
 
     public void grabBalls() {
-        System.out.println("in startroller");
         intakeMotor.set(1);
+    }
+
+    public void reverseIntake() {
+        intakeMotor.set(-1);
     }
 
     public void stopRoller() {

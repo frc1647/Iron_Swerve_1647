@@ -104,11 +104,11 @@ public class RobotContainer {
 
         // Set the options to show up in the Dashboard for selecting auto modes. If you
         // add additional auto modes you can add additional lines here with
-        autoChooser.addOption("Outpost", Commands.run(() -> Autos.AutoOne(turretSubsystem, driveSubsystem, shooterSubsystem, hopper, intakeSubsystem, rollerSubsystem)));        
-        autoChooser.addOption("Depot", Autos.AutoTwo(turretSubsystem, driveSubsystem, shooterSubsystem, hopper, intakeSubsystem));
+        autoChooser.addOption("Outpost", Autos.AutoOne(turretSubsystem, driveSubsystem, shooterSubsystem, hopper, intakeSubsystem, rollerSubsystem));        
+        autoChooser.addOption("Depot", Autos.AutoTwo(turretSubsystem, driveSubsystem, shooterSubsystem, hopper, intakeSubsystem, rollerSubsystem));
         autoChooser.addOption("Center", Autos.AutoThree(turretSubsystem, driveSubsystem, shooterSubsystem, hopper, intakeSubsystem, rollerSubsystem));
 
-        autoChooser.setDefaultOption("Depot", Autos.AutoTwo(turretSubsystem, driveSubsystem, shooterSubsystem, hopper, intakeSubsystem));
+        autoChooser.setDefaultOption("Depot", Autos.AutoTwo(turretSubsystem, driveSubsystem, shooterSubsystem, hopper, intakeSubsystem, rollerSubsystem));
         
         SmartDashboard.putData("Auto Selector", autoChooser);
 
@@ -192,7 +192,8 @@ public class RobotContainer {
         operatorController.povUp().whileTrue(Commands.runOnce(() -> intakeSubsystem.goUp()));
         operatorController.povDown().or(operatorController.povUp()).whileFalse(Commands.runOnce(() -> intakeSubsystem.brakeIntake()));
         operatorController.b().whileTrue(Commands.runOnce(() -> rollerSubsystem.grabBalls()));
-        operatorController.b().whileFalse(Commands.runOnce(() -> rollerSubsystem.stopRoller()));
+        operatorController.x().whileTrue(Commands.runOnce(() -> rollerSubsystem.reverseIntake()));
+        operatorController.b().or(operatorController.x()).whileFalse(Commands.runOnce(() -> rollerSubsystem.stopRoller()));
         //operatorController.a().whileTrue(new AprilTagCommands.DriveToAprilTag(driveSubsystem, turretSubsystem, 0));
  }
 
