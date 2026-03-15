@@ -14,24 +14,32 @@ import frc.robot.Commands.AprilTagCommands;
 
 public final class Autos {
 
-    public static Command AutoOne(CANTurretSubsystem turretSubsystem, CANDriveSubsystem driveTrain, CANShooterSubsystem shooterSubsystem, Hopper hopper, CANIntakeSubsystem intakeSubsystem, CANRollerSubsystem rollerSubsystem) {
-        return new RunCommand(() -> intakeSubsystem.goIntake(intakeSubsystem))
-            .andThen(()-> driveTrain.driveTankII(1, 1), driveTrain).withTimeout(2)
-            //.andThen(AprilTagCommands.AimTowardsAprilTag(turretSubsystem, AprilTags.homeHubBackLeftID, 1).until(() -> Camera.sauronSeesTag(AprilTags.homeHubBackLeftID)&&Math.abs(Camera.sauronHorizontal())<=AutoConstants.ANGLE_TOLERANCE))
-            .andThen(shooterSubsystem.scoreCommand(AutoConstants.AUTO_SHOOT_TIME, hopper)).andThen(new RunCommand(()-> driveTrain.driveTankII(1, 1), driveTrain).withTimeout(2))
-            .andThen(Commands.parallel(new RunCommand(() -> driveTrain.driveTankII(1, 1)), new RunCommand(() -> rollerSubsystem.grabBalls()).withTimeout(2)))
-            //.andThen(AprilTagCommands.AimTowardsAprilTag(turretSubsystem, AprilTags.homeHubBackLeftID, 1).until(() -> Camera.sauronSeesTag(AprilTags.homeHubBackLeftID)&&Math.abs(Camera.sauronHorizontal())<=AutoConstants.ANGLE_TOLERANCE))
-            .andThen(shooterSubsystem.scoreCommand(AutoConstants.AUTO_SHOOT_TIME, hopper)).andThen(new RunCommand(()-> driveTrain.driveTankII(1, 1), driveTrain).withTimeout(2));
+    public static void AutoOne(CANTurretSubsystem turretSubsystem, CANDriveSubsystem driveTrain, CANShooterSubsystem shooterSubsystem, Hopper hopper, CANIntakeSubsystem intakeSubsystem, CANRollerSubsystem rollerSubsystem) {
+        Commands.sequence(
+            Commands.run(() -> intakeSubsystem.goDown()).withTimeout(0.5),
+            Commands.run(() -> driveTrain.driveTankII(1, 1), driveTrain).withTimeout(2.0),
+            Commands.run(() -> shooterSubsystem.scoreCommand(AutoConstants.AUTO_SHOOT_TIME, hopper)).withTimeout(3.0),
+            Commands.run(()-> driveTrain.driveTankII(1, 1), driveTrain).withTimeout(2.0),
+            Commands.run(() -> Commands.parallel(
+                new RunCommand(() -> driveTrain.driveTankII(1, 1)),
+                new RunCommand(() -> rollerSubsystem.grabBalls()).withTimeout(2))
+            ).withTimeout(2.0),
+            //Commands.run(AprilTagCommands.AimTowardsAprilTag(turretSubsystem, AprilTags.homeHubBackLeftID, 1).until(() -> Camera.sauronSeesTag(AprilTags.homeHubBackLeftID)&&Math.abs(Camera.sauronHorizontal())<=AutoConstants.ANGLE_TOLERANCE))
+            Commands.run(() -> shooterSubsystem.scoreCommand(AutoConstants.AUTO_SHOOT_TIME, hopper)).withTimeout(3.0),
+            Commands.run(()-> driveTrain.driveTankII(1, 1), driveTrain).withTimeout(2.0)
+        );
     }
 
     // go to player station to retrieve balls
     public static Command AutoTwo(CANTurretSubsystem turretSubsystem, CANDriveSubsystem driveTrain, CANShooterSubsystem shooterSubsystem, Hopper hopper, CANIntakeSubsystem intakeSubsystem) {
-        return new RunCommand(() -> intakeSubsystem.goIntake(intakeSubsystem))
-            //.andThen(AprilTagCommands.AimTowardsAprilTag(turretSubsystem, AprilTags.homeHubBackLeftID, 1))
-            .andThen(shooterSubsystem.scoreCommand(AutoConstants.AUTO_SHOOT_TIME, hopper)).withTimeout(AutoConstants.AUTO_SHOOT_TIME)
-            .andThen(() -> turretSubsystem.resetTurret())
-            .andThen(new AprilTagCommands.DriveToAprilTag(driveTrain, turretSubsystem, AprilTags.homeOutpostLeftID));
+          return new RunCommand(() -> intakeSubsystem.goDown()).withTimeout(1.0)
+        .andThen(new RunCommand(() -> driveTrain.driveTankII(1, 1), driveTrain)).withTimeout(2.0)
+        .andThen(new RunCommand(() -> driveTrain.driveTankII(1, -1), driveTrain)).withTimeout(0.2)
+        .andThen(new RunCommand(() -> shooterSubsystem.score(AutoConstants.AUTO_SHOOT_TIME, hopper)).withTimeout(AutoConstants.AUTO_SHOOT_TIME+2.0))
+        //.andThen(new RunCommand(() -> turretSubsystem.resetTurret()))
+        .andThen(new AprilTagCommands.DriveToAprilTag(driveTrain, turretSubsystem, AprilTags.homeOutpostLeftID));
     }
+
 
     // Go to center pick up balls and pass to human player station
     public static Command AutoThree(CANTurretSubsystem turretSubsystem, CANDriveSubsystem driveTrain, CANShooterSubsystem shooterSubsystem, Hopper hopper, CANIntakeSubsystem intakeSubsystem, CANRollerSubsystem rollerSubsystem) {

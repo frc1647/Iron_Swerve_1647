@@ -71,31 +71,15 @@ public class CANIntakeSubsystem extends SubsystemBase {
         return goIntakeEncoder.getPosition();
     }
 
-    public Command goDownCommand() {
-        return Commands.run(() -> goIntakeMotor.set(IntakeConstants.GO_INTAKE_SPEED), this)
-            .withTimeout(IntakeConstants.GO_DOWN_TIME)
-            .finallyDo(() -> {
-                goIntakeMotor.set(0);
-                setIdleMode(IdleMode.kCoast);
-            });
+    public void goDown() {
+        goIntakeMotor.set(IntakeConstants.GO_INTAKE_SPEED);
     }
 
-
-    public Command goUpCommand() {
-        return Commands.run(() -> goIntakeMotor.set(-IntakeConstants.GO_INTAKE_SPEED), this)
-            .finallyDo(() -> {
-                goIntakeMotor.set(0);
-                setIdleMode(IdleMode.kBrake);
-            });
+    public void goUp() {
+        goIntakeMotor.set(-IntakeConstants.GO_INTAKE_SPEED);
     }
 
-
-    private void setIdleMode(IdleMode mode) {
-        SparkMaxConfig config = new SparkMaxConfig();
-        config.idleMode(mode);
-    }
-
-    public void stopIntake() {
+    public void brakeIntake() {
         goIntakeMotor.stopMotor();
     }
 }

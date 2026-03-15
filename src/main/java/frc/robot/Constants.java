@@ -75,12 +75,12 @@ public final class Constants {
     public static final double TURRET_AIMING_LIMIT_MIN = -288; // TODO double check direction
     public static final double TURRET_AIMING_LIMIT_MAX = 0;
 
-    public static final double AIMING_TIME_FACTOR = 1; //25
+    public static final double AIMING_TIME_FACTOR = 10; //25
     
-    //TODO: Test and seet for all 3, theoretically correct values in comments
-    public static final double TURRET_P = 0.00192; //0.192
-    public static final double TURRET_I = 0.000002; //0.0002 - most dangerous, be careful 
-    public static final double TURRET_D = 0.004;    //0.4
+    //TODO: Test and set for all 3, theoretically correct values in comments
+    public static final double TURRET_P = 0.0192; //0.192
+    public static final double TURRET_I = 0.00002; //0.0002 - most dangerous, be careful 
+    public static final double TURRET_D = 0.04;    //0.4
   }
 
   public static final class CameraConstants {
@@ -114,10 +114,10 @@ public final class Constants {
     public static final double SPINDEXER_SPEED = 1;
     public static final double SPINDEXER_GEAR_RATIO = 28*1.25*2;
     
-    public static final double PASSAGE_SPEED = 0.5;
+    public static final double PASSAGE_SPEED = 1;
 
-    public static final double STATOR_CURRENT_LIMIT = 40;
-    public static final double SUPPLY_CURRENT_LIMIT = 30;
+    public static final double STATOR_CURRENT_LIMIT = 80;
+    public static final double SUPPLY_CURRENT_LIMIT = 60;
   }
 
   public static final class AutoConstants {

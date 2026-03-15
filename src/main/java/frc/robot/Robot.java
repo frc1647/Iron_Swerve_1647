@@ -63,7 +63,7 @@ public void robotInit() {
     
     HAL.report(tResourceType.kResourceType_Framework, 10);
 
-    m_robotContainer.turretSubsystem.zeroTurret();
+    //m_robotContainer.turretSubsystem.zeroTurret();
     m_robotContainer.intakeSubsystem.zeroIntake();
 }
 
@@ -91,7 +91,8 @@ public void robotInit() {
     SmartDashboard.putString("Target", AprilTagCommands.target);
     SmartDashboard.putNumber("Intake Position", m_robotContainer.intakeSubsystem.getIntakePosition());
     SmartDashboard.putNumber("April tag angle", Camera.sauronHorizontal());
-    SmartDashboard.putNumber("Turret Forceturn Angle", RobotContainer.operatorController.getLeftTriggerAxis()*360);
+    SmartDashboard.putNumber("Turret Forceturn Angle", RobotContainer.operatorController.getLeftTriggerAxis()*90);
+    SmartDashboard.putNumber("Shooter RPM", m_robotContainer.shooterSubsystem.GetRPMForDistance(Camera.sauronDistanceInches()));
 
     CommandScheduler.getInstance().run();
   }

@@ -80,7 +80,7 @@ public class CANTurretSubsystem extends SubsystemBase {
      * @param angleChange the difference between the end point and current position
      */
     public void rotateTurret(double angleChange) {
-        System.out.println("in rotateTurret");
+        //System.out.println("in rotateTurret");
     double rotation = GetTurretAngle();
     double goalRotation = rotation + angleChange;
 
