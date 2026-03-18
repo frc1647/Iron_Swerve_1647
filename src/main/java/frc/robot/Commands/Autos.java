@@ -32,7 +32,7 @@ public final class Autos {
     }
 
     // go to player station to retrieve balls
-    public static Command AutoTwo(CANTurretSubsystem turretSubsystem, CANDriveSubsystem driveTrain, CANShooterSubsystem shooterSubsystem, Hopper hopper, CANIntakeSubsystem intakeSubsystem, CANRollerSubsystem rollerSubsystem) {
+    public static Command AutoTwo(CANDriveSubsystem driveTrain, CANShooterSubsystem shooterSubsystem, Hopper hopper, CANIntakeSubsystem intakeSubsystem, CANRollerSubsystem rollerSubsystem) {
          return (new RunCommand(() -> intakeSubsystem.goDown(), intakeSubsystem).withTimeout(0.8))
         .andThen(new RunCommand(() -> intakeSubsystem.brakeIntake(), intakeSubsystem).withTimeout(0.1))
         .andThen(new RunCommand(() -> driveTrain.driveTankII(-AutoConstants.AUTO_MAX_SPEED, -AutoConstants.AUTO_MAX_SPEED), driveTrain).withTimeout(1.0))
@@ -53,4 +53,84 @@ public final class Autos {
             //.andThen(AprilTagCommands.AimTowardsAprilTag(turretSubsystem, AprilTags.homeOutpostLeftID, 1))
             .andThen(shooterSubsystem.scoreCommand(AutoConstants.AUTO_SHOOT_TIME, hopper)).withTimeout(AutoConstants.AUTO_SHOOT_TIME);
     }
+
+    public static Command AutoFour(CANDriveSubsystem driveTrain, CANShooterSubsystem shooterSubsystem, Hopper hopper, CANIntakeSubsystem intakeSubsystem, CANRollerSubsystem rollerSubsystem) {
+        return Commands.sequence(
+            // Lower intake
+            Commands.run(() -> intakeSubsystem.goDown(), intakeSubsystem)
+                .withTimeout(0.8),
+            Commands.run(() -> intakeSubsystem.brakeIntake(), intakeSubsystem)
+                .withTimeout(0.1),
+
+            // Drive away from hub (shooter faces hub)
+            Commands.run(() -> driveTrain.driveTankII(-AutoConstants.AUTO_MAX_SPEED, -AutoConstants.AUTO_MAX_SPEED), driveTrain)
+                .withTimeout(1.0),
+
+            // Spin up shooter then feed balls
+            Commands.sequence(
+                Commands.run(() -> shooterSubsystem.runShooterDirect(AutoConstants.AUTO_SHOOTER_POWER))
+                    .withTimeout(ShooterConstants.SHOOTER_TIMEOUT),
+                Commands.run(() -> {
+                    shooterSubsystem.runShooterDirect();
+                    hopper.runUpperPassageDirect();
+                }).withTimeout(ShooterConstants.SHOOTER_TIMEOUT),
+                Commands.run(() -> {
+                    shooterSubsystem.runShooterDirect();
+                    hopper.runUpperPassageDirect();
+                    hopper.runSpindexerDirect();
+                }).withTimeout(ShooterConstants.SHOOTER_TIMEOUT)
+            ),
+
+            // Stop shooter before moving
+            Commands.runOnce(() -> {
+                shooterSubsystem.stopShooter();
+                hopper.stopPassage();
+                hopper.stopSpindexer();
+            }),
+
+            // Turn right to face depot
+            Commands.run(() -> driveTrain.driveTankII(AutoConstants.AUTO_MAX_SPEED, -AutoConstants.AUTO_MAX_SPEED), driveTrain)
+                .withTimeout(AutoConstants.AUTO_TURN_TIME), // tune this!
+
+            // Drive to depot while collecting balls
+            Commands.parallel(
+                new RunCommand(() -> driveTrain.driveTankII(AutoConstants.AUTO_MAX_SPEED, AutoConstants.AUTO_MAX_SPEED), driveTrain),
+                new RunCommand(() -> rollerSubsystem.grabBalls(), rollerSubsystem)
+            ).withTimeout(2.0), // tune this!
+
+            // Stop roller
+            Commands.runOnce(() -> rollerSubsystem.stopRoller()),
+
+            // Turn left to face back toward hub
+            Commands.run(() -> driveTrain.driveTankII(-AutoConstants.AUTO_MAX_SPEED, AutoConstants.AUTO_MAX_SPEED), driveTrain)
+                .withTimeout(AutoConstants.AUTO_TURN_TIME), // same turn time to undo the right turn
+
+            // Drive backward toward hub (shooter still faces hub)
+            Commands.run(() -> driveTrain.driveTankII(-AutoConstants.AUTO_MAX_SPEED, -AutoConstants.AUTO_MAX_SPEED), driveTrain)
+                .withTimeout(1.0), // tune this!
+
+            // Spin up shooter then feed collected balls
+            Commands.sequence(
+                Commands.run(() -> shooterSubsystem.runShooterDirect(AutoConstants.AUTO_SHOOTER_POWER))
+                    .withTimeout(ShooterConstants.SHOOTER_TIMEOUT),
+                Commands.run(() -> {
+                    shooterSubsystem.runShooterDirect();
+                    hopper.runUpperPassageDirect();
+                }).withTimeout(ShooterConstants.SHOOTER_TIMEOUT),
+                Commands.run(() -> {
+                    shooterSubsystem.runShooterDirect();
+                    hopper.runUpperPassageDirect();
+                    hopper.runSpindexerDirect();
+                }).withTimeout(ShooterConstants.SHOOTER_TIMEOUT)
+            ),
+
+            // Stop everything
+            Commands.runOnce(() -> {
+                shooterSubsystem.stopShooter();
+                hopper.stopPassage();
+                hopper.stopSpindexer();
+            })
+        );
+    }
+
 }

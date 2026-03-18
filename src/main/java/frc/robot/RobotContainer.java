@@ -105,10 +105,11 @@ public class RobotContainer {
         // Set the options to show up in the Dashboard for selecting auto modes. If you
         // add additional auto modes you can add additional lines here with
         autoChooser.addOption("Outpost", Autos.AutoOne(turretSubsystem, driveSubsystem, shooterSubsystem, hopper, intakeSubsystem, rollerSubsystem));        
-        autoChooser.addOption("Depot", Autos.AutoTwo(turretSubsystem, driveSubsystem, shooterSubsystem, hopper, intakeSubsystem, rollerSubsystem));
+        autoChooser.addOption("Hub", Autos.AutoTwo(driveSubsystem, shooterSubsystem, hopper, intakeSubsystem, rollerSubsystem));
         autoChooser.addOption("Center", Autos.AutoThree(turretSubsystem, driveSubsystem, shooterSubsystem, hopper, intakeSubsystem, rollerSubsystem));
+        autoChooser.addOption("Depot", Autos.AutoTwo(driveSubsystem, shooterSubsystem, hopper, intakeSubsystem, rollerSubsystem));
 
-        autoChooser.setDefaultOption("Depot", Autos.AutoTwo(turretSubsystem, driveSubsystem, shooterSubsystem, hopper, intakeSubsystem, rollerSubsystem));
+        autoChooser.setDefaultOption("Hub", Autos.AutoTwo(driveSubsystem, shooterSubsystem, hopper, intakeSubsystem, rollerSubsystem));
         
         SmartDashboard.putData("Auto Selector", autoChooser);
 

@@ -134,6 +134,7 @@ public final class Constants {
 
     public static final double AUTO_SHOOT_TIME = 5.0;
     public static final double AUTO_TURN_TIME = 1.0;
+    public static final double AUTO_SHOOTER_POWER = 1.25;
   }
 
   public static final class LEDConstants {
