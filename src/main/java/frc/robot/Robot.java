@@ -88,7 +88,7 @@ public void robotInit() {
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
     SmartDashboard.putNumber("Turret ID", Camera.sauronTagID());
-    SmartDashboard.putNumber("Turret Angle", m_robotContainer.turretSubsystem.GetTurretAngle());
+    //SmartDashboard.putNumber("Turret Angle", m_robotContainer.turretSubsystem.GetTurretAngle());
     SmartDashboard.putString("Target", AprilTagCommands.target);
     SmartDashboard.putNumber("Intake Position", m_robotContainer.intakeSubsystem.getIntakePosition());
     SmartDashboard.putNumber("April tag angle", Camera.sauronHorizontal());

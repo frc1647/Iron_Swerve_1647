@@ -44,7 +44,6 @@ public class CANRollerSubsystem extends SubsystemBase {
     }
 
     public void stopRoller() {
-        System.out.println("in stoproller");
         intakeMotor.set(0);
     }
 }

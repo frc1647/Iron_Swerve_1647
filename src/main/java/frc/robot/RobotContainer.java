@@ -107,7 +107,7 @@ public class RobotContainer {
         autoChooser.addOption("Outpost", Autos.AutoOne(turretSubsystem, driveSubsystem, shooterSubsystem, hopper, intakeSubsystem, rollerSubsystem));        
         autoChooser.addOption("Hub", Autos.AutoTwo(driveSubsystem, shooterSubsystem, hopper, intakeSubsystem, rollerSubsystem));
         autoChooser.addOption("Center", Autos.AutoThree(turretSubsystem, driveSubsystem, shooterSubsystem, hopper, intakeSubsystem, rollerSubsystem));
-        autoChooser.addOption("Depot", Autos.AutoTwo(driveSubsystem, shooterSubsystem, hopper, intakeSubsystem, rollerSubsystem));
+        autoChooser.addOption("Depot", Autos.AutoFour(driveSubsystem, shooterSubsystem, hopper, intakeSubsystem, rollerSubsystem));
 
         autoChooser.setDefaultOption("Hub", Autos.AutoTwo(driveSubsystem, shooterSubsystem, hopper, intakeSubsystem, rollerSubsystem));
         
@@ -164,6 +164,8 @@ public class RobotContainer {
                         ),
                         driveSubsystem));
 
+                            
+        // Right bumper                
         JoystickButton button6 = new JoystickButton(driverController, 6);
         button6.whileTrue(
             driveSubsystem.slowCommand(
@@ -171,6 +173,10 @@ public class RobotContainer {
                 () -> driverController.getRawAxis(5) // right stick Y
             )
         );
+
+        // left bumper
+        JoystickButton button5 = new JoystickButton(driverController, 6);
+        button5.whileTrue(AprilTagCommands.turnToFaceAprilTag(driveSubsystem));
 /**
  *                  _     _____                                             ______                                  _         _              
  *       _         | |   / ___ \                        _                  / _____)                                | |       | |         _   

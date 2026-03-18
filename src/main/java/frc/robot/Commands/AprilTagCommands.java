@@ -4,6 +4,7 @@ package frc.robot.Commands;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.Subsystems.CANDriveSubsystem;
 import frc.robot.Subsystems.CANTurretSubsystem;
@@ -17,6 +18,7 @@ public class AprilTagCommands {
     public static int targetTagRight = AprilTags.homeHubBackRightID;
     public static String target = "Hub";
 
+    /*
     public static Command AimTowardsAprilTag(CANTurretSubsystem turretSubsystem, int id, double factor) {
         return turretSubsystem.runOnce(() -> {
             if (Camera.sauronSeesTag(id)) {
@@ -26,6 +28,7 @@ public class AprilTagCommands {
             }
         });    
     }
+    */
 
     public static void SwitchShootingMode() {
             targetingHub = !targetingHub;
@@ -40,6 +43,20 @@ public class AprilTagCommands {
             }
         };
     
+    public static Command turnToFaceAprilTag(CANDriveSubsystem driveSubsystem) {
+        return new RunCommand(() -> {
+
+            double turnAngle = Camera.sauronHorizontal();
+            double turnSpeed  = turnAngle * 0.05;
+
+            // Combine drive and turn, then clamp each side independently
+            double leftSpeed  = MathUtil.clamp(turnSpeed, -AutoConstants.AUTO_MAX_SPEED, AutoConstants.AUTO_MAX_SPEED);
+            double rightSpeed = MathUtil.clamp(-turnSpeed, -AutoConstants.AUTO_MAX_SPEED, AutoConstants.AUTO_MAX_SPEED); 
+        
+            driveSubsystem.driveTankII(leftSpeed, rightSpeed);
+        }, driveSubsystem);
+    }
+
 
     public static class DriveToAprilTag extends Command {
 
@@ -77,7 +94,7 @@ public class AprilTagCommands {
                 return;
             }
 
-            double turretOffsetAngle = m_turretSubsystem.GetTurretAngle();
+            double turretOffsetAngle = 0; // m_turretSubsystem.GetTurretAngle();
             double cameraAngle = Camera.sauronHorizontal();
             double distance = Camera.sauronDistanceInches();
 
@@ -100,7 +117,7 @@ public class AprilTagCommands {
         public boolean isFinished() {
             if (!Camera.sauronSeesTag(m_targetTagID)) return false;
 
-            double turretOffsetAngle = m_turretSubsystem.GetTurretAngle();
+            double turretOffsetAngle = 0; // m_turretSubsystem.GetTurretAngle();
             double cameraAngle = Camera.sauronHorizontal();
             double robotAngleToTarget = cameraAngle + turretOffsetAngle;
             double distance = Camera.sauronDistanceInches();
