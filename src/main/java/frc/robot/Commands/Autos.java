@@ -10,7 +10,7 @@ import frc.robot.Subsystems.*;
 import frc.robot.AprilTags;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.ShooterConstants;
-import frc.robot.Commands.AprilTagCommands;
+//import frc.robot.Commands.AprilTagCommands;
 
 public final class Autos {
 
@@ -59,8 +59,7 @@ public final class Autos {
             // Lower intake
             Commands.run(() -> intakeSubsystem.goDown(), intakeSubsystem)
                 .withTimeout(0.8),
-            Commands.run(() -> intakeSubsystem.brakeIntake(), intakeSubsystem)
-                .withTimeout(0.1),
+            Commands.runOnce(() -> intakeSubsystem.brakeIntake(), intakeSubsystem),
 
             // Drive away from hub (shooter faces hub)
             Commands.run(() -> driveTrain.driveTankII(-AutoConstants.AUTO_MAX_SPEED, -AutoConstants.AUTO_MAX_SPEED), driveTrain)
@@ -68,8 +67,9 @@ public final class Autos {
 
             // Spin up shooter then feed balls
             Commands.sequence(
-                Commands.run(() -> shooterSubsystem.runShooterDirect(AutoConstants.AUTO_SHOOTER_POWER))
-                    .withTimeout(ShooterConstants.SHOOTER_TIMEOUT),
+                Commands.run(() -> 
+                    shooterSubsystem.runShooterDirect(AutoConstants.AUTO_SHOOTER_POWER)
+                ).withTimeout(ShooterConstants.SHOOTER_TIMEOUT),
                 Commands.run(() -> {
                     shooterSubsystem.runShooterDirect();
                     hopper.runUpperPassageDirect();
@@ -90,7 +90,7 @@ public final class Autos {
 
             // Turn right to face depot
             Commands.run(() -> driveTrain.driveTankII(AutoConstants.AUTO_MAX_SPEED, -AutoConstants.AUTO_MAX_SPEED), driveTrain)
-                .withTimeout(AutoConstants.AUTO_TURN_TIME), // tune this!
+                .withTimeout(AutoConstants.AUTO_FOUR_TURN_TIME), // tune this!
 
             // Drive to depot while collecting balls
             Commands.parallel(
@@ -99,11 +99,11 @@ public final class Autos {
             ).withTimeout(2.0), // tune this!
 
             // Stop roller
-            Commands.runOnce(() -> rollerSubsystem.stopRoller()),
+            Commands.runOnce(() -> rollerSubsystem.stopRoller(), rollerSubsystem),
 
             // Turn left to face back toward hub
             Commands.run(() -> driveTrain.driveTankII(-AutoConstants.AUTO_MAX_SPEED, AutoConstants.AUTO_MAX_SPEED), driveTrain)
-                .withTimeout(AutoConstants.AUTO_TURN_TIME), // same turn time to undo the right turn
+                .withTimeout(AutoConstants.AUTO_FOUR_TURN_TIME),
 
             // Drive backward toward hub (shooter still faces hub)
             Commands.run(() -> driveTrain.driveTankII(-AutoConstants.AUTO_MAX_SPEED, -AutoConstants.AUTO_MAX_SPEED), driveTrain)
@@ -133,4 +133,17 @@ public final class Autos {
         );
     }
 
+    public static Command AutoFive(CANDriveSubsystem driveTrain, Boolean onLeftSide) {
+        double turnValue;
+        if (onLeftSide) {
+            turnValue = -1.0;
+        } else {
+            turnValue = 1.0;
+        }
+                return Commands.sequence(
+                    Commands.run(() -> driveTrain.driveTankII(1, 1)).withTimeout(7.0),
+                    Commands.run(() -> driveTrain.driveTankII(turnValue, -turnValue)).withTimeout(0.5),
+                    Commands.run(() -> driveTrain.driveTankII(1, 1)).withTimeout(10.0)
+        );
+    }
 }

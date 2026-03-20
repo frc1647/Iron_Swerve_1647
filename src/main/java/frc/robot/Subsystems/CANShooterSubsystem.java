@@ -13,19 +13,19 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.Constants.ShooterConstants;
 
 import com.revrobotics.PersistMode;
-import com.revrobotics.RelativeEncoder;
+//import com.revrobotics.RelativeEncoder;
 import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkClosedLoopController;
 
 public class CANShooterSubsystem extends SubsystemBase {
   private final SparkMax shooterMotor;
   private final SparkClosedLoopController closedLoopController;
-  private final RelativeEncoder encoder;
+  //private final RelativeEncoder encoder;
 
   public CANShooterSubsystem() {
     shooterMotor = new SparkMax(ShooterConstants.SHOOTER_ID, MotorType.kBrushless);
     closedLoopController = shooterMotor.getClosedLoopController();
-    encoder = shooterMotor.getEncoder();
+    //encoder = shooterMotor.getEncoder();
 
 
     SparkMaxConfig config = new SparkMaxConfig();
@@ -66,13 +66,7 @@ public class CANShooterSubsystem extends SubsystemBase {
   }
 
   public void runShooterDirect() {
-    // If there are no apriltags in sight of the Sauron camera, do not spin at all
-    double distance = Camera.sauronDistanceInches();
-    if (distance < 0) {
-      distance = ShooterConstants.DEFAULT_SHOOTING_DISTANCE;
-    }
-    double RPM = GetRPMForDistance(distance);
-    closedLoopController.setSetpoint(RPM, ControlType.kVelocity);
+    runShooterDirect(1.0);
   }
 
   public void runShooterDirect(double powerMultiplier) {

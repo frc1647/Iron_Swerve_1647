@@ -28,7 +28,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.ShooterConstants;
-import frc.robot.Constants.TurretConstants;
+//import frc.robot.Constants.TurretConstants;
 import frc.robot.Commands.AprilTagCommands;
 import frc.robot.Commands.Autos;
 import frc.robot.Subsystems.CANDriveSubsystem;
@@ -108,6 +108,8 @@ public class RobotContainer {
         autoChooser.addOption("Hub", Autos.AutoTwo(driveSubsystem, shooterSubsystem, hopper, intakeSubsystem, rollerSubsystem));
         autoChooser.addOption("Center", Autos.AutoThree(turretSubsystem, driveSubsystem, shooterSubsystem, hopper, intakeSubsystem, rollerSubsystem));
         autoChooser.addOption("Depot", Autos.AutoFour(driveSubsystem, shooterSubsystem, hopper, intakeSubsystem, rollerSubsystem));
+        autoChooser.addOption("Left Bump", Autos.AutoFive(driveSubsystem, true));
+        autoChooser.addOption("Right Bump", Autos.AutoFive(driveSubsystem, false));
 
         autoChooser.setDefaultOption("Hub", Autos.AutoTwo(driveSubsystem, shooterSubsystem, hopper, intakeSubsystem, rollerSubsystem));
         
@@ -162,9 +164,9 @@ public class RobotContainer {
                                 driverController.getRawAxis(1), // left stick Y
                                 driverController.getRawAxis(5) // right stick Y
                         ),
-                        driveSubsystem));
+                        driveSubsystem)
+        );
 
-                            
         // Right bumper                
         JoystickButton button6 = new JoystickButton(driverController, 6);
         button6.whileTrue(
@@ -218,9 +220,9 @@ public class RobotContainer {
         return DriverStation.getAlliance().orElse(Alliance.Red);
     }
 
-    private void onZoneChanged() {
+    /*private void onZoneChanged() {
         // Do something
-    }
+    }*/
 
     private void onAllianceChanged(Alliance alliance) {
         currentAlliance = alliance;

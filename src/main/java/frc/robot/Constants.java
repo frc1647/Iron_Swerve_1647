@@ -69,15 +69,15 @@ public final class Constants {
 
   public static final class TurretConstants {
     public static final int TURRET_ID = 25;
-    public static final double TURRET_GEAR_RATIO = 11; //TODO Update after testing, I found 11 by counting gear teeth
+    public static final double TURRET_GEAR_RATIO = 11; // Update after testing, I found 11 by counting gear teeth
     public static final int TURRET_MOTOR_CURRENT_LIMIT = 45;
 
-    public static final double TURRET_AIMING_LIMIT_MIN = -288; // TODO double check direction
+    public static final double TURRET_AIMING_LIMIT_MIN = -288; //  double check direction
     public static final double TURRET_AIMING_LIMIT_MAX = 0;
 
     public static final double AIMING_TIME_FACTOR = 10; //25
     
-    //TODO: Test and set for all 3, theoretically correct values in comments
+    //Test and set for all 3, theoretically correct values in comments
     public static final double TURRET_P = 0.0192; //0.192
     public static final double TURRET_I = 0.00002; //0.0002 - most dangerous, be careful 
     public static final double TURRET_D = 0.04;    //0.4
@@ -112,7 +112,7 @@ public final class Constants {
     public static final int PASSAGE_MOTOR_LOWER_ID = 31;
 
     public static final double SPINDEXER_SPEED = 1;
-    public static final double SPINDEXER_GEAR_RATIO = 28*1.25*2;
+    public static final double SPINDEXER_GEAR_RATIO = 16.0;
     
     public static final double PASSAGE_SPEED = 1;
 
@@ -121,7 +121,6 @@ public final class Constants {
   }
 
   public static final class AutoConstants {
-    // TODO
     public static final double TARGET_INCHES_FROM_TAG = 24;
     public static final double TURN_STRENGTH = 0.02; // 0 - 1, how strong the drive-to-apriltag command turns
     public static final double DRIVE_STRENGTH = 0.05;
@@ -134,11 +133,12 @@ public final class Constants {
 
     public static final double AUTO_SHOOT_TIME = 5.0;
     public static final double AUTO_TURN_TIME = 1.0;
+    public static final double AUTO_FOUR_TURN_TIME = 1.0;
     public static final double AUTO_SHOOTER_POWER = 1.25;
   }
 
   public static final class LEDConstants {
-    public static final int BLINKIN_ID = 0; // TODO: guess — confirm actual PWM port on roboRIO
+    public static final int BLINKIN_ID = 0; //guess — confirm actual PWM port on roboRIO
 
     public static final double AIM_TOLERANCE = 1;
 
@@ -217,7 +217,7 @@ public final class Constants {
     * @return double the height in inches of the tag
     */
     public static double getAprilTagHeight(int id) {
-      switch (id) { // TODO: Check if these are right
+      switch (id) { //Check if these are right
 
         // ★ HUB TAGS
         case RED_HUB_FRONT_LEFT_TAG_ID:

@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
-import frc.robot.Constants.TurretConstants;
+//import frc.robot.Constants.TurretConstants;
 import frc.robot.Commands.AprilTagCommands;
 import frc.robot.Subsystems.Camera;
 
@@ -54,12 +54,12 @@ public void robotInit() {
     
     CameraServer.startAutomaticCapture(cameraSauron);
 
-    HttpCamera cameraWatcher = new HttpCamera(
+    /*HttpCamera cameraWatcher = new HttpCamera(
             "TheWatcher",
             "http://limelight-watcher.local:5800"
         );
     
-    CameraServer.startAutomaticCapture(cameraWatcher);
+    CameraServer.startAutomaticCapture(cameraWatcher);*/
 
     
     HAL.report(tResourceType.kResourceType_Framework, 10);

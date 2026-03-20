@@ -4,7 +4,6 @@ package frc.robot.Commands;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.Subsystems.CANDriveSubsystem;
 import frc.robot.Subsystems.CANTurretSubsystem;
@@ -61,7 +60,7 @@ public class AprilTagCommands {
     public static class DriveToAprilTag extends Command {
 
         private final CANDriveSubsystem m_drive;
-        private final CANTurretSubsystem m_turretSubsystem;
+        //private final CANTurretSubsystem m_turretSubsystem;
         private final int m_targetTagID;
 
         // --- Tuning Constants ---
@@ -76,7 +75,7 @@ public class AprilTagCommands {
 
         public DriveToAprilTag(CANDriveSubsystem drive, CANTurretSubsystem turretSubsystem, int tagID) {
             m_drive = drive;
-            m_turretSubsystem = turretSubsystem;
+            //m_turretSubsystem = turretSubsystem;
             m_targetTagID = tagID;
             addRequirements(drive);
             addRequirements(turretSubsystem);
