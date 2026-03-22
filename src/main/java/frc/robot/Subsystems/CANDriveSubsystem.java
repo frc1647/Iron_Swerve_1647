@@ -215,14 +215,12 @@ public class CANDriveSubsystem extends SubsystemBase {
    * @param rightSpeed Speed of right side
    * @return Locomotion
    */
-  public Command slowCommand(DoubleSupplier leftSpeed, DoubleSupplier rightSpeed) {
-    double conversionFactor = 0.5;
-    return new RunCommand(
-        () -> drive.tankDrive(
-            0.533 * Math.pow(leftSpeed.getAsDouble() * conversionFactor, 1)
-                + 0.467 * leftSpeed.getAsDouble() * conversionFactor,
-            0.533 * Math.pow(rightSpeed.getAsDouble() * conversionFactor, 1)
-                + 0.467 * rightSpeed.getAsDouble() * conversionFactor),
-        this);
+  public void slowDrive(Double leftSpeed, Double rightSpeed) {
+    double conversionFactor = DriveConstants.SLOW_SPEED;
+     drive.tankDrive(
+            0.533 * Math.pow(leftSpeed * conversionFactor, 1)
+                + 0.467 * leftSpeed * conversionFactor,
+            0.533 * Math.pow(rightSpeed * conversionFactor, 1)
+                + 0.467 * rightSpeed * conversionFactor);
   }
 }

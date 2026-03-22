@@ -24,7 +24,7 @@ public class Hopper extends SubsystemBase {
 
 
         TalonFXConfiguration config = new TalonFXConfiguration();
-        config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+        config.MotorOutput.NeutralMode = NeutralModeValue.Coast;
         config.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
         
         config.CurrentLimits.StatorCurrentLimit = HopperConstants.STATOR_CURRENT_LIMIT;

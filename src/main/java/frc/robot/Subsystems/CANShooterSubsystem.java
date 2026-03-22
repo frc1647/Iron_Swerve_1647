@@ -13,19 +13,20 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.Constants.ShooterConstants;
 
 import com.revrobotics.PersistMode;
-//import com.revrobotics.RelativeEncoder;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkClosedLoopController;
 
 public class CANShooterSubsystem extends SubsystemBase {
   private final SparkMax shooterMotor;
   private final SparkClosedLoopController closedLoopController;
-  //private final RelativeEncoder encoder;
+  private final RelativeEncoder encoder;
+  static double RPM;
 
   public CANShooterSubsystem() {
     shooterMotor = new SparkMax(ShooterConstants.SHOOTER_ID, MotorType.kBrushless);
     closedLoopController = shooterMotor.getClosedLoopController();
-    //encoder = shooterMotor.getEncoder();
+    encoder = shooterMotor.getEncoder();
 
 
     SparkMaxConfig config = new SparkMaxConfig();
@@ -57,8 +58,16 @@ public class CANShooterSubsystem extends SubsystemBase {
    * @param distanceIN Distance you want to shoot in inches
    * @return RPM
    */
-  public double GetRPMForDistance(double distanceIN) {
+  public double getRPMForDistance(double distanceIN) {
     return 320.23162 * Math.pow(distanceIN, 0.469592);    
+  }
+
+  public double getRPM() {
+    
+    if (encoder != null) {
+      return encoder.getVelocity();
+    }
+    return 0.0;
   }
 
   public Command runShooter() {
@@ -75,7 +84,7 @@ public class CANShooterSubsystem extends SubsystemBase {
     if (distance < 0) {
       distance = ShooterConstants.DEFAULT_SHOOTING_DISTANCE;
     }
-    double RPM = GetRPMForDistance(distance);
+    RPM = getRPMForDistance(distance);
     closedLoopController.setSetpoint(RPM*powerMultiplier, ControlType.kVelocity);
   }
 

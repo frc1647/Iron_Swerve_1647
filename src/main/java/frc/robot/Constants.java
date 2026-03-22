@@ -46,7 +46,7 @@ public final class Constants {
     //
     public static final int kPositionConversionFactor = 60;
     public static final int kVelocityConversionFactor = 60;
-    public static final int SPEED = 0;
+    public static final double SLOW_SPEED = 0.5;
 
   }
 
@@ -64,7 +64,7 @@ public final class Constants {
     public static final double SHOOTER_SLOT1_I = 0.0;
     public static final double SHOOTER_SLOT1_D = 0.004;
 
-    public static final double SHOOTER_TIMEOUT = 0.25;
+    public static final double SHOOTER_TIMEOUT = 0.5;
   }
 
   public static final class TurretConstants {
@@ -94,9 +94,9 @@ public final class Constants {
     
     public static final int INTAKE_MOTOR_CURRENT_LIMIT = 80;
     public static final double INTAKE_ANGLE = 112;
-    public static final double INTAKE_POWER = 2560000; //19625
+    public static final double INTAKE_POWER = 1; //19625
 
-    public static final double GO_INTAKE_GEAR_RATIO = 1.0/16.0;
+    public static final double GO_INTAKE_GEAR_RATIO = 1.0/4.0;
 
     public static final double GO_INTAKE_P = 0.1;
     public static final double GO_INTAKE_I = 0.0002;
@@ -112,12 +112,12 @@ public final class Constants {
     public static final int PASSAGE_MOTOR_LOWER_ID = 31;
 
     public static final double SPINDEXER_SPEED = 1;
-    public static final double SPINDEXER_GEAR_RATIO = 16.0;
+    public static final double SPINDEXER_GEAR_RATIO = 70;
     
     public static final double PASSAGE_SPEED = 1;
 
-    public static final double STATOR_CURRENT_LIMIT = 80;
-    public static final double SUPPLY_CURRENT_LIMIT = 60;
+    public static final double STATOR_CURRENT_LIMIT = 160;
+    public static final double SUPPLY_CURRENT_LIMIT = 160;
   }
 
   public static final class AutoConstants {

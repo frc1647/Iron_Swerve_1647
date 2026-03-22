@@ -32,7 +32,7 @@ public class CANRollerSubsystem extends SubsystemBase {
     }
 
     public void grabBalls() {
-        intakeMotor.set(1);
+        intakeMotor.set(0.25);
     }
 
     public void reverseIntake() {

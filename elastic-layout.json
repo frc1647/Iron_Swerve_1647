@@ -9,10 +9,10 @@
         "containers": [
           {
             "title": "Auto Selector",
-            "x": 480.0,
-            "y": 0.0,
-            "width": 256.0,
-            "height": 160.0,
+            "x": 672.0,
+            "y": 256.0,
+            "width": 480.0,
+            "height": 96.0,
             "type": "Split Button Chooser",
             "properties": {
               "topic": "/SmartDashboard/Auto Selector",
@@ -20,11 +20,25 @@
             }
           },
           {
+            "title": "Turret ID",
+            "x": 832.0,
+            "y": 0.0,
+            "width": 160.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/SmartDashboard/Turret ID",
+              "period": 0.06,
+              "data_type": "double",
+              "show_submit_button": false
+            }
+          },
+          {
             "title": "limelight-sauron",
             "x": 0.0,
             "y": 0.0,
-            "width": 480.0,
-            "height": 480.0,
+            "width": 672.0,
+            "height": 512.0,
             "type": "Camera Stream",
             "properties": {
               "topic": "/CameraPublisher/limelight-sauron",
@@ -33,27 +47,79 @@
             }
           },
           {
-            "title": "The Watcher",
-            "x": 736.0,
+            "title": "priorityid",
+            "x": 672.0,
             "y": 0.0,
-            "width": 800.0,
-            "height": 544.0,
-            "type": "Camera Stream",
+            "width": 160.0,
+            "height": 128.0,
+            "type": "Text Display",
             "properties": {
-              "topic": "/CameraPublisher/limelight-watcher",
+              "topic": "/EyeOfSauron/priorityid",
               "period": 0.06,
-              "rotation_turns": 0
+              "data_type": "double",
+              "show_submit_button": false
             }
           },
           {
-            "title": "Turret ID",
-            "x": 480.0,
-            "y": 160.0,
-            "width": 96.0,
-            "height": 96.0,
+            "title": "Target",
+            "x": 992.0,
+            "y": 0.0,
+            "width": 544.0,
+            "height": 256.0,
+            "type": "Large Text Display",
+            "properties": {
+              "topic": "/SmartDashboard/Target",
+              "period": 0.06,
+              "data_type": "string"
+            }
+          },
+          {
+            "title": "April tag angle",
+            "x": 672.0,
+            "y": 128.0,
+            "width": 160.0,
+            "height": 128.0,
             "type": "Text Display",
             "properties": {
-              "topic": "/SmartDashboard/Turret ID",
+              "topic": "/SmartDashboard/April tag angle",
+              "period": 0.06,
+              "data_type": "double",
+              "show_submit_button": false
+            }
+          },
+          {
+            "title": "FMSInfo",
+            "x": 672.0,
+            "y": 352.0,
+            "width": 480.0,
+            "height": 160.0,
+            "type": "FMSInfo",
+            "properties": {
+              "topic": "/FMSInfo",
+              "period": 0.06
+            }
+          },
+          {
+            "title": "Scheduler",
+            "x": 1152.0,
+            "y": 256.0,
+            "width": 384.0,
+            "height": 256.0,
+            "type": "Scheduler",
+            "properties": {
+              "topic": "/SmartDashboard/Scheduler",
+              "period": 0.06
+            }
+          },
+          {
+            "title": "Shooter RPM",
+            "x": 832.0,
+            "y": 128.0,
+            "width": 160.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/SmartDashboard/Shooter RPM",
               "period": 0.06,
               "data_type": "double",
               "show_submit_button": false

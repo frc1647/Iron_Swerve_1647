@@ -112,7 +112,7 @@ public final class Autos {
             // Spin up shooter then feed collected balls
             Commands.sequence(
                 Commands.run(() -> shooterSubsystem.runShooterDirect(AutoConstants.AUTO_SHOOTER_POWER))
-                    .withTimeout(ShooterConstants.SHOOTER_TIMEOUT),
+                    .withTimeout(ShooterConstants.SHOOTER_TIMEOUT*1.5),
                 Commands.run(() -> {
                     shooterSubsystem.runShooterDirect();
                     hopper.runUpperPassageDirect();
@@ -121,7 +121,7 @@ public final class Autos {
                     shooterSubsystem.runShooterDirect();
                     hopper.runUpperPassageDirect();
                     hopper.runSpindexerDirect();
-                }).withTimeout(ShooterConstants.SHOOTER_TIMEOUT)
+                }).withTimeout(ShooterConstants.SHOOTER_TIMEOUT*3)
             ),
 
             // Stop everything
@@ -141,9 +141,9 @@ public final class Autos {
             turnValue = 1.0;
         }
                 return Commands.sequence(
-                    Commands.run(() -> driveTrain.driveTankII(1, 1)).withTimeout(7.0),
-                    Commands.run(() -> driveTrain.driveTankII(turnValue, -turnValue)).withTimeout(0.5),
-                    Commands.run(() -> driveTrain.driveTankII(1, 1)).withTimeout(10.0)
+                    Commands.run(() -> driveTrain.driveTankII(AutoConstants.AUTO_MAX_SPEED, AutoConstants.AUTO_MAX_SPEED), driveTrain).withTimeout(3.5),
+                    Commands.run(() -> driveTrain.driveTankII(turnValue*AutoConstants.AUTO_MAX_SPEED, -turnValue*AutoConstants.AUTO_MAX_SPEED), driveTrain).withTimeout(0.7),
+                    Commands.run(() -> driveTrain.driveTankII(AutoConstants.AUTO_MAX_SPEED, AutoConstants.AUTO_MAX_SPEED), driveTrain)
         );
     }
 }

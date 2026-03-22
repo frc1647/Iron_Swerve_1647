@@ -11,6 +11,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.HttpCamera;
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -19,7 +20,6 @@ import edu.wpi.first.wpilibj2.command.Commands;
 //import frc.robot.Constants.TurretConstants;
 import frc.robot.Commands.AprilTagCommands;
 import frc.robot.Subsystems.Camera;
-
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -93,7 +93,7 @@ public void robotInit() {
     SmartDashboard.putNumber("Intake Position", m_robotContainer.intakeSubsystem.getIntakePosition());
     SmartDashboard.putNumber("April tag angle", Camera.sauronHorizontal());
     SmartDashboard.putNumber("Turret Forceturn Angle", RobotContainer.operatorController.getLeftTriggerAxis()*90);
-    SmartDashboard.putNumber("Shooter RPM", m_robotContainer.shooterSubsystem.GetRPMForDistance(Camera.sauronDistanceInches()));
+    SmartDashboard.putString("Shooter RPM", (String.valueOf(Math.floor(m_robotContainer.shooterSubsystem.getRPM()))));
 
     CommandScheduler.getInstance().run();
   }
